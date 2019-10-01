@@ -1,0 +1,157 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/display.css';
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+
+
+/* Custom variables */
+
+$default-size: 90px;
+$default-right-area-width: 260px;
+$default-content-area-side-margin: 60px;
+
+
+/* Custom style */
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: table;
+    width: 100%;
+    li {
+        display: table-row;
+        
+        div {
+            display: table-cell;
+            height: 60px;
+            padding: 0 30px;
+            border-bottom: solid 1px #000;
+            vertical-align: middle;
+        }
+    }
+}
+
+.title {
+    margin-left: 20px;
+}
+
+.logo {
+    width: $default-size;
+    height: $default-size;
+    background: #EB6A5A;
+    text-align: center;
+}
+
+.left-menu {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: $default-size;
+    background: #EB6A5A;
+    .base {
+        position: absolute;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #666;
+        border-top-right-radius: $default-size/2;
+    }
+}
+
+.content-area {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: $default-size;
+    right: $default-right-area-width;
+    background: #f0f;
+    .tool {
+        width: 100%;
+        background-color: #0f0;
+        height: 10%;
+    }
+    .content {
+        position: absolute; 
+        top: 10%;
+        bottom: 0;
+        width: 100%;
+        .header {
+            position: absolute;
+            top: 0;
+            height: 150px;
+            left: $default-content-area-side-margin;
+            right: $default-content-area-side-margin;
+            background-color: #fff;
+            overflow: auto;
+        }
+        .list {
+            position: absolute;
+            top: 150px;
+            left: $default-content-area-side-margin;
+            right: $default-content-area-side-margin;
+            bottom: 0;
+            background-color: #0ff;
+            overflow: auto;
+        }
+
+        .scheda {
+            position: absolute;
+            top: 0;
+            bottom:  $default-content-area-side-margin;
+            left: $default-content-area-side-margin;
+            right: $default-content-area-side-margin;
+            background-color: #fff;
+            overflow: auto;
+        }
+    }
+}
+
+.right-area {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: $default-right-area-width;
+    background: #ff0;
+    .header {
+        width: 100%;
+        height: 100px;
+    }
+    .list {
+        background-color:#fff;
+        overflow: auto;
+        position: absolute;
+        top: 100px;
+        bottom: 100px;
+        width: 100%;
+    }
+}
+
+
+

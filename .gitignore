@@ -1,0 +1,11 @@
+node_modules\
+*.md
+
+node_modules/
+plugins/
+platforms/
+resources/
+resources\
+www/
+platforms
+platforms
