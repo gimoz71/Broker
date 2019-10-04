@@ -1,16 +1,14 @@
 <ion-header no-border no-padding no-margin>
   <ion-toolbar color="primary"  no-padding no-margin>
-    <ion-buttons slot="start" class="logo"  no-padding no-margin>
-        sfsfsd
-    </ion-buttons>
+    <ion-buttons slot="start" class="logo left-side-element"  no-padding no-margin> </ion-buttons>
     <ion-title text-left >
-      <h4 class="title">Ionic Blank<br><small>dsfsdf</small></h4>
+      <h4 class="title">READVICE</h4>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <div class="left-menu">
+    <div class="left-menu left-side-element">
         <div class="base">
             <ul>
                 <li><div routerLink="/dashboard" routerDirection="root">sd</div></li>
@@ -21,65 +19,46 @@
         </div>
     </div>
     <div class="content-area">
-        <div class="tool">text</div>
+        <div class="tool-area">
+            <div class="tool-table">
+                <div class="tool-row">
+                    <div class="tool">
+                        filtra per: <input type="text"><input type="text"><input type="submit"><a href="#" style="text-align: right" class="button">cliente</a>
+
+                    </div>    
+                </div>
+            </div>
+        </div>
         <div class="content">
-            <div class="header"></div>
+            <div class="header">
+                <div class="dettaglio-cliente">
+                    <div class="cliente">
+                        <div class="cliente-table">
+                            <div class="cliente-row">
+                                <div class="item immobili"><span class="badge">4</span></div>
+                                <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span class="bv_value">450K</span><a href="#" class="button eye">dettagli</a></div>
+                                <div class="item anagrafica"><span class="nome">Paolo Rossi</span><span class="cf">PLARSS80A01L219Q</span><span class="email">paolo.rossi@domain.it</span></div>
+                                <div class="item tools"><a href="#" class="button">Modifica</a><br><a href="#" class="button">Report</a></div>
+                            </div>
+                        </div>
+                        <div class="status red"></div>
+                    </div>
+                </div>
+            </div>
             <div class="list">
-                <ul>
-                    <li><div routerLink="/dashboard" routerDirection="root">sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
-                    <li><div>sdfsdfsdfsdfsd</div></li>
+                <ul class="lista-cliente">
+                    <li class="cliente">
+                        <div class="cliente-table">
+                            <div class="cliente-row">
+                                <div class="item immobili"><span class="badge">4</span></div>
+                                <div class="item bv"><span class="bv_value">450K</span><span class="bv_label">Book Value (&euro;)</span></div>
+                                <div class="item anagrafica"><span class="nome">Paolo Rossi</span><span class="cf">PLARSS80A01L219Q</span></div>
+                                <div class="item date"><span class="date">20/06/2019</span></div>
+                            </div>
+                        </div>
+                        <div class="status red"></div>
+                    </li>
+                    
                 </ul>
             </div>
 

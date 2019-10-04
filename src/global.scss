@@ -31,8 +31,11 @@
 
 $default-size: 90px;
 $default-right-area-width: 260px;
-$default-content-area-side-margin: 60px;
+$default-content-area-left-margin: 30px;
+$default-content-area-right-margin: 60px;
 
+$highlight-text-color: #104D77;
+$label-color: #707070;
 
 /* Custom style */
 
@@ -40,17 +43,13 @@ ul {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: table;
+    
     width: 100%;
     li {
-        display: table-row;
-        
+       
         div {
-            display: table-cell;
-            height: 60px;
-            padding: 0 30px;
-            border-bottom: solid 1px #000;
-            vertical-align: middle;
+            
+            
         }
     }
 }
@@ -68,6 +67,7 @@ ul {
 
 .left-menu {
     position: absolute;
+    display: none;
     top: 0;
     bottom: 0;
     left: 0;
@@ -88,13 +88,29 @@ ul {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: $default-size;
+    //left: $default-size;
+    left: 0;
     right: $default-right-area-width;
-    background: #f0f;
-    .tool {
-        width: 100%;
-        background-color: #0f0;
+    //background: #f0f;
+    .tool-area {
+        //background-color: #0f0;
+        position: absolute;
+        left: $default-content-area-left-margin;
+        right: $default-content-area-right-margin;
         height: 10%;
+        .tool-table {
+            height: 100%;
+            display: table;
+            width: 100%;
+        }
+        .tool-row {
+            display: table-row;
+        }
+        .tool {
+            display: table-cell;
+                    vertical-align: middle;
+
+        }
     }
     .content {
         position: absolute; 
@@ -105,27 +121,227 @@ ul {
             position: absolute;
             top: 0;
             height: 150px;
-            left: $default-content-area-side-margin;
-            right: $default-content-area-side-margin;
+            left: $default-content-area-left-margin;
+            right: $default-content-area-right-margin;
             background-color: #fff;
             overflow: auto;
+            .dettaglio-cliente {
+                display: table;
+                width: 100%;
+            }
+            .cliente {
+                padding: 0;
+                position: relative;
+                margin-bottom: 20px;
+                width: 100%;
+                padding-left: 15px;
+                .cliente-table {
+                    z-index: 10;
+                    display: table;
+                    width: 100%;
+                    
+                    position: relative
+                }
+                .cliente-row {
+                    display: table-row;
+                }
+                .item {
+                    background: #fff;
+                    border-left: solid 1px #ccc;
+                    border-top: solid 1px #ccc;
+                    border-bottom: solid 1px #ccc;
+                    height: 90px;
+                    padding: 0 15px;
+                    width: auto;
+                    display: table-cell;
+                    vertical-align: middle;
+                    &:last-of-type {
+                        border-right: solid 1px #ccc;
+                        border-radius: 0 10px 10px 0;
+                    }
+                    &:first-of-type {
+                        border-radius:  10px 0 0 10px ;
+                    }
+                    &.immobili {
+                        width: 13%;
+                    }
+                    &.bv {
+                        width: 25%;
+                    }
+                    &.anagrafica {
+                        // auto
+                    }
+                    &.tools {
+                        width: 10%;
+                    }
+                    span {
+                        display: block;
+                         &.bv_label{
+                            font-size: .7em;
+                            color: $label-color;
+                        }
+                        &.bv_value{
+                            font-size: 1.2em;
+                            color: $highlight-text-color;
+                        }
+                        &.nome{
+                            color: $highlight-text-color;
+                        }
+                        &.cf {
+                            font-size: .75em;
+                            color: $label-color;
+                        }
+                        &.email{
+                            font-size: .9em;
+                            margin-top: 10px;
+                            color: $highlight-text-color;
+                        }
+                    }
+                }
+                .status {
+                    position: absolute; 
+                    top: 0;
+                    left: 0;
+                    height: 40px; 
+                    width: 60px;
+                    display: block;
+                    background: #ccc;
+                    padding: 0;
+                    z-index: 0;
+                    border-radius: 10px;
+                    border: solid 1px #ccc;
+                    &.red {
+                        background: #f00;
+
+                    }
+                    &.green {
+                        background: #00AA2D;
+
+                    }
+                    &.orange {
+                        background: #FF5700;
+
+                    }
+                }
+            }
         }
         .list {
             position: absolute;
             top: 150px;
-            left: $default-content-area-side-margin;
-            right: $default-content-area-side-margin;
+            padding-top: 15px;
+            border-top: solid 1px #ccc;
+            left: $default-content-area-left-margin;
+            right: $default-content-area-right-margin;
             bottom: 0;
-            background-color: #0ff;
+            //background-color: #0ff;
             overflow: auto;
+            .lista-cliente {
+                display: table;
+            }
+            .cliente {
+                padding: 0;
+                position: relative;
+                margin-bottom: 20px;
+                width: 100%;
+                //height: 30px;
+                padding-left: 15px;
+                /*&.status-red {
+                    background: #f00;
+                }*/
+                .cliente-table {
+                    z-index: 10;
+                    display: table;
+                    width: 100%;
+                    
+                    position: relative
+                }
+                .cliente-row {
+                    display: table-row;
+                }
+                .item {
+                    background: #fff;
+                    border-left: solid 1px #ccc;
+                    border-top: solid 1px #ccc;
+                    border-bottom: solid 1px #ccc;
+                    height: 46px;
+                    padding: 0 15px;
+                    width: auto;
+                    display: table-cell;
+                    vertical-align: middle;
+                    &:last-of-type {
+                        border-right: solid 1px #ccc;
+                        border-radius: 0 10px 10px 0;
+                    }
+                    &:first-of-type {
+                        border-radius:  10px 0 0 10px ;
+                    }
+                    &.immobili {
+                        width: 13%;
+                    }
+                    &.bv {
+                        width: 25%;
+                    }
+                    &.anagrafica {
+
+                    }
+                    &.date {
+                        width: 10%;
+                    }
+                    span {
+                        display: block;
+                        &.bv_label{
+                            font-size: .7em;
+                            color: $label-color;
+                        }
+                        &.bv_value{
+                            color: $highlight-text-color;
+                        }
+                        &.nome{
+                            color: $highlight-text-color;
+                        }
+                        &.cf {
+                             font-size: .6em;
+                            color: $label-color;
+                        }
+                        &.email{
+
+                        }
+                    }
+                }
+                .status {
+                    position: absolute; 
+                    top: 0;
+                    left: 0;
+                    height: 40px; 
+                    width: 60px;
+                    display: block;
+                    background: #ccc;
+                    padding: 0;
+                    z-index: 0;
+                    border-radius: 10px;
+                    border: solid 1px #ccc;
+                    &.red {
+                        background: #f00;
+
+                    }
+                    &.green {
+                        background: #00AA2D;
+
+                    }
+                    &.orange {
+                        background: #FF5700;
+
+                    }
+                }
+            }
         }
 
         .scheda {
             position: absolute;
             top: 0;
-            bottom:  $default-content-area-side-margin;
-            left: $default-content-area-side-margin;
-            right: $default-content-area-side-margin;
+            bottom:  $default-content-area-right-margin;
+            left: $default-content-area-left-margin;
+            right: $default-content-area-left-margin;
             background-color: #fff;
             overflow: auto;
         }
