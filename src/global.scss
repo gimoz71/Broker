@@ -37,6 +37,16 @@ $default-content-area-right-margin: 60px;
 $highlight-text-color: #104D77;
 $label-color: #707070;
 
+$colors: (
+    primary:    #104D77,
+    secondary:  #32db64,
+    danger:     #f53d3d,
+    light:      #f4f4f4,
+    dark:       #222,
+    bar:        #EDF4F8
+);
+
+
 /* Custom style */
 
 .table {
@@ -97,6 +107,42 @@ ul {
 }
 .header-bar {
     background: #EDF4F8;
+}
+.tools {
+    margin-right: 30px;
+}
+.hints {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    margin: 0 10px;
+    span {
+        display: block;
+        position: absolute;
+        text-align: center;
+        top: -10px;
+        right: -10px;
+        color: #fff;
+        background: #f00;
+        //padding: 4px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 11px;
+        font-weight: bold;
+        
+        border-radius: 50%;
+    }
+}
+.tasks {
+    background-image: url('/assets/img/tasks@2x.png') ;
+}
+.alerts {
+    background-image: url('/assets/img/alerts@2x.png') ;
 }
 
 .left-menu {
