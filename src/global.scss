@@ -33,9 +33,24 @@ $default-size: 80px;
 $default-right-area-width: 260px;
 $default-content-area-left-margin: 30px;
 $default-content-area-right-margin: 60px;
+$default-content-list-vertical-position: 130px;
 
 $highlight-text-color: #104D77;
-$label-color: #707070;
+$label-color:       #707070;
+$grey-1:            #ebebeb;
+$grey-highlight:    #4A4A4A;
+$default-border-grey: #bebebe;
+$grey-default:      #707070;
+
+$default-area-selected: #EDF4F8;
+
+$default-green:     #00AA2D;
+$default-red:       #EB6A5A;
+
+$border-right: #fff;;
+$border-left: rgba(0,0,0,.1);
+
+$default-gradient:  linear-gradient(#ffffff, #f1f1f1);
 
 $colors: (
     primary:    #104D77,
@@ -46,6 +61,14 @@ $colors: (
     bar:        #EDF4F8
 );
 
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i&display=swap');
+
+:root,
+:root[mode="md"],
+:root[mode="ios"] {
+    --ion-font-family: 'Rubik', sans-serif;
+    font-family: var(--ion-font-family) !important;
+}
 
 /* Custom style */
 
@@ -75,10 +98,11 @@ ul {
 }
 
 .button {
+    font-family: Arial, sans-serif;
     background: $highlight-text-color;
     color: #fff;
     border-radius: 25px;
-    padding: 5px 16px 6px 30px;
+    padding: 9px 16px 10px 36px;
     display: inline-block;
     font-size: .7em;
     font-weight: bold;
@@ -86,9 +110,33 @@ ul {
     text-decoration:  none;
     position: relative;
     top: -2px;
-    &.submit {
+    margin: 3px 0;
+    text-align: center;
+    background-position: 12px center;
+    background-repeat: no-repeat;
+    &.search {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
+        background-image: url('/assets/img/icon-search@2x.png');
+        padding-left: 22px;
+    }
+    &.download {
+        background-image: url('/assets/img/icon-download@2x.png');
+    }
+    &.report {
+        background-image: url('/assets/img/icon-report@2x.png');
+    }
+    &.edit {
+        background-image: url('/assets/img/icon-edit@2x.png');
+    }
+    &.view {
+        background-image: url('/assets/img/icon-view@2x.png');
+        &.only-icon {
+            padding-left: 24px;
+        }
+    }
+    &.add {
+        background-image: url('/assets/img/icon-add@2x.png');
     }
 }
 .title {
@@ -139,10 +187,35 @@ ul {
     }
 }
 .tasks {
-    background-image: url('/assets/img/tasks@2x.png') ;
+    background-image: url('/assets/img/tasks@2x.png');
+    span  {
+        background-color: $default-green;
+    }
 }
 .alerts {
     background-image: url('/assets/img/alerts@2x.png') ;
+    span {
+        background-color: $default-red;
+    }
+}
+.user {
+     display: inline-block;
+    //width: 40px;
+    height: 40px;
+    background-image: url('/assets/img/user-thumb@2x.png');
+    background-repeat: no-repeat;
+    background-position: leftcenter;
+    background-size: contain;
+    position: relative;
+    margin: 0 10px;
+    padding-left: 50px;
+    line-height: 40px;
+    font-size: 1.2em;
+    color: $grey-default;
+    text-decoration: none;
+}
+ion-content.body {
+    --background:  url('/assets/img/dashboard-header@2x.png') right top no-repeat ;
 }
 
 .left-menu {
@@ -171,7 +244,7 @@ ul {
     //left: $default-size;
     left: 0;
     right: $default-right-area-width;
-    //background: #f0f;
+    
     .tool-area {
         //background-color: #0f0;
         position: absolute;
@@ -188,8 +261,18 @@ ul {
         }
         .tool {
             display: table-cell;
-                    vertical-align: middle;
-
+            vertical-align: middle;
+            span {
+                font-size: .8em;
+                margin-right: 15px;
+            }
+            input {
+                font-size: .8em;
+                border: solid 1px  $grey-1;
+                border-right: none;
+                padding: 8px 10px 6px;
+                width: 180px;
+            }
         }
     }
     .content {
@@ -197,13 +280,25 @@ ul {
         top: 80px;
         bottom: 0;
         width: 100%;
+        &:before {
+            content: "";
+            position: absolute; 
+            top: $default-content-list-vertical-position;
+            left: 0;
+            width: 100%;
+            height: 206px;
+            background-image: url('/assets/img/list-shadow-before@2x.png') ;
+            background-repeat: no-repeat;
+            background-position: center top;
+            z-index: 10;
+        }
         .header {
             position: absolute;
             top: 0;
-            height: 150px;
+            height: $default-content-list-vertical-position;
             left: $default-content-area-left-margin;
             right: $default-content-area-right-margin;
-            background-color: #fff;
+            //background-color: #fff;
             overflow: auto;
             .dettaglio-cliente {
                 display: table;
@@ -227,53 +322,68 @@ ul {
                 }
                 .item {
                     background: #fff;
-                    border-left: solid 1px #ccc;
-                    border-top: solid 1px #ccc;
-                    border-bottom: solid 1px #ccc;
+                    background-image: $default-gradient;
+                    border: solid 1px $grey-highlight;
+                    border-right:solid 1px $border-right;
+                    border-left: solid 1px $border-left;
                     height: 90px;
                     padding: 0 15px;
                     width: auto;
                     display: table-cell;
                     vertical-align: middle;
                     &:last-of-type {
-                        border-right: solid 1px #ccc;
+                        border-right: solid 1px $grey-highlight;
                         border-radius: 0 10px 10px 0;
                     }
                     &:first-of-type {
+                        border-left: solid 1px $grey-highlight;
                         border-radius:  10px 0 0 10px ;
                     }
                     &.immobili {
                         width: 15%;
-                        background-image: url('/assets/img/home-icon@2x.png') ;
-                        background-repeat: no-repeat;
-                        background-position: 15px center;
+                        background-image: url('/assets/img/home-icon@2x.png'), $default-gradient;
+                        background-repeat: no-repeat, no-repeat;
+                        background-position: 15px center, 0 0;
                         text-align: right;
                         .badge {
                             background: $highlight-text-color;
                             color: #fff;
                             border-radius: 9px;
                             display: inline-block;
-                            padding: 3px 8px;
+                            
+                            padding: 4px 8px;
+                            font-size: .8em;
                         }
                     }
                     &.bv {
-                        width: 25%;
+                        width: 22%;
+                        
+                            .view {
+                                float: right;
+                            }
                     }
                     &.anagrafica {
-                        // auto
+                         width: 40%;
                     }
                     &.tools {
-                        width: 10%;
+                        width: auto;
+                        .button {
+                            width: 100%;
+                            margin: 4px 0;
+                        }
                     }
                     span {
                         display: block;
                          &.bv_label{
-                            font-size: .7em;
+                            font-size: 0.7em;
+                            padding-bottom: 5px;
                             color: $label-color;
                         }
                         &.bv_value{
-                            font-size: 1.2em;
+                            font-size: 1.5em;
                             color: $highlight-text-color;
+                            float: left;
+                            margin-right: 5px;
                         }
                         &.nome{
                             color: $highlight-text-color;
@@ -316,16 +426,18 @@ ul {
                 }
             }
         }
+        
         .list {
             position: absolute;
-            top: 150px;
+            top: $default-content-list-vertical-position;
             padding-top: 15px;
-            border-top: solid 1px #ccc;
+            //border-top: solid 1px #ccc;
             left: $default-content-area-left-margin;
             right: $default-content-area-right-margin;
             bottom: 0;
             //background-color: #0ff;
             overflow: auto;
+            
             .lista-cliente {
                 display: table;
             }
@@ -347,44 +459,48 @@ ul {
                 }
                 .item {
                     background: #fff;
-                    border-left: solid 1px #ccc;
-                    border-top: solid 1px #ccc;
-                    border-bottom: solid 1px #ccc;
+                    background-image: $default-gradient;
+                    border: solid 1px $default-border-grey;
+                    border-right:solid 1px $border-right;
+                    border-left: solid 1px $border-left;
                     height: 46px;
                     padding: 0 15px;
                     width: auto;
                     display: table-cell;
                     vertical-align: middle;
                     &:last-of-type {
-                        border-right: solid 1px #ccc;
+                        border-right: solid 1px $default-border-grey;
                         border-radius: 0 10px 10px 0;
                     }
                     &:first-of-type {
+                        border-left: solid 1px $default-border-grey;
                         border-radius:  10px 0 0 10px ;
                     }
                     &.immobili {
                         width: 15%;
-                        background-image: url('/assets/img/home-icon@2x.png') ;
-                        background-repeat: no-repeat;
-                        background-position: 15px center;
-                        background-size: 22px auto;
+                        background-image: url('/assets/img/home-icon@2x.png'), $default-gradient;
+                        background-repeat: no-repeat, no-repeat;
+                        background-position: 15px center, 0 0 ;
+                        background-size: 22px auto, 100%;
                         text-align: right;
                         .badge {
                             background: $highlight-text-color;
                             color: #fff;
                             border-radius: 9px;
                             display: inline-block;
-                            padding: 3px 8px;
+                            padding: 4px 8px;
+                            font-size: .8em;
                         }
                     }
                     &.bv {
-                        width: 25%;
+                        width: 22%;
                     }
                     &.anagrafica {
-
+                        width: 40%;
                     }
                     &.date {
-                        width: 10%;
+                        text-align: center;
+                        width: auto;
                     }
                     span {
                         display: block;
@@ -432,6 +548,12 @@ ul {
 
                     }
                 }
+                &.selected {
+                    .item {
+                        background-image: none;
+                        background-color: $default-area-selected;
+                    }
+                }
             }
         }
 
@@ -460,11 +582,24 @@ ul {
         display: table;
         border-top-left-radius: 50px;
         border: solid 1px #ccc;
+        position: relative;
+        &:after {
+            content: "";
+            position: absolute; 
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-image: url('/assets/img/shadow-before@2x.png') ;
+            background-repeat: repeat-x;
+            background-position: left top;
+            z-index: 10;
+        }
     }
     .header-cell {
         display: table-cell;
         vertical-align: middle;
-        padding: 0 20px 0 30px;
+        padding: 20px 0 0 30px;
         span {
             display: block;
             &.small {
@@ -486,12 +621,14 @@ ul {
         border-left: solid 1px #ccc;
     }
     .immobile {
-        padding: 20px 0 0 30px;
+        padding: 20px 0 0 10px;
         border-bottom: solid 1px #ccc;
         position: relative;
         height: 90px;
         .indirizzo {
             font-size: .8em;
+            padding-left: 20px;
+            background: url('/assets/img/icon-position@2x.png') no-repeat left top;
 
         }
         .tipologia, .quota {
@@ -505,11 +642,25 @@ ul {
         .tipologia {
             border-bottom: solid 1px #ccc;
             top: 0;
-            
-            .casa {
+            .abitazione {
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url('/assets/img/casa@2x.png') ;
+                background-image: url('/assets/img/icon-abitazione@2x.png') ;
+            }
+            .parcheggio {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-image: url('/assets/img/icon-parcheggio@2x.png') ;
+            }
+            .magazzino {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-image: url('/assets/img/icon-magazzino@2x.png') ;
+            }
+            .commerciale {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-image: url('/assets/img/icon-commerciale@2x.png') ;
             }
         }
         .quota {
@@ -526,6 +677,18 @@ ul {
         border-left: solid 1px #ccc;
         border-top: solid 1px #ccc;
         text-align: center;
+        &:before {
+            content: "";
+            position: absolute; 
+            top: -6px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-image: url('/assets/img/shadow-after@2x.png') ;
+            background-repeat: repeat-x;
+            background-position: left top;
+            z-index: 10;
+        }
     }
 }
 
