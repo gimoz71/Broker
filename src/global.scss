@@ -139,6 +139,16 @@ ul {
         background-image: url('/assets/img/icon-add@2x.png');
     }
 }
+
+.badge {
+    background: $highlight-text-color;
+    color: #fff;
+    border-radius: 9px;
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: .8em;
+}
+
 .title {
     margin-left: 20px;
 }
@@ -153,9 +163,7 @@ ul {
     background-size: cover;
     text-align: center;
 }
-.header-bar {
-    background: #EDF4F8;
-}
+
 .tools {
     margin-right: 30px;
 }
@@ -282,7 +290,7 @@ ion-content.body {
         width: 100%;
         &:before {
             content: "";
-            position: absolute; 
+            position: absolute;
             top: $default-content-list-vertical-position;
             left: 0;
             width: 100%;
@@ -290,8 +298,9 @@ ion-content.body {
             background-image: url('/assets/img/list-shadow-before@2x.png') ;
             background-repeat: no-repeat;
             background-position: center top;
-            z-index: 10;
+            z-index: 50;
         }
+        
         .header {
             position: absolute;
             top: 0;
@@ -350,7 +359,6 @@ ion-content.body {
                             color: #fff;
                             border-radius: 9px;
                             display: inline-block;
-                            
                             padding: 4px 8px;
                             font-size: .8em;
                         }
@@ -370,6 +378,7 @@ ion-content.body {
                         .button {
                             width: 100%;
                             margin: 4px 0;
+                            top: 0;
                         }
                     }
                     span {
@@ -425,19 +434,24 @@ ion-content.body {
                     }
                 }
             }
+            .list-title {
+                position: absolute;
+                top: $default-content-list-vertical-position - 20px;
+                left: 30px;
+                font-size: .9em;
+                color: $grey-default;
+            }
         }
         
         .list {
             position: absolute;
             top: $default-content-list-vertical-position;
             padding-top: 15px;
-            //border-top: solid 1px #ccc;
+            padding-right: 10px;
             left: $default-content-area-left-margin;
-            right: $default-content-area-right-margin;
+            right: ($default-content-area-right-margin - 10px);
             bottom: 0;
-            //background-color: #0ff;
             overflow: auto;
-            
             .lista-cliente {
                 display: table;
             }
@@ -510,6 +524,10 @@ ion-content.body {
                         }
                         &.bv_value{
                             color: $highlight-text-color;
+                            &.request-pending {
+                                font-size: .85em;
+                                color: $grey-default;
+                            }
                         }
                         &.nome{
                             color: $highlight-text-color;
@@ -552,6 +570,9 @@ ion-content.body {
                     .item {
                         background-image: none;
                         background-color: $default-area-selected;
+                        &.immobili{
+                            background-image: url('/assets/img/home-icon@2x.png');
+                        }
                     }
                 }
             }
