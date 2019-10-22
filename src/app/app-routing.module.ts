@@ -11,6 +11,8 @@ const routes: Routes = [
   { path: 'nuovo-cliente', loadChildren: './nuovo-cliente/nuovo-cliente.module#NuovoClientePageModule' },
   { path: 'scheda-cliente', loadChildren: './scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
   { path: 'wizard', loadChildren: './wizard/wizard.module#WizardPageModule' },
+  { path: 'patrimonio', loadChildren: './patrimonio/patrimonio.module#PatrimonioPageModule' },
+  { path: 'catastali', loadChildren: './catastali/catastali.module#CatastaliPageModule' },
 ];
 
 @NgModule({

@@ -143,6 +143,9 @@ ul {
     &.download {
         background-image: url('/assets/img/icon-download@2x.png');
     }
+    &.upload {
+        background-image: url('/assets/img/icon-upload@2x.png');
+    }
     &.report {
         background-image: url('/assets/img/icon-report@2x.png');
     }
@@ -361,6 +364,8 @@ ion-content.body {
                 width: 100%;
                 padding-left: 15px;
                 .cliente-table {
+                    background-image:  $default-gradient;
+                    border-radius: 10px;
                     z-index: 10;
                     display: table;
                     width: 100%;
@@ -371,8 +376,6 @@ ion-content.body {
                     display: table-row;
                 }
                 .item {
-                    background: #fff;
-                    background-image: $default-gradient;
                     border: solid 1px $grey-highlight;
                     border-right:solid 1px $border-right;
                     border-left: solid 1px $border-left;
@@ -391,7 +394,7 @@ ion-content.body {
                     }
                     &.immobili {
                         width: 15%;
-                        background-image: url('/assets/img/home-icon@2x.png'), $default-gradient;
+                        background-image: url('/assets/img/home-icon@2x.png');
                         background-repeat: no-repeat, no-repeat;
                         background-position: 15px center, 0 0;
                         text-align: right;
@@ -619,15 +622,6 @@ ion-content.body {
             }
         }
 
-        .scheda {
-            position: absolute;
-            top: 0;
-            bottom:  $default-content-area-right-margin;
-            left: $default-content-area-left-margin;
-            right: $default-content-area-left-margin;
-            background-color: #fff;
-            overflow: auto;
-        }
     }
 }
 
@@ -759,7 +753,7 @@ ion-content.body {
 
 /* scheda */
 
-.scheda-immobile {
+.scheda {
     position: absolute;
     top: 0;
     //height: $default-content-list-vertical-position;
@@ -769,21 +763,25 @@ ion-content.body {
     background-image: $default-gradient;
     border-radius: 10px;
     overflow: auto;
-    .immobile-table {
+    .scheda-table {
         z-index: 10;
         display: table;
         width: 100%;
         
-        position: relative
+        position: relative;
+        &.single-column {
+            .item {
+                height: 500px;
+            }
+        }
     }
-    .immobile-row {
+    .scheda-row {
         display: table-row;
     }
-    .immobile-header {
+    .scheda-header {
         display: table;
         width: 100%;
         .item {
-            
             border: solid 1px $default-border-grey;
             border-right:solid 1px $border-right;
             border-left: solid 1px $border-left;
@@ -809,7 +807,7 @@ ion-content.body {
                     background-image: url('/assets/img/icon-abitazione-big@2x.png') ;
                 }
             }
-            &.anagrafica {
+            &.indirizzo {
                 width: auto;
             }
             &.date {
@@ -829,9 +827,73 @@ ion-content.body {
                     }
                 }
             }
+
+            // patrimonio
+
+            &.immobili {
+                width: 15%;
+                background-image: url('/assets/img/home-icon@2x.png');
+                background-repeat: no-repeat, no-repeat;
+                background-position: 15px center, 0 0;
+                text-align: right;
+                .badge {
+                    background: $highlight-text-color;
+                    color: #fff;
+                    border-radius: 9px;
+                    display: inline-block;
+                    padding: 4px 8px;
+                    font-size: .8em;
+                }
+            }
+            &.bv {
+                width: 22%;
+                
+                    .view {
+                        float: right;
+                    }
+            }
+            &.anagrafica {
+                    width: 40%;
+            }
+            &.tools {
+                width: auto;
+                .button {
+                    width: 100%;
+                    margin: 4px 0;
+                    top: 0;
+                }
+            }
+            span {
+                display: block;
+                    &.bv_label{
+                    font-size: 0.7em;
+                    padding-bottom: 5px;
+                    color: $label-color;
+                }
+                &.bv_value{
+                    font-size: 1.5em;
+                    color: $highlight-text-color;
+                    float: left;
+                    margin-right: 5px;
+                }
+                &.nome{
+                    color: $highlight-text-color;
+                }
+                &.cf {
+                    font-size: .75em;
+                    color: $label-color;
+                }
+                &.email{
+                    font-size: .9em;
+                    margin-top: 10px;
+                    color: $highlight-text-color;
+                }
+            }
+
+
         }
     }
-    .immobile-content {
+    .scheda-content {
         display: table;
         width: 100%;
         table-layout: fixed;
@@ -841,6 +903,7 @@ ion-content.body {
             border-left: solid 1px $border-left;
             border-top: solid 1px $border-right;
             height: 250px;
+            
             padding: 7px ;
             width: 50%;
             display: table-cell;
@@ -861,6 +924,9 @@ ion-content.body {
                 font-weight: normal;
                 margin-top: 0;
                 position: relative;
+                span {
+                    float: right;
+                }
                 .button {
                     position: absolute;
                     top: 1px ;
@@ -884,14 +950,13 @@ ion-content.body {
                     }
                 }
             }
-            
         }
-        .immobile-row:first-of-type {
+        .scheda-row:first-of-type {
             .item {
                border-bottom: solid 1px $border-left;
             }
         }
-        .immobile-row:last-of-type {
+        .scheda-row:last-of-type {
             .item {
                 &:last-of-type {
                     border-right: solid 1px $default-border-grey;
@@ -905,6 +970,7 @@ ion-content.body {
         }
     }
 }
+
 
 
 
