@@ -134,6 +134,11 @@ ul {
     &.full-width {
         display: block;
     }
+    &.light {
+        background-color: transparent;
+        padding: 0;
+        margin: 0;
+    }
     &.search {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -154,7 +159,9 @@ ul {
     }
     &.view {
         background-image: url('/assets/img/icon-view@2x.png');
-        
+    }
+    &.view-mini {
+        background-image: url('/assets/img/icon-view-mini@2x.png');
     }
     &.add {
         background-image: url('/assets/img/icon-add@2x.png');
@@ -935,6 +942,7 @@ ion-content.body {
     .table-body-container {
         overflow: auto;
         height: 395px;
+        font-weight: 300;
         .table-body {
             display: table;
             width:100%;
@@ -960,6 +968,18 @@ ion-content.body {
         padding-right: 10px;
         border-top: solid 1px #ccc;
         background: #fff;
+        &:before {
+            content: "";
+            position: absolute; 
+            top: -6px;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background-image: url('/assets/img/shadow-after@2x.png') ;
+            background-repeat: repeat-x;
+            background-position: left top;
+            z-index: 10;
+        }
         .table-total {
             display: table;
             width:100%;
