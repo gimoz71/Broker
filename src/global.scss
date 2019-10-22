@@ -42,7 +42,7 @@ $grey-highlight:    #4A4A4A;
 $default-border-grey: #bebebe;
 $grey-default:      #707070;
 
-$default-area-selected: #EDF4F8;
+$default-light-blue: #EDF4F8;
 
 $default-green:     #00AA2D;
 $default-red:       #EB6A5A;
@@ -68,6 +68,23 @@ $colors: (
 :root[mode="ios"] {
     --ion-font-family: 'Rubik', sans-serif;
     font-family: var(--ion-font-family) !important;
+}
+:root {
+  --ion-color-bar: #EDF4F8;
+  --ion-color-bar-rgb: 237,244,248;
+  --ion-color-bar-contrast: #000000;
+  --ion-color-bar-contrast-rgb: 0,0,0;
+  --ion-color-bar-shade: #d1d7da;
+  --ion-color-bar-tint: #eff5f9;
+}
+
+.ion-color-bar {
+  --ion-color-base: var(--ion-color-bar);
+  --ion-color-base-rgb: var(--ion-color-bar-rgb);
+  --ion-color-contrast: var(--ion-color-bar-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-bar-contrast-rgb);
+  --ion-color-shade: var(--ion-color-bar-shade);
+  --ion-color-tint: var(--ion-color-bar-tint);
 }
 
 /* Custom style */
@@ -114,6 +131,9 @@ ul {
     text-align: center;
     background-position: 12px center;
     background-repeat: no-repeat;
+    &.full-width {
+        display: block;
+    }
     &.search {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
@@ -131,12 +151,20 @@ ul {
     }
     &.view {
         background-image: url('/assets/img/icon-view@2x.png');
-        &.only-icon {
-            padding-left: 24px;
-        }
+        
     }
     &.add {
         background-image: url('/assets/img/icon-add@2x.png');
+    }
+    &.cliente {
+        background-image: url('/assets/img/icon-cliente@2x.png');
+    }
+    &.back {
+        background-image: url('/assets/img/icon-back@2x.png');
+    }
+    &.only-icon {
+        padding-left: 20px;
+        background-position: center;
     }
 }
 
@@ -281,6 +309,19 @@ ion-content.body {
                 padding: 8px 10px 6px;
                 width: 180px;
             }
+            .page-title {
+                display: inline-block;
+                padding-left: 25px;
+                margin: 0;
+                margin-left: 20px;
+                font-weight: normal;
+                &.cliente {
+                    background: url('/assets/img/icon-client@2x.png') no-repeat left center;
+                }
+            }
+            .button:not(:last-of-type) {
+                margin-right: 10px;
+            }
         }
     }
     .content {
@@ -288,7 +329,7 @@ ion-content.body {
         top: 80px;
         bottom: 0;
         width: 100%;
-        &:before {
+        &.home-list:before {
             content: "";
             position: absolute;
             top: $default-content-list-vertical-position;
@@ -569,7 +610,7 @@ ion-content.body {
                 &.selected {
                     .item {
                         background-image: none;
-                        background-color: $default-area-selected;
+                        background-color: $default-light-blue;
                         &.immobili{
                             background-image: url('/assets/img/home-icon@2x.png');
                         }
@@ -646,6 +687,9 @@ ion-content.body {
         border-bottom: solid 1px #ccc;
         position: relative;
         height: 90px;
+        &.selected {
+            background-color: $default-light-blue;
+        }
         .indirizzo {
             font-size: .8em;
             padding-left: 20px;
@@ -709,6 +753,155 @@ ion-content.body {
             background-repeat: repeat-x;
             background-position: left top;
             z-index: 10;
+        }
+    }
+}
+
+/* scheda */
+
+.scheda-immobile {
+    position: absolute;
+    top: 0;
+    //height: $default-content-list-vertical-position;
+    left: $default-content-area-left-margin;
+    right: $default-content-area-right-margin;
+    background: #fff;
+    background-image: $default-gradient;
+    border-radius: 10px;
+    overflow: auto;
+    .immobile-table {
+        z-index: 10;
+        display: table;
+        width: 100%;
+        
+        position: relative
+    }
+    .immobile-row {
+        display: table-row;
+    }
+    .immobile-header {
+        display: table;
+        width: 100%;
+        .item {
+            
+            border: solid 1px $default-border-grey;
+            border-right:solid 1px $border-right;
+            border-left: solid 1px $border-left;
+            border-bottom: solid 1px $border-left;
+            height: 90px;
+            padding: 0 15px;
+            width: auto;
+            display: table-cell;
+            vertical-align: middle;
+            &:last-of-type {
+                border-right: solid 1px $default-border-grey;
+                border-radius: 0 10px 0 0;
+            }
+            &:first-of-type {
+                border-left: solid 1px $default-border-grey;
+                border-radius:  10px 0 0 0 ;
+            }
+            &.tipologia {
+                width: 15%;
+                &.abitazione {
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-image: url('/assets/img/icon-abitazione-big@2x.png') ;
+                }
+            }
+            &.anagrafica {
+                width: auto;
+            }
+            &.date {
+                width: 15%;
+                span {
+                    display: block;
+                    text-align: center;
+                    line-height: .9em;
+                    &:nth-child(1) {
+                        font-size: 12px;
+                    }
+                    &:nth-child(2) {
+                        font-size: 40px;
+                    }
+                    &:nth-child(3) {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .immobile-content {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        .item {
+            border: solid 1px $default-border-grey;
+            border-right:solid 1px $border-right;
+            border-left: solid 1px $border-left;
+            border-top: solid 1px $border-right;
+            height: 250px;
+            padding: 7px ;
+            width: 50%;
+            display: table-cell;
+            vertical-align: top;
+            &:last-of-type {
+                border-right: solid 1px $default-border-grey;
+            }
+            &:first-of-type {
+                border-left: solid 1px $default-border-grey;
+            }
+            .item-title {
+                display: inline-block;
+                width: 100%;
+                font-size: 1.2em;
+                padding: 5px 15px;
+                background-color: rgba(0,0,0,.03);
+                border-radius: 1em;
+                font-weight: normal;
+                margin-top: 0;
+                position: relative;
+                .button {
+                    position: absolute;
+                    top: 1px ;
+                    right: 4px;
+                    padding: 5px 16px;
+                }
+            }
+            .item-list {
+                height: 190px;
+                overflow: auto;
+                li {
+                    padding: 5px 15px;
+                    border-bottom: dashed 1px #ccc;
+                    &:last-of-type {
+                        border: none;
+                    }
+                    span {
+                        &:last-of-type {
+                            float: right;
+                        }
+                    }
+                }
+            }
+            
+        }
+        .immobile-row:first-of-type {
+            .item {
+               border-bottom: solid 1px $border-left;
+            }
+        }
+        .immobile-row:last-of-type {
+            .item {
+                &:last-of-type {
+                    border-right: solid 1px $default-border-grey;
+                    border-radius: 0 0 10px 0;
+                }
+                &:first-of-type {
+                    border-left: solid 1px $default-border-grey;
+                    border-radius: 0 0 0 10px;
+                }
+            }
         }
     }
 }
