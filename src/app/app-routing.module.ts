@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'wizard', loadChildren: './wizard/wizard.module#WizardPageModule' },
   { path: 'patrimonio', loadChildren: './patrimonio/patrimonio.module#PatrimonioPageModule' },
   { path: 'catastali', loadChildren: './catastali/catastali.module#CatastaliPageModule' },
+  { path: 'report-generale', loadChildren: './report-generale/report-generale.module#ReportGeneralePageModule' },
 ];
 
 @NgModule({
