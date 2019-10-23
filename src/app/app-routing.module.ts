@@ -14,6 +14,8 @@ const routes: Routes = [
   { path: 'patrimonio', loadChildren: './patrimonio/patrimonio.module#PatrimonioPageModule' },
   { path: 'catastali', loadChildren: './catastali/catastali.module#CatastaliPageModule' },
   { path: 'report-generale', loadChildren: './report-generale/report-generale.module#ReportGeneralePageModule' },
+  { path: 'report-analisi', loadChildren: './report-analisi/report-analisi.module#ReportAnalisiPageModule' },
+  { path: 'ammortamento', loadChildren: './ammortamento/ammortamento.module#AmmortamentoPageModule' },
 ];
 
 @NgModule({
