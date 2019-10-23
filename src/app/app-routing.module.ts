@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'report-generale', loadChildren: './report-generale/report-generale.module#ReportGeneralePageModule' },
   { path: 'report-analisi', loadChildren: './report-analisi/report-analisi.module#ReportAnalisiPageModule' },
   { path: 'ammortamento', loadChildren: './ammortamento/ammortamento.module#AmmortamentoPageModule' },
+  { path: 'wizard-destinazione', loadChildren: './wizard-destinazione/wizard-destinazione.module#WizardDestinazionePageModule' },
 ];
 
 @NgModule({
