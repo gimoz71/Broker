@@ -17,6 +17,10 @@ const routes: Routes = [
   { path: 'report-analisi', loadChildren: './report-analisi/report-analisi.module#ReportAnalisiPageModule' },
   { path: 'ammortamento', loadChildren: './ammortamento/ammortamento.module#AmmortamentoPageModule' },
   { path: 'wizard-destinazione', loadChildren: './wizard-destinazione/wizard-destinazione.module#WizardDestinazionePageModule' },
+  { path: 'wizard-data-destinazione', loadChildren: './wizard-data-destinazione/wizard-data-destinazione.module#WizardDataDestinazionePageModule' },
+  { path: 'wizard-dati-data', loadChildren: './wizard-dati-data/wizard-dati-data.module#WizardDatiDataPageModule' },
+  { path: 'wizard-dati-catastali', loadChildren: './wizard-dati-catastali/wizard-dati-catastali.module#WizardDatiCatastaliPageModule' },
+  { path: 'wizard-dati-tassazione', loadChildren: './wizard-dati-tassazione/wizard-dati-tassazione.module#WizardDatiTassazionePageModule' },
 ];
 
 @NgModule({
