@@ -36,6 +36,7 @@ $default-content-area-left-margin: 30px;
 $default-content-area-right-margin: 60px;
 $default-content-list-vertical-position: 130px;
 
+$default-text-color: #283943;
 $highlight-text-color: #104D77;
 $default-blue-color: #374A59;
 $default-text-color: #283943;
@@ -55,6 +56,11 @@ $border-left: rgba(0,0,0,.1);
 
 $default-gradient:  linear-gradient(#ffffff, #f1f1f1);
 
+
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i&display=swap');
+
+/* elaborazione elementi ionic */
+
 $colors: (
     primary:    #104D77,
     secondary:  #32db64,
@@ -64,8 +70,6 @@ $colors: (
     bar:        #EDF4F8,
     def:        #283943
 );
-
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,500,500i,700,700i&display=swap');
 
 :root,
 :root[mode="md"],
@@ -92,7 +96,13 @@ $colors: (
   --ion-color-tint: var(--ion-color-bar-tint);
 }
 
+
 /* Custom style */
+
+body {
+    font-family: 'Rubik', sans-serif;
+    color: $default-text-color;
+}
 
 .clearfix::after {
   content: "";
@@ -440,11 +450,23 @@ input:checked + .slider:before {
     font-size: .8em;
 }
 
+
+.main-header {
+    display: table;
+    vertical-align: middle;
+    background: $default-light-blue;
+}
+.header-bar {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .title {
     margin-left: 20px;
 }
 
 .logo {
+    display: table-cell;
     width: $default-menu-size;
     height: $default-size;
     //background: #EB6A5A;
@@ -458,6 +480,7 @@ input:checked + .slider:before {
 .hamburger {
     width: $default-menu-size;
     height: $default-size;
+    display: table-cell;
     //background: #EB6A5A;
     background-repeat: no-repeat;
     background-position: center;
@@ -467,7 +490,10 @@ input:checked + .slider:before {
 }
 
 .tools {
-    margin-right: 30px;
+    padding-right: 30px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
 }
 .hints {
     display: inline-block;
@@ -478,6 +504,7 @@ input:checked + .slider:before {
     background-size: cover;
     position: relative;
     margin: 0 10px;
+    top: 6px;
     span {
         display: block;
         position: absolute;
@@ -525,20 +552,16 @@ input:checked + .slider:before {
     text-decoration: none;
 }
 .client-area {
-    display: inline-block;
-    height: 40px;
-    position: relative;
-    margin: 0 10px;
-    padding-left: 0;
-    line-height: 40px;
+    display: table-cell;
+    padding-left: 20px;
     font-size: 1.4em;
     color: $grey-default;
     text-decoration: none;
     font-weight: normal;
 }
-ion-header {
+.main-header {
     &.client {
-        :after {
+        &:after {
             content: "";
             position: absolute; 
             bottom: -6px;
@@ -552,9 +575,14 @@ ion-header {
         }
     }
 }
-ion-content {
+.main-body {
     &.body {
-        --background:  url('/assets/img/dashboard-header@2x.png') right top no-repeat ;
+        position: absolute;
+        top: $default-size;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:  url('/assets/img/dashboard-header@2x.png') right top no-repeat ;
         .content-area {
             right: $default-right-area-width;
         }
@@ -566,7 +594,12 @@ ion-content {
         }
     }
     &.body-no-right-menu {
-        --background:  url('/assets/img/dashboard-header-repeat@2x.png') right top repeat-x ;
+        position: absolute;
+        top: $default-size;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background:  url('/assets/img/dashboard-header-repeat@2x.png') right top repeat-x ;
         .content-area {
             right: 0;
         }
@@ -575,7 +608,12 @@ ion-content {
         }
     }
     &.client {
-        --background: none;
+        position: absolute;
+        top: $default-size;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: none;
         .content-area {
             right: 0;
         }
@@ -584,6 +622,11 @@ ion-content {
         }
     }
     &.wizard {
+        position: absolute;
+        top: $default-size;
+        bottom: 0;
+        left: 0;
+        right: 0;
         .scheda {
             width: 660px;
             left: 50%;
@@ -1745,7 +1788,7 @@ ion-content {
 .client {
     .content {
         position: inherit;
-        
+        overflow: auto;
         .scheda {
             position: inherit;
             top: 10px;
