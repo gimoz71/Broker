@@ -19,11 +19,11 @@
       "dom"
     ],
     "paths": {
-      "my-app-lib": [
-        "dist/my-app-lib"
+      "broker-lib": [
+        "dist/broker-lib"
       ],
-      "my-app-lib/*": [
-        "dist/my-app-lib/*"
+      "broker-lib/*": [
+        "dist/broker-lib/*"
       ]
     }
   }

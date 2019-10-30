@@ -172,33 +172,33 @@
         }
       }
     },
-    "my-app-lib": {
+    "broker-lib": {
       "projectType": "library",
-      "root": "projects/my-app-lib",
-      "sourceRoot": "projects/my-app-lib/src",
-      "prefix": "test",
+      "root": "projects/broker-lib",
+      "sourceRoot": "projects/broker-lib/src",
+      "prefix": "",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/my-app-lib/tsconfig.lib.json",
-            "project": "projects/my-app-lib/ng-package.json"
+            "tsConfig": "projects/broker-lib/tsconfig.lib.json",
+            "project": "projects/broker-lib/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/my-app-lib/src/test.ts",
-            "tsConfig": "projects/my-app-lib/tsconfig.spec.json",
-            "karmaConfig": "projects/my-app-lib/karma.conf.js"
+            "main": "projects/broker-lib/src/test.ts",
+            "tsConfig": "projects/broker-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/broker-lib/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/my-app-lib/tsconfig.lib.json",
-              "projects/my-app-lib/tsconfig.spec.json"
+              "projects/broker-lib/tsconfig.lib.json",
+              "projects/broker-lib/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
