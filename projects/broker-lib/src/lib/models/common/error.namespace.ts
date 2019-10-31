@@ -7,7 +7,7 @@ export namespace Error {
         public Message: string;         // Eventuale messaggio. In caso di Success=false, l'error message viene inserito qui
     }
 
-    export class ErrorData{
+    export class ErrorData {
         public ErrorType: string;
         public Data: any;
         public message: string;
@@ -21,5 +21,14 @@ export namespace Error {
         public msg_techdata: string;
     }
 
-    
+    export class WsLogErrore {
+        public token: string;
+        public log_stacktrace: string;
+        public log_descrerr: string;
+        public log_metodoerr: string;
+        public log_link: string;
+        public log_query: string;
+        public username: string;
+    }
+
 }

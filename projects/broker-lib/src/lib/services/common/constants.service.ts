@@ -8,4 +8,6 @@ export class ConstantsService {
 
     readonly getImmobiliServiceName: string = 'getimmobili';
     readonly getClientiServiceName: string = 'getclienti';
+    readonly postErroreServiceName: string = 'put_error';
+    readonly getDropdownServiceName: string = 'get_dropdown';
 }
