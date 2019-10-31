@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { ImmobiliService } from 'broker-lib';
+import { ClientiService } from 'broker-lib';
+import { Platform } from 'ionic-angular';
+
+import { Cliente } from 'broker-lib';
+import { Immobile } from 'broker-lib';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +13,48 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  public clienti: Array<Cliente>;
+  public clienteScelto: Cliente;
+  public immobiliCliente: Array<Immobile>;
+  public tempImmobiliCliente: Array<Immobile>;
+
+  constructor(
+    private immobiliService: ImmobiliService,
+    private clientiService: ClientiService,
+    public platform: Platform) {
+      this.clienti = new Array<Cliente>();
+      this.clienteScelto = new Cliente();
+      this.immobiliCliente = new Array<Immobile>();
+      this.tempImmobiliCliente = new Array<Immobile>();
+      this.initializeApp();
+      // this.platform.ready().then(() => {
+      //   this.initializeApp();
+      // });
+    }
+
+    private initializeApp() {
+      this.clientiService.getClienti('').subscribe(r => {
+        if (r.Success) {
+          console.log('RICEVUTO: ' + r.Data);
+          this.clienti = r.Data;
+        }
+      });
+    }
+
+    public caricaCliente(cliente: Cliente) {
+      this.clienteScelto = cliente;
+      // carico la lista degli immobili
+      this.immobiliService.getImmobili(this.clienteScelto.id_cliente + '', '').subscribe(r => {
+        if (r.Success) {
+          this.tempImmobiliCliente = r.Data;
+          for (const imm of this.tempImmobiliCliente) {
+            if (imm.id_cliente === this.clienteScelto.id_cliente) {
+              this.immobiliCliente.push(imm);
+            }
+          }
+        }
+      });
+    }
+
 
 }

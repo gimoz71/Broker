@@ -5,6 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
+import { ImmobiliService } from 'broker-lib';
+import { ClientiService } from 'broker-lib';
+
+import { Platform } from 'ionic-angular';
 
 @NgModule({
   imports: [
@@ -18,6 +22,9 @@ import { HomePage } from './home.page';
       }
     ])
   ],
-  declarations: [HomePage]
+  declarations: [HomePage],
+  providers: [ImmobiliService,
+    ClientiService,
+    Platform]
 })
 export class HomePageModule {}

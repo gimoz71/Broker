@@ -45,20 +45,31 @@
                     <div class="cliente">
                         <div class="cliente-table">
                             <div class="cliente-row">
-                                <div class="item immobili"><span class="badge">4</span></div>
-                                <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span class="bv_value">450K</span><a href="#" class="button view only-icon">&nbsp;</a></div>
-                                <div class="item anagrafica"><span class="nome">Paolo Rossi</span><span class="cf">PLARSS80A01L219Q</span><span class="email">paolo.rossi@domain.it</span></div>
+                                <div class="item immobili"><span class="badge">{{clienteScelto.numero_proprieta}}</span></div>
+                                <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span class="bv_value">{{clienteScelto.book_value}}K</span><a href="#" class="button view only-icon">&nbsp;</a></div>
+                                <div class="item anagrafica"><span class="nome">{{clienteScelto.nome}} {{clienteScelto.cognome}}</span><span class="cf">{{clienteScelto.codice_fiscale}}</span><span class="email">paolo.rossi@domain.it</span></div>
                                 <div class="item tools"><a href="#" class="button edit full-width">Modifica</a><a href="#" class="button report full-width">Report</a></div>
                             </div>
                         </div>
                         <div class="status red"></div>
                     </div>
                 </div>
-                <div class="list-title">clienti (20):</div>
+                <div class="list-title">numero clienti ({{clienti.length}}):</div>
             </div>
             <div class="list">
                 <ul class="lista-cliente">
-                    <li class="cliente">
+                    <li *ngFor="let clienteLista of clienti" class="cliente" (click)="caricaCliente(clienteLista)">
+                        <div class="cliente-table">
+                            <div class="cliente-row" >
+                                <div class="item immobili"><span class="badge">{{clienteLista.numero_proprieta}}</span></div>
+                                <div class="item bv"><span class="bv_value">{{clienteLista.book_value}}K</span><span class="bv_label">Book Value (&euro;)</span></div>
+                                <div class="item anagrafica"><span class="nome">{{clienteLista.nome}} {{clienteLista.cognome}}</span><span class="cf">{{clienteLista.codice_fiscale}}</span></div>
+                                <div class="item date"><span class="date">20/06/2019</span></div>
+                            </div>
+                        </div>
+                        <div class="status red"></div>
+                    </li>
+                    <!-- <li class="cliente">
                         <div class="cliente-table">
                             <div class="cliente-row">
                                 <div class="item immobili"><span class="badge">4</span></div>
@@ -156,7 +167,7 @@
                             </div>
                         </div>
                         <div class="status green"></div>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
 

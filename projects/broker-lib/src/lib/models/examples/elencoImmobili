@@ -1,0 +1,16 @@
+[
+    {
+        "id_cliente": 0, 
+        "id_immobile": 0, 
+        "indirizzo": "null", 
+        "civico": "null",
+        "email": "null",
+        "citta": "null",
+        "cap": "null",
+        "provincia": "null", 
+        "prima_casa": "null", 
+        "id_tipologie_catastali": 0, 
+        "book_value": 0, 
+        "data_aggiornamento": "null"
+    }
+]

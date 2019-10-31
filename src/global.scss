@@ -779,7 +779,7 @@ input:checked + .slider:before {
             background-image: url('/assets/img/list-shadow-before@2x.png') ;
             background-repeat: no-repeat;
             background-position: center top;
-            z-index: 50;
+            z-index: 0;
         }
         
         .header {
