@@ -20,4 +20,6 @@ export namespace Error {
         public msg_method: string;
         public msg_techdata: string;
     }
+
+    
 }
