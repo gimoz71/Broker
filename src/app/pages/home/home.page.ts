@@ -43,6 +43,7 @@ export class HomePage {
 
     public caricaCliente(cliente: Cliente) {
       this.clienteScelto = cliente;
+      this.immobiliCliente = new Array<Immobile>();
       // carico la lista degli immobili
       this.immobiliService.getImmobili(this.clienteScelto.id_cliente + '', '').subscribe(r => {
         if (r.Success) {

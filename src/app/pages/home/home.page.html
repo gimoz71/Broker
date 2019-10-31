@@ -178,14 +178,14 @@
             <div class="row">
                 <div class="header-cell">
                     <span class="small">immobili di</span>
-                    <span class="nome">Paolo Rossi</span>
+                    <span class="nome">{{clienteScelto.nome}} {{clienteScelto.cognome}}</span>
                 </div>
             </div>
         </div>
         <div class="list">
             <ul class="lista-immobile">
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
+                <li class="immobile" *ngFor="let immobileLista of immobiliCliente">
+                    <div class="indirizzo">{{immobileLista.indirizzo}}, {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}} ({{immobileLista.provincia}})</div>
                     <div class="tipologia table">
                         <div class="row">
                             <div class="cell abitazione">
@@ -200,7 +200,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="immobile">
+                <!-- <li class="immobile">
                     <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
                     <div class="tipologia table">
                         <div class="row">
@@ -311,7 +311,7 @@
                             </div>
                         </div>
                     </div>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="footer table">
