@@ -1,0 +1,19 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { Http } from '../../models/common/http.namespace';
+import { BrokerHttpService } from '../common/brokerhttp.service';
+import { ConstantsService } from '../common/constants.service';
+import { Error } from '../../models/common/error.namespace';
+
+@Injectable()
+export class LogErroriService {
+
+    constructor(
+        private httpService: BrokerHttpService,
+        private constants: ConstantsService) {}
+
+    public postErrore(errorData: Error.WsLogErrore, tokenValue: string): Observable<Http.HttpResponse> {
+        return this.httpService.post(this.constants.postErroreServiceName, errorData, tokenValue);
+    }
+}

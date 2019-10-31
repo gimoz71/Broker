@@ -1,3 +1,5 @@
+import { ErrorHandlerService } from './services/error-handler/error-handler.service';
+import { LogErroriService } from './services/log-errori/log-errori.service';
 import { NgModule } from '@angular/core';
 
 import { ConstantsService } from './services/common/constants.service';
@@ -6,6 +8,7 @@ import { ImmobiliService } from './services/immobili/immobili.service';
 import { ClientiService } from './services/clienti/clienti.service';
 
 import { HttpClientModule } from '@angular/common/http';
+import { DropdownService } from './services/dropdown/dropdown.service';
 
 @NgModule({
   declarations: [],
@@ -16,7 +19,10 @@ import { HttpClientModule } from '@angular/common/http';
     ConstantsService,
     BrokerHttpService,
     ImmobiliService,
-    ClientiService
+    ClientiService,
+    DropdownService,
+    LogErroriService,
+    ErrorHandlerService,
   ],
   exports: [
   ]
