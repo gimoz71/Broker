@@ -1,7 +1,7 @@
 // tslint:disable-next-line: no-namespace
 export class Immobile {
     public id_cliente: number;
-    public id_immobile: number;
+    public immobile_id: number;
     public indirizzo: string;
     public civico: string;
     public email: string;
@@ -9,8 +9,9 @@ export class Immobile {
     public cap: string;
     public provincia: string;
     public prima_casa: string;
-    public id_tipologie_catastali: number;
+    public codice_catastale: number;
     public book_value: number;
+    public quota: number;
     public data_aggiornamento: string;
 }
 

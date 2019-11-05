@@ -46,6 +46,7 @@ export class HomePage {
 
     public caricaCliente(cliente: Cliente) {
         this.clienteScelto = cliente;
+        this.immobiliCliente = new Array<Immobile>();
 
         // TEST COMUNICAZIONE POST
         // const errore = new Error.WsLogErrore();
@@ -63,7 +64,7 @@ export class HomePage {
         // });
 
         // TEST GESTIONE ERRORE
-        throw new TypeError('Ho generato un errore');
+        //  throw new TypeError('Ho generato un errore');
 
         // carico la lista degli immobili
         this.immobiliService.getImmobili(this.clienteScelto.id_cliente + '', '').subscribe(r => {

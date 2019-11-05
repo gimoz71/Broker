@@ -10,5 +10,3 @@ export class Cliente {
     public data_aggiornamento: string;
     public stato_cliente: string;
 }
-
-
