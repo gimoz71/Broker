@@ -1,4 +1,4 @@
-import { LogErroriService } from './../log-errori/log-errori.service';
+import { LogErroriService } from '../../services/log-errori/log-errori.service';
 import { Injectable, ErrorHandler, Injector, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Error } from '../../models/common/error.namespace';

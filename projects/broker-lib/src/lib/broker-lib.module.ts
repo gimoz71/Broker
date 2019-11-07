@@ -1,4 +1,4 @@
-import { ErrorHandlerService } from './services/error-handler/error-handler.service';
+import { ErrorHandlerService } from './handler/error/error-handler.service';
 import { LogErroriService } from './services/log-errori/log-errori.service';
 import { NgModule } from '@angular/core';
 
