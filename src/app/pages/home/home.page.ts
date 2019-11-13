@@ -3,6 +3,7 @@ import { LogErroriService } from 'broker-lib';
 import { Component } from '@angular/core';
 import { ImmobiliService } from 'broker-lib';
 import { ClientiService } from 'broker-lib';
+import { SessionService } from 'broker-lib';
 import { Platform } from 'ionic-angular';
 
 import { Cliente } from 'broker-lib';
@@ -24,6 +25,7 @@ export class HomePage {
         private immobiliService: ImmobiliService,
         private clientiService: ClientiService,
         private logErroriService: LogErroriService,
+        private sessionService: SessionService,
         public platform: Platform) {
         this.clienti = new Array<Cliente>();
         this.clienteScelto = new Cliente();
@@ -46,7 +48,15 @@ export class HomePage {
 
     public caricaCliente(cliente: Cliente) {
         this.clienteScelto = cliente;
-        this.immobiliCliente = new Array<Immobile>();
+
+        this.sessionService.setCliente(this.clienteScelto);
+        this.sessionService.elencoImmobiliObs.subscribe(r => {
+            if (r) {
+                this.immobiliCliente = this.sessionService.immobiliCliente;
+            }
+        });
+
+        // this.immobiliCliente = new Array<Immobile>();
 
         // TEST COMUNICAZIONE POST
         // const errore = new Error.WsLogErrore();
@@ -67,16 +77,16 @@ export class HomePage {
         //  throw new TypeError('Ho generato un errore');
 
         // carico la lista degli immobili
-        this.immobiliService.getImmobili(this.clienteScelto.id_cliente + '', '').subscribe(r => {
-            if (r.Success) {
-                this.tempImmobiliCliente = r.Data;
-                for (const imm of this.tempImmobiliCliente) {
-                    if (imm.id_cliente === this.clienteScelto.id_cliente) {
-                        this.immobiliCliente.push(imm);
-                    }
-                }
-            }
-        });
+        // this.immobiliService.getImmobili(this.clienteScelto.id_cliente + '', '').subscribe(r => {
+        //     if (r.Success) {
+        //         this.tempImmobiliCliente = r.Data;
+        //         for (const imm of this.tempImmobiliCliente) {
+        //             if (imm.id_cliente === this.clienteScelto.id_cliente) {
+        //                 this.immobiliCliente.push(imm);
+        //             }
+        //         }
+        //     }
+        // });
     }
 
 

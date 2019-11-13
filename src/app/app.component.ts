@@ -23,6 +23,14 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+
+      // -- controllo se c'è un utente in storage
+      // SE l'utente non c'è, mando al login
+      // SE l'utente c'è
+      // -- controllo se il token è ancora valido
+      // SE è valido mando sulla HOME
+      // SE non è valido refresh oppure login (sentire Massimiliano)
     });
 
   }
