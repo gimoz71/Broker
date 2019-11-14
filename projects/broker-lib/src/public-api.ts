@@ -15,6 +15,7 @@ export * from './lib/services/immobili/immobili.service';
 export * from './lib/services/dropdown/dropdown.service';
 export * from './lib/services/log-errori/log-errori.service';
 export * from './lib/services/common/session.service';
+export * from './lib/services/store/store.service';
 
 // handler ------------------------------------------------
 export * from './lib/handler/error/error-handler.service';

@@ -1,5 +1,6 @@
 // import { ErrorHandlerService } from './../../projects/broker-lib/src/lib/services/error-handler/error-handler.service';
 import { ErrorHandlerService } from 'broker-lib';
+import { SessionService, StoreService } from 'broker-lib';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -18,12 +19,14 @@ import { BrokerLibModule } from 'broker-lib';
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, BrokerLibModule],
   providers: [
-    ErrorHandlerService,
-    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    // ErrorHandlerService,
+    // { provide: ErrorHandler, useClass: ErrorHandlerService },
+    SessionService,
+    StoreService,
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

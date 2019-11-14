@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { HomePage } from './home.page';
 import { ImmobiliService } from 'broker-lib';
 import { ClientiService } from 'broker-lib';
+import { SessionService } from 'broker-lib';
 
 import { Platform } from 'ionic-angular';
 
@@ -27,4 +28,4 @@ import { Platform } from 'ionic-angular';
     ClientiService,
     Platform]
 })
-export class HomePageModule {}
+export class HomePageModule { }

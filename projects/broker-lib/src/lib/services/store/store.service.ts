@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Utente } from '../../models/login/utente';
-import { Storage } from '@ionic/storage';
+import { Storage } from '@ionic/Storage';
 import { WsToken } from '../../models/login/wsToken';
 
 @Injectable()
@@ -29,9 +29,9 @@ export class StoreService {
 
     public getUserDataPromise() {
         return new Promise(resolve => {
-            if (this.ws_token == null ) {
+            if (this.ws_token == null) {
                 // store service prima inizializzaione
-                this.storage.get(this.USERKEY).then((val: WsToken ) => {
+                this.storage.get(this.USERKEY).then((val: WsToken) => {
                     // recuperato token dal database
                     console.log(val);
                     if (val != null) {
@@ -42,8 +42,8 @@ export class StoreService {
 
                         // this.check.checkToken(this.serverUrl, val.token_value).subscribe(
                         //     (r)=>{
-                                // console.log(r);
-                                // token corretto lo invio
+                        // console.log(r);
+                        // token corretto lo invio
                         //         if (r.ErrorMessage.msg_code == 0){
                         //             resolve(val);
                         //         }else{
@@ -69,13 +69,13 @@ export class StoreService {
                         //     );
                         // }
                     } else {
-                        console.log ("necessario login");
+                        console.log("necessario login");
                         this.setUserData(null);
                         this.ws_token = null;
                         // devo andare alla pagina del login
                         resolve(null);
                     }
-                  }
+                }
                 );
             } else {
                 // store service già inizializzato

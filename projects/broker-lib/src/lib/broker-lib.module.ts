@@ -2,6 +2,9 @@ import { ErrorHandlerService } from './handler/error/error-handler.service';
 import { LogErroriService } from './services/log-errori/log-errori.service';
 import { NgModule } from '@angular/core';
 
+import { Storage } from '@ionic/Storage';
+import { IonicStorageModule } from '@ionic/Storage';
+
 import { ConstantsService } from './services/common/constants.service';
 import { BrokerHttpService } from './services/common/brokerhttp.service';
 import { ImmobiliService } from './services/immobili/immobili.service';
@@ -13,7 +16,8 @@ import { DropdownService } from './services/dropdown/dropdown.service';
 @NgModule({
   declarations: [],
   imports: [
-    HttpClientModule
+    HttpClientModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     ConstantsService,
@@ -22,7 +26,7 @@ import { DropdownService } from './services/dropdown/dropdown.service';
     ClientiService,
     DropdownService,
     LogErroriService,
-    ErrorHandlerService,
+    ErrorHandlerService
   ],
   exports: [
   ]
