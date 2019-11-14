@@ -22,6 +22,7 @@ const routes: Routes = [
     { path: 'wizard-dati-catastali', loadChildren: './pages/wizard-dati-catastali/wizard-dati-catastali.module#WizardDatiCatastaliPageModule' },
     { path: 'wizard-dati-tassazione', loadChildren: './pages/wizard-dati-tassazione/wizard-dati-tassazione.module#WizardDatiTassazionePageModule' },
     { path: 'client-home', loadChildren: './pages/client-home/client-home.module#ClientHomePageModule' },
+    { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
 ];
 
 @NgModule({
