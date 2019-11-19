@@ -19,11 +19,13 @@ import { LoginPage } from './pages/login/login.page';
 
 import { FormsModule } from '@angular/forms';
 import { LoginPageModule } from './pages/login/login.module';
+import { WizardPageModule } from './pages/wizard/wizard.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
-  { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) }
+  { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
+  { path: 'wizard', loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule) }
   // { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
   // { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
   // { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' },
@@ -59,6 +61,7 @@ const routes: Routes = [
     FormsModule,
     HomePageModule,
     LoginPageModule,
+    WizardPageModule,
     RouterModule.forRoot(routes)
   ],
   providers: [
