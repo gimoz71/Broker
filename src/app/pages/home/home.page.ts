@@ -4,6 +4,7 @@ import { ClientiService, SessionService, LogErroriService, StoreService } from '
 import { Cliente, Immobile, WsToken } from 'broker-lib';
 
 import { Router } from '@angular/router';
+/// import { Cliente, Immobile, WsToken } from 'projects/broker-lib/src/public-api';
 
 @Component({
     selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomePage implements OnInit {
     public clienteScelto: Cliente;
     public immobiliCliente: Array<Immobile>;
     public tempImmobiliCliente: Array<Immobile>;
+    public pippo: Immobile;
 
     constructor(
         private clientiService: ClientiService,
@@ -106,8 +108,10 @@ export class HomePage implements OnInit {
         // });
     }
 
-    public apriSchedaImmobile() {
-
+    public apriSchedaImmobile(immobile: number) {
+        // console.log('immobile', immobile);
+        // console.log('immobile_id', immobile.immobile_id);
+        this.router.navigate(['scheda-immobile'], { queryParams: { immobile_id: immobile } });
     }
 
 

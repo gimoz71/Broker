@@ -4,7 +4,7 @@ export class AffittoDettaglio {
     public descrizione_affittuario: string;
     public spese_condominiali: string;
     public importo_spese_condominiali: number;
-    public cedolare_secca: string;
+    public cedolare_secca: boolean;
     public aliquota_cedolare: number;
     public prima_scadenza_anni: number;
     public data_inizio: string;

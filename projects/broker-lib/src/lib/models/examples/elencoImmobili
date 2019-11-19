@@ -1,7 +1,7 @@
 [
     {
-        "id_cliente": 0, 
-        "id_immobile": 0, 
+        "cliente_id": 0, 
+        "immobile_id": 0, 
         "indirizzo": "null", 
         "civico": "null",
         "email": "null",

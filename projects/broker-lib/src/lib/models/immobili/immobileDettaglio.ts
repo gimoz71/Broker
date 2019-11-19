@@ -22,11 +22,11 @@ export class ImmobileDettaglio {
     public provincia: string;
     public latitudine: string;
     public longitudine: string;
-    public prima_casa: string;
+    public prima_casa: boolean;
     public destinazione_uso_id: number;
     public descrizione_uso: string;
-    public mutuo: string;
-    public affitto: string;
+    public mutuo: boolean;
+    public affitto: boolean;
     public cointestatari: Array<CointestatarioDettaglio>;
     public tasse: Array<TassaDettaglio>;
     public spese: Array<SpesaDettaglio>;

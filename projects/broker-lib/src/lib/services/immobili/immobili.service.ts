@@ -36,13 +36,14 @@ export class ImmobiliService {
     /**
      * Chiamata per ottenere il singolo immobile passando il suo identificativo unico
      *
-     * @param  id_immobile
+     * @param  immobile_id
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data dentro al quale si trova l'oggetto Immobile
      */
-    public getImmobile(id_immobile: string, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.getImmobileServiceName + this.constants.pathSeparator + id_immobile, tokenValue);
+    public getImmobile(immobile_id: string, tokenValue: string): Observable<Http.HttpResponse> {
+        // return this.httpService.get(this.constants.getImmobileServiceName + this.constants.pathSeparator + immobile_id, tokenValue);
+        return this.httpService.get(this.constants.getImmobileServiceName, tokenValue);
     }
 
     /**
