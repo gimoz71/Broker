@@ -37,52 +37,467 @@
             </div>
         </div>
         <div class="content">
-            <div class="scheda">
-                <div class="scheda-header">
-                    <div class="scheda-table">
-                        <div class="scheda-row">
-                            <div class="item tipologia abitazione"></div>
-                            <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="scheda-content">
-                    <div class="scheda-table single-column">
-                        <div class="scheda-row">
-                            <div class="item">
-                                <div class="item-title"><span class="step">1</span> Aggiungi o modifica l'indirizzo dell'immobile</div>
-                                
+            <div id="wizard-start" *ngIf="wizardStart">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
                             </div>
                         </div>
-                        <div class="scheda-table">
-                            <div class="item">
-                                <div class="item-list form">
-                                    <div class="form-item">
-                                        <label>Indirizzo</label>
-                                        <input type="text" placeholder="" value="piazza privata Guide Maquiguas">
+                    </div>
+                    <div class="scheda-content">
+                        <div class="scheda-table single-column">
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">1</span> Aggiungi o modifica l'indirizzo
+                                        dell'immobile
                                     </div>
-                                    <div class="form-item left" style="width: 55%;">
-                                        <label>Citt&agrave;</label>
-                                        <input type="text" placeholder="">
+
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item">
+                                            <label>Indirizzo</label>
+                                            <input type="text" placeholder="" value="piazza privata Guide Maquiguas">
+                                        </div>
+                                        <div class="form-item left" style="width: 55%;">
+                                            <label>Citt&agrave;</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item right" style="width: 35%;">
+                                            <label>Cap</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item left " style="width: 35%;">
+                                            <label>Provincia</label>
+                                            <input type="text" placeholder="">
+                                        </div>
                                     </div>
-                                    <div class="form-item right" style="width: 35%;">
-                                        <label>Cap</label>
-                                        <input type="text" placeholder="">
-                                    </div>
-                                    <div class="form-item left " style="width: 35%;">
-                                        <label>Provincia</label>
-                                        <input type="text" placeholder="">
+                                </div>
+                                <div class="item">
+
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <a href="wizard-destinazione" class="button forward right">avanti</a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="item">
-                               
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wizard-destinazione" *ngIf="wizardDestinazione">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
                             </div>
                         </div>
+                    </div>
+                    <div class="scheda-content">
                         <div class="scheda-table single-column">
-                            <div class="item">
-                                <div class="item-list ">
-                                    <a href="wizard-destinazione" class="button forward right">avanti</a>
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">2</span> Destinazione</div>
+
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item">
+                                            <h3>Prima casa</h3>
+                                            <a href="wizard-data-destinazione"
+                                                class="button choice full-width">Residente</a>
+                                            <a href="wizard-data-destinazione" class="button choice full-width">Non
+                                                residente</a>
+                                            <a href="wizard-data-destinazione"
+                                                class="button choice full-width">Affittata</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item">
+                                            <h3>Seconda casa</h3>
+                                            <a href="wizard-data-destinazione"
+                                                class="button choice full-width">Residente</a>
+                                            <a href="wizard-data-destinazione" class="button choice full-width">Non
+                                                residente</a>
+                                            <a href="wizard-data-destinazione"
+                                                class="button choice full-width">Affittata</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <a href="wizard" class="button light back left">indietro</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wizard-dati-destinazione" *ngIf="wizardDatiDestinazione">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scheda-content">
+                        <div class="scheda-table single-column">
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">3</span> Prima casa <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Mutuo</div>
+
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item ">
+                                            <label>Mutuo</label><br>
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-item ">
+                                            <label>Detrazione fiscale interessi</label><br>
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-item ">
+                                            <label>Detrazione fiscale interessi</label><br>
+                                            <label class="container">One
+                                                <input type="radio" checked="checked" name="radio">
+                                                <span class="checkmark"></span>
+                                            </label><br>
+                                            <label class="container">Two
+                                                <input type="radio" name="radio">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item left">
+                                            <label>Euribor</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""><span>%</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Spread</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""><span>%</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Durata</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"><span>mesi</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Data inizio</label>
+                                            <input type="text" placeholder="" value="24/05/2019">
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Importo iniziale</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"><span>&euro;</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <a href="wizard-destinazione" class="button light back left">indietro</a>
+                                        <a href="wizard-dati-data" class="button forward right">avanti</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wizard-dati" *ngIf="wizardDati">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scheda-content">
+                        <div class="scheda-table single-column">
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">3</span> Prima casa <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Dati</div>
+
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item single">
+                                            <label>Tipo affittuario</label>
+                                            <select class="select-css">
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Durata prima scadenza</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"><span>anni</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Data inizio</label>
+                                            <input type="text" placeholder="" value="24/05/2019">
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Importo lordo mensile</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"><span>&euro;</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item ">
+                                            <label>Spese condominiali comprese</label><br>
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>IMporto annuo</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""><span>%</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item ">
+                                            <label>Cedolare secca</label><br>
+                                            <label class="switch">
+                                                <input type="checkbox">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Aliquota</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"><span>mesi</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <a href="wizard-destinazione" class="button light back left">indietro</a>
+                                        <a href="wizard-dati-catastali" class="button forward right">avanti</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wizard-catastali" *ngIf="wizardCatastali">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scheda-content">
+                        <div class="scheda-table single-column">
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">3</span> Prima casa <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Dati catastali</div>
+
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item left">
+                                            <label>Sezione urbana</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Foglio</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item left">
+                                            <label>Particella</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Sub</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item left">
+                                            <label>Zona censimento</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Micro zona</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item left">
+                                            <label>Categoria</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Classe</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item left">
+                                            <label>Consistenza</label>
+                                            <input type="text" placeholder="">
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Rendita</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""><span>&euro;</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item left">
+                                            <label>Sup. catastale</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""><span>m<sup>2</sup></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>&nbsp;</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""><span>m<sup>2</sup></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <a href="wizard-dati-data" class="button light back left">indietro</a>
+                                        <a href="wizard-dati-tassazione" class="button forward right">avanti</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wizard-tassazione" *ngIf="wizardTassazione">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scheda-content">
+                        <div class="scheda-table single-column">
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">4</span> Prima casa <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Tassazione</div>
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item single">
+                                            <label>Tipologia tassa</label>
+                                            <select class="select-css">
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                                <option>select 1</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Importo annuale</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"><span>&euro;</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <a href="#" class="button add">aggiungi</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <ul class="item-list form">
+                                        <li><span>Tipologia tassa</span><span>Importo annuale</span></li>
+                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
+                                                    class="button small">x</a></span></li>
+                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
+                                                    class="button small">x</a></span></li>
+                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
+                                                    class="button small">x</a></span></li>
+                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
+                                                    class="button small">x</a></span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <a href="wizard-dati-catastali" class="button light back left">indietro</a>
+                                        <a href="#" class="button forward right">salva</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
