@@ -15,13 +15,13 @@
                 <img src="/assets/img/logo-client-login@2x.png" style="width: 100%;">
                 <p class="client-name">Alessandro Tamborini</p>
                 <div class="form-item">
-                    <input type="text" placeholder="username">
+                    <input type="text" placeholder="username" [(ngModel)]="username">
                 </div>
                 <div class="form-item">
-                    <input type="text" placeholder="password">
+                    <input type="text" placeholder="password" [(ngModel)]="password">
                 </div>
                 <div class="form-item">
-                    <a href="#" class="button no-icon full-width">accedi</a>
+                    <button class="button no-icon full-width" (click)="submit()">accedi</button>
                 </div>
             </div>
         </div>

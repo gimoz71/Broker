@@ -16,6 +16,8 @@ export * from './lib/services/dropdown/dropdown.service';
 export * from './lib/services/log-errori/log-errori.service';
 export * from './lib/services/common/session.service';
 export * from './lib/services/store/store.service';
+export * from './lib/services/login/login.service';
+export * from './lib/services/common/alert.service';
 
 // handler ------------------------------------------------
 export * from './lib/handler/error/error-handler.service';
@@ -49,3 +51,8 @@ export * from './lib/models/immobili/mutuoDettaglio';
 export * from './lib/models/immobili/omiDettaglio';
 export * from './lib/models/immobili/spesaDettaglio';
 export * from './lib/models/immobili/tassaDettaglio';
+// -- utenti
+export * from './lib/models/login/wsToken';
+export * from './lib/models/login/loginRequest';
+export * from './lib/models/login/utente';
+export * from './lib/models/login/cambioPasswordRequest';

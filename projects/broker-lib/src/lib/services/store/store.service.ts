@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Utente } from '../../models/login/utente';
 import { Storage } from '@ionic/Storage';
 import { WsToken } from '../../models/login/wsToken';
 
@@ -8,15 +7,15 @@ export class StoreService {
 
     private USERKEY = "user";
 
-    private ws_token: WsToken;
+    private wsToken: WsToken;
 
     constructor(private storage: Storage) {
-        this.ws_token = null;
+        this.wsToken = null;
     }
 
     public setUserData(ws_token: WsToken): number {
         console.log("setUserData");
-        this.ws_token = ws_token;
+        this.wsToken = ws_token;
         if (ws_token != null) {
             this.storage.set(this.USERKEY, ws_token).then((val) => {
                 console.log(val);
@@ -29,7 +28,7 @@ export class StoreService {
 
     public getUserDataPromise() {
         return new Promise(resolve => {
-            if (this.ws_token == null) {
+            if (this.wsToken == null) {
                 // store service prima inizializzaione
                 this.storage.get(this.USERKEY).then((val: WsToken) => {
                     // recuperato token dal database
@@ -71,7 +70,7 @@ export class StoreService {
                     } else {
                         console.log("necessario login");
                         this.setUserData(null);
-                        this.ws_token = null;
+                        this.wsToken = null;
                         // devo andare alla pagina del login
                         resolve(null);
                     }
@@ -82,7 +81,7 @@ export class StoreService {
 
                 // come al punto precedente servirebbe controllare il token ed eventualmente fare di nuovo il login;
 
-                resolve(this.ws_token);
+                resolve(this.wsToken);
 
                 // this.check.checkToken(this.serverUrl, this.ud.token_value).subscribe(
                 //     //check sul token

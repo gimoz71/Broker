@@ -1,20 +1,18 @@
-import { Error } from './../../../../projects/broker-lib/src/lib/models/common/error.namespace';
-import { LogErroriService } from 'broker-lib';
-import { Component } from '@angular/core';
-import { ImmobiliService } from 'broker-lib';
-import { ClientiService } from 'broker-lib';
-import { SessionService } from 'broker-lib';
-import { Platform } from 'ionic-angular';
+import { Component, OnInit } from '@angular/core';
+import { ClientiService, SessionService, LogErroriService, StoreService } from 'broker-lib';
 
-import { Cliente } from 'broker-lib';
-import { Immobile } from 'broker-lib';
+import { Cliente, Immobile, WsToken } from 'broker-lib';
+
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
+
+    public wsToken: WsToken;
 
     public clienti: Array<Cliente>;
     public clienteScelto: Cliente;
@@ -22,28 +20,47 @@ export class HomePage {
     public tempImmobiliCliente: Array<Immobile>;
 
     constructor(
-        private immobiliService: ImmobiliService,
         private clientiService: ClientiService,
-        private logErroriService: LogErroriService,
         private sessionService: SessionService,
-        public platform: Platform) {
+        private storeService: StoreService,
+        private router: Router
+    ) {
         this.clienti = new Array<Cliente>();
         this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();
         this.tempImmobiliCliente = new Array<Immobile>();
-        this.initializeApp();
-        // this.platform.ready().then(() => {
-        //   this.initializeApp();
-        // });
+    }
+
+    ngOnInit(): void {
+
+        this.storeService.getUserDataPromise().then((val: WsToken) => {
+            if (val == null) {
+                this.router.navigate(['login']);
+                // this.navController.navigateRoot('home');
+            } else {
+                this.wsToken = val;
+                this.initializeApp();
+            }
+        });
+
     }
 
     private initializeApp() {
+
         this.clientiService.getClienti('').subscribe(r => {
             if (r.Success) {
                 console.log('RICEVUTO: ' + r.Data);
                 this.clienti = r.Data;
             }
         });
+    }
+
+    public getUtenteEmail(): string {
+        if (this.wsToken !== undefined) {
+            return this.wsToken[0].utente.email;
+        } else {
+            return 'email utente';
+        }
     }
 
     public caricaCliente(cliente: Cliente) {
