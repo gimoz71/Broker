@@ -195,7 +195,7 @@
         </div>
         <div class="list">
             <ul class="lista-immobile">
-                <li class="immobile" *ngFor="let immobileLista of immobiliCliente">
+                <li class="immobile" *ngFor="let immobileLista of immobiliCliente" (click)="apriSchedaImmobile(immobileLista.immobile_id)">
                     <div class="indirizzo">{{immobileLista.indirizzo}},
                         {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}}
                         ({{immobileLista.provincia}})</div>
