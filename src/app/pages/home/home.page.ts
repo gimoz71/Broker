@@ -106,5 +106,9 @@ export class HomePage implements OnInit {
         // });
     }
 
+    public apriSchedaImmobile() {
+
+    }
+
 
 }
