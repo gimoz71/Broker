@@ -1,7 +1,7 @@
 import { LogErroriService } from '../../services/log-errori/log-errori.service';
 import { Injectable, ErrorHandler, Injector, NgZone } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Error } from '../../models/common/error.namespace';
+import { WsLogErrore } from '../../models/common/wslogerrore';
 
 @Injectable()
 export class ErrorHandlerService implements ErrorHandler {
@@ -13,7 +13,7 @@ export class ErrorHandlerService implements ErrorHandler {
 
     handleError(error: Error | HttpErrorResponse) {
         console.log('gestisco un errore');
-        const errore = new Error.WsLogErrore();
+        const errore = new WsLogErrore();
         errore.token = 'testtoken';
         errore.log_stacktrace = JSON.stringify(error);
         errore.log_descrerr = '';

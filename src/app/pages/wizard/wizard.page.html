@@ -62,19 +62,19 @@
                                     <div class="item-list form">
                                         <div class="form-item">
                                             <label>Indirizzo</label>
-                                            <input type="text" placeholder="" value="piazza privata Guide Maquiguas">
+                                            <input type="text" placeholder="" value="" [(ngModel)]="immobile.indirizzo">
                                         </div>
                                         <div class="form-item left" style="width: 55%;">
                                             <label>Citt&agrave;</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder="" [(ngModel)]="immobile.citta">
                                         </div>
                                         <div class="form-item right" style="width: 35%;">
                                             <label>Cap</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder="" [(ngModel)]="immobile.cap">
                                         </div>
                                         <div class="form-item left " style="width: 35%;">
                                             <label>Provincia</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder="" [(ngModel)]="immobile.provincia">
                                         </div>
                                     </div>
                                 </div>
@@ -85,7 +85,8 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <a href="wizard-destinazione" class="button forward right">avanti</a>
+                                        <button class="button forward right"
+                                            (click)="goToDestinazione()">avanti</button>
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +143,9 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <a href="wizard" class="button light back left">indietro</a>
+                                        <button class="button light back left" (click)="goToStart()">indietro</button>
+                                        <button class="button forward right"
+                                            (click)="goToDatiDestinazione()">avanti</button>
                                     </div>
                                 </div>
                             </div>
@@ -156,7 +159,7 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                                <div class="item indirizzo">{{immobile.indirizzo}}</div>
                             </div>
                         </div>
                     </div>
@@ -236,8 +239,9 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <a href="wizard-destinazione" class="button light back left">indietro</a>
-                                        <a href="wizard-dati-data" class="button forward right">avanti</a>
+                                        <button class="button light back left"
+                                            (click)="goToDestinazione()">indietro</button>
+                                        <button class="button forward right" (click)="goToDati()">avanti</button>
                                     </div>
                                 </div>
                             </div>
@@ -330,8 +334,9 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <a href="wizard-destinazione" class="button light back left">indietro</a>
-                                        <a href="wizard-dati-catastali" class="button forward right">avanti</a>
+                                        <button class="button light back left"
+                                            (click)="goToDatiDestinazione()">indietro</button>
+                                        <button class="button forward right" (click)="goToCatastali()">avanti</button>
                                     </div>
                                 </div>
                             </div>
@@ -426,8 +431,8 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <a href="wizard-dati-data" class="button light back left">indietro</a>
-                                        <a href="wizard-dati-tassazione" class="button forward right">avanti</a>
+                                        <button class="button light back left" (click)="goToDati()">indietro</button>
+                                        <button class="button forward right" (click)="goToTassazione()">avanti</button>
                                     </div>
                                 </div>
                             </div>
@@ -495,8 +500,9 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <a href="wizard-dati-catastali" class="button light back left">indietro</a>
-                                        <a href="#" class="button forward right">salva</a>
+                                        <button class="button light back left"
+                                            (click)="goToCatastali()">indietro</button>
+                                        <button class="button forward right" (click)="salvaImmobile()">salva</button>
                                     </div>
                                 </div>
                             </div>

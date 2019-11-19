@@ -56,3 +56,6 @@ export * from './lib/models/login/wsToken';
 export * from './lib/models/login/loginRequest';
 export * from './lib/models/login/utente';
 export * from './lib/models/login/cambioPasswordRequest';
+// -- vari
+export * from './lib/models/common/errormessage';
+export * from './lib/models/common/wslogerrore';

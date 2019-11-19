@@ -106,5 +106,7 @@ export class HomePage implements OnInit {
         // });
     }
 
-
+    public goToWizard(): void {
+        this.router.navigate(['wizard']);
+    }
 }

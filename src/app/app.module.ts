@@ -34,17 +34,11 @@ const routes: Routes = [
   // { path: 'analisi', loadChildren: './pages/analisi/analisi.module#AnalisiPageModule' },
   // { path: 'nuovo-cliente', loadChildren: './pages/nuovo-cliente/nuovo-cliente.module#NuovoClientePageModule' },
   // { path: 'scheda-cliente', loadChildren: './pages/scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
-  // { path: 'wizard', loadChildren: './pages/wizard/wizard.module#WizardPageModule' },
   // { path: 'patrimonio', loadChildren: './pages/patrimonio/patrimonio.module#PatrimonioPageModule' },
   // { path: 'catastali', loadChildren: './pages/catastali/catastali.module#CatastaliPageModule' },
   // { path: 'report-generale', loadChildren: './pages/report-generale/report-generale.module#ReportGeneralePageModule' },
   // { path: 'report-analisi', loadChildren: './pages/report-analisi/report-analisi.module#ReportAnalisiPageModule' },
   // { path: 'ammortamento', loadChildren: './pages/ammortamento/ammortamento.module#AmmortamentoPageModule' },
-  // { path: 'wizard-destinazione', loadChildren: './pages/wizard-destinazione/wizard-destinazione.module#WizardDestinazionePageModule' },
-  // { path: 'wizard-data-destinazione', loadChildren: './pages/wizard-data-destinazione/wizard-data-destinazione.module#WizardDataDestinazionePageModule' },
-  // { path: 'wizard-dati-data', loadChildren: './pages/wizard-dati-data/wizard-dati-data.module#WizardDatiDataPageModule' },
-  // { path: 'wizard-dati-catastali', loadChildren: './pages/wizard-dati-catastali/wizard-dati-catastali.module#WizardDatiCatastaliPageModule' },
-  // { path: 'wizard-dati-tassazione', loadChildren: './pages/wizard-dati-tassazione/wizard-dati-tassazione.module#WizardDatiTassazionePageModule' },
   // { path: 'client-home', loadChildren: './pages/client-home/client-home.module#ClientHomePageModule' },
 
 ];

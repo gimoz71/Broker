@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore } from 'broker-lib';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-wizard',
@@ -7,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WizardPage implements OnInit {
 
+  public immobile: ImmobileDettaglio;
+
   public wizardStart: boolean;
   public wizardDestinazione: boolean;
   public wizardDatiDestinazione: boolean;
@@ -14,7 +19,12 @@ export class WizardPage implements OnInit {
   public wizardCatastali: boolean;
   public wizardTassazione: boolean;
 
-  constructor() {
+  constructor(
+    private immobiliService: ImmobiliService,
+    private router: Router,
+    private alertService: AlertService,
+    private logErroriService: LogErroriService
+  ) {
     this.wizardStart = true;
     this.wizardDestinazione = false;
     this.wizardDatiDestinazione = false;
@@ -75,6 +85,20 @@ export class WizardPage implements OnInit {
     this.wizardDati = false;
     this.wizardCatastali = false;
     this.wizardTassazione = false;
+  }
+
+  public salvaImmobile(): void {
+    this.immobiliService.putImmobile(this.immobile, '').subscribe(r => {
+      if (r.Success) {
+        // salvataggio andato a buon fine. Riporto alla home (?)
+        this.router.navigate(['home']);
+      } else {
+        var wsErrore: WsLogErrore = new WsLogErrore();
+
+        this.logErroriService.postErrore(null, '');
+        this.alertService.presentErrorAlert("Si è verificato un errore nel salvataggio dell'immobile: " + r.ErrorMessage.msg_testo);
+      }
+    });
   }
 
   ngOnInit() {
