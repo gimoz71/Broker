@@ -54,20 +54,13 @@
                         <div class="scheda-row">
                             <div class="item">
                                 
-                                <h3 class="item-title">Proprietà: <span>500K</span></h3>
+                                <h3 class="item-title">Proprietà: <span>{{immobile.quota}}%</span></h3>
                                 <ul class="item-list half-height">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li><span>Book Value</span><span>-</span></li>
+                                    <li><span>Valore catastale</span><span>-</span></li>
+                                    <li><span>Valore commerciale</span><span>-</span></li>
+                                    <li><span>Rendita</span><span>{{immobile.dati_catastali ? immobile.dati_catastali.rendita : '-'}}</span></li>
+                                    <li><span>1ª casa</span><span>{{immobile.prima_casa ? 'Si' : 'No'}}</span></li>
                                 </ul>
                             </div>
                             <div class="item">
@@ -81,19 +74,15 @@
                         </div>
                         <div class="scheda-row">
                             <div class="item">
-                                <h3 class="item-title">Tasse <span>500K</span></h3>
+                                <h3 class="item-title">Tasse <span>{{immobile.tasse_totale}}</span></h3>
                                 <ul class="item-list half-height">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li *ngFor="let t of immobile.tasse"><span>{{t.descrizione_tassa}}</span><span>{{t.importo_annuale}}</span></li>
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Affitti <span>500K</span></h3>
+                                <h3 class="item-title">Affitti <span>{{immobile.affitto_dettaglio ? immobile.affitto_dettaglio.importo_mensile : '-'}}</span></h3>
                                 <ul class="item-list half-height">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li><span>Affittuario</span><span>{{immobile.affitto_dettaglio ? immobile.affitto_dettaglio.descrizione_affittuario : '-'}}</span></li>
                                 </ul>
                             </div>
                         </div>
