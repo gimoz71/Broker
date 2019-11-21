@@ -59,3 +59,4 @@ export * from './lib/models/login/cambioPasswordRequest';
 // -- vari
 export * from './lib/models/common/errormessage';
 export * from './lib/models/common/wslogerrore';
+export * from './lib/models/common/ddlitem';

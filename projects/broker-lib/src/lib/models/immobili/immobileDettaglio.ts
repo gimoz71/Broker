@@ -5,6 +5,7 @@ import { AffittoDettaglio } from './affittoDettaglio';
 import { MutuoDettaglio } from './mutuoDettaglio';
 import { DatiCatastaliDettaglio } from './datiCatastaliDettaglio';
 import { OmiDettaglio } from './omiDettaglio';
+import { NumberSymbol } from '@angular/common';
 
 export class ImmobileDettaglio {
     public proprieta_id: number;
@@ -26,7 +27,11 @@ export class ImmobileDettaglio {
     public destinazione_uso_id: number;
     public descrizione_uso: string;
     public mutuo: boolean;
+    public tasso: string;
     public affitto: boolean;
+    public detrazione_interessi: boolean;
+    public euribor_id: number;
+    public descrizione_euribor: string;
     public cointestatari: Array<CointestatarioDettaglio>;
     public tasse: Array<TassaDettaglio>;
     public spese: Array<SpesaDettaglio>;

@@ -6,6 +6,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { WizardPage } from './wizard.page';
+import { AlertService } from 'broker-lib';
+
+
 
 const routes: Routes = [
   {
@@ -21,6 +24,7 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [WizardPage]
+  declarations: [WizardPage],
+  providers: [AlertService]
 })
-export class WizardPageModule {}
+export class WizardPageModule { }

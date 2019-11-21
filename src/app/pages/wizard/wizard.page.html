@@ -31,7 +31,8 @@
                 <div class="tool-row">
                     <div class="tool">
                         <a href="#" class="button back only-icon">&nbsp;</a>
-                        <h3 class="page-title cliente">Francesca Palmi - Informazioni immobile</h3>
+                        <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Informazioni immobile
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -43,7 +44,9 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -54,15 +57,18 @@
                                     <div class="item-title"><span class="step">1</span> Aggiungi o modifica l'indirizzo
                                         dell'immobile
                                     </div>
-
                                 </div>
                             </div>
                             <div class="scheda-table">
                                 <div class="item">
                                     <div class="item-list form">
-                                        <div class="form-item">
+                                        <div class="form-item left" style="width: 75%;">
                                             <label>Indirizzo</label>
                                             <input type="text" placeholder="" value="" [(ngModel)]="immobile.indirizzo">
+                                        </div>
+                                        <div class="form-item right" style="width: 15%;">
+                                            <label>Civico</label>
+                                            <input type="text" placeholder="" value="" [(ngModel)]="immobile.civico">
                                         </div>
                                         <div class="form-item left" style="width: 55%;">
                                             <label>Citt&agrave;</label>
@@ -77,9 +83,6 @@
                                             <input type="text" placeholder="" [(ngModel)]="immobile.provincia">
                                         </div>
                                     </div>
-                                </div>
-                                <div class="item">
-
                                 </div>
                             </div>
                             <div class="scheda-table single-column">
@@ -100,7 +103,9 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
+                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -159,7 +164,9 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">{{immobile.indirizzo}}</div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
+                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -179,25 +186,31 @@
                                         <div class="form-item ">
                                             <label>Mutuo</label><br>
                                             <label class="switch">
-                                                <input type="checkbox">
+                                                <input type="checkbox" [(ngModel)]="immobile.mutuo">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
-                                        <div class="form-item ">
+                                        <div class="form-item">
                                             <label>Detrazione fiscale interessi</label><br>
                                             <label class="switch">
-                                                <input type="checkbox">
+                                                <input type="checkbox"
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.detrazione_interessi"
+                                                    [attr.isDisabled]="immobile.mutuo">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
                                         <div class="form-item ">
-                                            <label>Detrazione fiscale interessi</label><br>
-                                            <label class="container">One
-                                                <input type="radio" checked="checked" name="radio">
-                                                <span class="checkmark"></span>
+                                            <label>Tasso</label><br>
+                                            <label class="container">Fisso
+                                                <input type="radio"
+                                                    [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'F'" value="F"
+                                                    id="F" name="radioTasso" (change)="setTasso('F')">
+                                                <span class=" checkmark"></span>
                                             </label><br>
-                                            <label class="container">Two
-                                                <input type="radio" name="radio">
+                                            <label class="container">Variabile
+                                                <input type="radio"
+                                                    [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'V'" value="F"
+                                                    id="F" name="radioTasso" (change)="setTasso('V')">
                                                 <span class="checkmark"></span>
                                             </label>
                                         </div>
@@ -208,29 +221,34 @@
                                         <div class="form-item left">
                                             <label>Euribor</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""><span>%</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.descrizione_euribor"><span>%</span>
                                             </div>
                                         </div>
                                         <div class="form-item right">
                                             <label>Spread</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""><span>%</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.spread"><span>%</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Durata</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"><span>mesi</span>
+                                                <input type="text" placeholder="" value="24"
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.durata"><span>mesi</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Data inizio</label>
-                                            <input type="text" placeholder="" value="24/05/2019">
+                                            <input type="text" placeholder="" value="24/05/2019"
+                                                [(ngModel)]="immobile.mutuo_dettaglio.data_inizio">
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo iniziale</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"><span>&euro;</span>
+                                                <input type="text" placeholder="" value="24"
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"><span>&euro;</span>
                                             </div>
                                         </div>
                                     </div>
@@ -255,7 +273,9 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
+                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -274,28 +294,29 @@
                                     <div class="item-list form">
                                         <div class="form-item single">
                                             <label>Tipo affittuario</label>
-                                            <select class="select-css">
-                                                <option>select 1</option>
-                                                <option>select 1</option>
-                                                <option>select 1</option>
-                                                <option>select 1</option>
-                                                <option>select 1</option>
+                                            <select class="select-css"
+                                                (change)="selezionaTipoAffittuario($event.target)">
+                                                <option *ngFor="let tipo of tipiAffittuario" value="{{tipo.id}}">
+                                                    {{tipo.desc}}</option>
                                             </select>
                                         </div>
                                         <div class="form-item single">
                                             <label>Durata prima scadenza</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"><span>anni</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.affitto_dettaglio.prima_scadenza_anni"><span>anni</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Data inizio</label>
-                                            <input type="text" placeholder="" value="24/05/2019">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.affitto_dettaglio.data_inizio">
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo lordo mensile</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"><span>&euro;</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.affitto_dettaglio.importo_mensile"><span>&euro;</span>
                                             </div>
                                         </div>
                                     </div>
@@ -306,26 +327,30 @@
                                             <label>Spese condominiali comprese</label><br>
                                             <label class="switch">
                                                 <input type="checkbox">
-                                                <span class="slider round"></span>
+                                                <span class="slider round"
+                                                    [(ngModel)]="immobile.affitto_dettaglio.spese_condominiali"></span>
                                             </label>
                                         </div>
                                         <div class="form-item single">
-                                            <label>IMporto annuo</label>
+                                            <label>Importo annuo</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""><span>%</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.affitto_dettaglio.importo_spese_condominiali"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item ">
                                             <label>Cedolare secca</label><br>
                                             <label class="switch">
-                                                <input type="checkbox">
+                                                <input type="checkbox"
+                                                    [(ngModel)]="immobile.affitto_dettaglio.cedolare_secca">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
                                         <div class="form-item single">
                                             <label>Aliquota</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"><span>mesi</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.affitto_dettaglio.aliquota_cedolare"><span>mesi</span>
                                             </div>
                                         </div>
                                     </div>
@@ -350,7 +375,9 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
+                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -369,27 +396,33 @@
                                     <div class="item-list form">
                                         <div class="form-item left">
                                             <label>Sezione urbana</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.sezione">
                                         </div>
                                         <div class="form-item right">
                                             <label>Foglio</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.foglio">
                                         </div>
                                         <div class="form-item left">
                                             <label>Particella</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.particella">
                                         </div>
                                         <div class="form-item right">
                                             <label>Sub</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.subalterno">
                                         </div>
                                         <div class="form-item left">
                                             <label>Zona censimento</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.zona">
                                         </div>
                                         <div class="form-item right">
                                             <label>Micro zona</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.micro_zona">
                                         </div>
                                     </div>
                                 </div>
@@ -397,32 +430,37 @@
                                     <div class="item-list form">
                                         <div class="form-item left">
                                             <label>Categoria</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.categoria">
                                         </div>
                                         <div class="form-item right">
                                             <label>Classe</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder=""
+                                                [(ngModel)]="immobile.dati_catastali.classe">
                                         </div>
                                         <div class="form-item left">
                                             <label>Consistenza</label>
-                                            <input type="text" placeholder="">
+                                            <input type="text" placeholder="???">
                                         </div>
                                         <div class="form-item right">
                                             <label>Rendita</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""><span>&euro;</span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.dati_catastali.rendita"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item left">
                                             <label>Sup. catastale</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""><span>m<sup>2</sup></span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.dati_catastali.superficie_totale"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                         <div class="form-item right">
                                             <label>&nbsp;</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""><span>m<sup>2</sup></span>
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="immobile.dati_catastali.superficie_interna"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                     </div>
@@ -432,6 +470,83 @@
                                 <div class="item">
                                     <div class="item-list ">
                                         <button class="button light back left" (click)="goToDati()">indietro</button>
+                                        <button class="button forward right"
+                                            (click)="goToCointestatari()">avanti</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="wizard-cointestatari" *ngIf="wizardCointestatari">
+                <div class="scheda">
+                    <div class="scheda-header">
+                        <div class="scheda-table">
+                            <div class="scheda-row">
+                                <div class="item tipologia abitazione"></div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
+                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scheda-content">
+                        <div class="scheda-table single-column">
+                            <div class="scheda-row">
+                                <div class="item">
+                                    <div class="item-title"><span class="step">4</span> Prima casa <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                            src="/assets/img/icon-right-arrow@2x.png"> Cointestatari</div>
+                                </div>
+                            </div>
+                            <div class="scheda-table">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item single">
+                                            <label>Nominativo</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="cointestatarioSelezionato.nominativo">
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Codice Fiscale</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" value="24"
+                                                    [(ngModel)]="cointestatarioSelezionato.codice_fiscale">
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <label>Quota</label>
+                                            <div class="type">
+                                                <input type="text" placeholder=""
+                                                    [(ngModel)]="cointestatarioSelezionato.quota"><span>%</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item single">
+                                            <button class="button add"
+                                                (click)="aggiungiCointestatario()">aggiungi</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <ul class="item-list form">
+                                        <li><span>Nominativo</span><span>Quota</span></li>
+                                        <li *ngFor="let cointestatario of immobile.cointestatari">
+                                            <span>{{cointestatario.nominativo}}</span><span>{{cointestatario.quota}}
+                                                %
+                                                <button class="button small"
+                                                    (click)="rimuoviCointestatario(cointestatario)">x</button></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="scheda-table single-column">
+                                <div class="item">
+                                    <div class="item-list ">
+                                        <button class="button light back left"
+                                            (click)="goToCatastali()">indietro</button>
                                         <button class="button forward right" (click)="goToTassazione()">avanti</button>
                                     </div>
                                 </div>
@@ -464,36 +579,42 @@
                                     <div class="item-list form">
                                         <div class="form-item single">
                                             <label>Tipologia tassa</label>
-                                            <select class="select-css">
-                                                <option>select 1</option>
-                                                <option>select 1</option>
-                                                <option>select 1</option>
-                                                <option>select 1</option>
-                                                <option>select 1</option>
+                                            <select class="select-css" (change)="selezionaTassa($event.target)">
+                                                <option *ngFor="let tipologia of tipologieTasse"
+                                                    value="{{tipologia.id}}"
+                                                    selected="{{tipologia.id === tassaSelezionata.tassa_id ? 'selected' : ''}}">
+                                                    {{tipologia.desc}}
+                                                </option>
                                             </select>
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo annuale</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"><span>&euro;</span>
+                                                <input type="text" placeholder="" value="24"
+                                                    [(ngModel)]="tassaSelezionata.importo_annuale"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
-                                            <a href="#" class="button add">aggiungi</a>
+                                            <button class="button add" (click)="aggiungiTassa()">aggiungi</button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <ul class="item-list form">
                                         <li><span>Tipologia tassa</span><span>Importo annuale</span></li>
-                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
+                                        <li *ngFor="let tassa of immobile.tasse">
+                                            <span>{{tassa.descrizione_tassa}}</span><span>{{tassa.importo_annuale}}
+                                                &euro;
+                                                <button class="button small"
+                                                    (click)="rimuoviTassa(tassa)">x</button></span></li>
+                                        <!-- <li><span>Imu</span><span>1,200 &euro; <a href="#"
                                                     class="button small">x</a></span></li>
                                         <li><span>Imu</span><span>1,200 &euro; <a href="#"
                                                     class="button small">x</a></span></li>
                                         <li><span>Imu</span><span>1,200 &euro; <a href="#"
                                                     class="button small">x</a></span></li>
                                         <li><span>Imu</span><span>1,200 &euro; <a href="#"
-                                                    class="button small">x</a></span></li>
+                                                    class="button small">x</a></span></li> -->
                                     </ul>
                                 </div>
                             </div>

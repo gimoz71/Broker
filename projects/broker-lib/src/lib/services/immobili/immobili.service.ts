@@ -18,7 +18,7 @@ export class ImmobiliService {
 
     constructor(
         private httpService: BrokerHttpService,
-        private constants: ConstantsService) {}
+        private constants: ConstantsService) { }
 
     /**
      * Chiamata per ottenere l'elenco degli immobili appartenenti ad uno specifico cliente

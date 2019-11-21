@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Platform, MenuController, Nav, NavController, AlertController, ToastController } from 'ionic-angular';
+import { AlertController } from '@ionic/angular';
+// import { Platform, MenuController, Nav, NavController, AlertController, ToastController } from 'ionic-angular';
+
 
 @Injectable()
 export class AlertService {
@@ -9,19 +11,23 @@ export class AlertService {
 
     public async presentAlert(alertMessage: string) {
         const alert = this.alertController.create({
-            title: 'Conferma',
+            header: 'Conferma',
             message: alertMessage,
             buttons: ['OK']
         });
-        alert.present();
+        alert.then((_alert: any) => {
+            _alert.present();
+        });
     }
 
     public async presentErrorAlert(alertMessage: string) {
         const alert = this.alertController.create({
-            title: 'Errore',
+            header: 'Errore',
             message: alertMessage,
             buttons: ['CHIUDI']
         });
-        alert.present();
+        alert.then((_alert: any) => {
+            _alert.present();
+        });
     }
 }
