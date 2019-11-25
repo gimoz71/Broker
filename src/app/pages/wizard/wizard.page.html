@@ -195,7 +195,7 @@
                                             <label class="switch">
                                                 <input type="checkbox"
                                                     [(ngModel)]="immobile.mutuo_dettaglio.detrazione_interessi"
-                                                    [attr.isDisabled]="immobile.mutuo">
+                                                    [disabled]="!immobile.mutuo">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
@@ -204,13 +204,15 @@
                                             <label class="container">Fisso
                                                 <input type="radio"
                                                     [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'F'" value="F"
-                                                    id="F" name="radioTasso" (change)="setTasso('F')">
+                                                    id="F" name="radioTasso"
+                                                    (change)="setTasso('F')">[disabled]="!immobile.mutuo"
                                                 <span class=" checkmark"></span>
                                             </label><br>
                                             <label class="container">Variabile
                                                 <input type="radio"
                                                     [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'V'" value="F"
-                                                    id="F" name="radioTasso" (change)="setTasso('V')">
+                                                    id="F" name="radioTasso" (change)="setTasso('V')"
+                                                    [disabled]="!immobile.mutuo">
                                                 <span class="checkmark"></span>
                                             </label>
                                         </div>
@@ -222,33 +224,38 @@
                                             <label>Euribor</label>
                                             <div class="type">
                                                 <input type="text" placeholder=""
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.descrizione_euribor"><span>%</span>
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.descrizione_euribor"
+                                                    [disabled]="!immobile.mutuo"><span>%</span>
                                             </div>
                                         </div>
                                         <div class="form-item right">
                                             <label>Spread</label>
                                             <div class="type">
                                                 <input type="text" placeholder=""
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.spread"><span>%</span>
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.spread"
+                                                    [disabled]="!immobile.mutuo"><span>%</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Durata</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" value="24"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.durata"><span>mesi</span>
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.durata"
+                                                    [disabled]="!immobile.mutuo"><span>mesi</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Data inizio</label>
                                             <input type="text" placeholder="" value="24/05/2019"
-                                                [(ngModel)]="immobile.mutuo_dettaglio.data_inizio">
+                                                [(ngModel)]="immobile.mutuo_dettaglio.data_inizio"
+                                                [disabled]="!immobile.mutuo">
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo iniziale</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" value="24"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"><span>&euro;</span>
+                                                    [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"
+                                                    [disabled]="!immobile.mutuo"><span>&euro;</span>
                                             </div>
                                         </div>
                                     </div>
