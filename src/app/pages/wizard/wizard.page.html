@@ -82,6 +82,22 @@
                                             <label>Provincia</label>
                                             <input type="text" placeholder="" [(ngModel)]="immobile.provincia">
                                         </div>
+                                        <div class="form-item left " style="width: 35%;">
+                                            <label>Comune (ISTAT)</label>
+                                            <input type="text" placeholder="" [(ngModel)]="immobile.istat_cod">
+                                        </div>
+                                        <div class="form-item left " style="width: 5%;">
+                                            <button (click)="caricaOmi()">C</button>
+                                        </div>
+                                        <div class="form-item right " style="width: 45%;">
+                                            <label>OMI</label>
+                                            <select class="select-css" (change)="selezionaOmi($event.target)">
+                                                <option *ngFor="let omi of tipiOmi" value="{{omi.codice}}"
+                                                    selected="{{omi.codice === immobile.comune_zone_cod ? 'selected' : ''}}">
+                                                    {{omi.descrizione}}
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -103,8 +119,8 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
-                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
                                 </div>
                             </div>
                         </div>
@@ -122,11 +138,12 @@
                                     <div class="item-list form">
                                         <div class="form-item">
                                             <h3>Prima casa</h3>
-                                            <a href="wizard-data-destinazione"
+                                            <a [routerLink]="" (click)="scegliDestinazione(true, true, false)"
                                                 class="button choice full-width">Residente</a>
-                                            <a href="wizard-data-destinazione" class="button choice full-width">Non
+                                            <a [routerLink]="" (click)="scegliDestinazione(true, false, false)"
+                                                class="button choice full-width">Non
                                                 residente</a>
-                                            <a href="wizard-data-destinazione"
+                                            <a [routerLink]="" (click)="scegliDestinazione(true, true, true)"
                                                 class="button choice full-width">Affittata</a>
                                         </div>
                                     </div>
@@ -135,11 +152,12 @@
                                     <div class="item-list form">
                                         <div class="form-item">
                                             <h3>Seconda casa</h3>
-                                            <a href="wizard-data-destinazione"
+                                            <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
                                                 class="button choice full-width">Residente</a>
-                                            <a href="wizard-data-destinazione" class="button choice full-width">Non
+                                            <a [routerLink]="" (click)="scegliDestinazione(false, false, false)"
+                                                class="button choice full-width">Non
                                                 residente</a>
-                                            <a href="wizard-data-destinazione"
+                                            <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
                                                 class="button choice full-width">Affittata</a>
                                         </div>
                                     </div>
@@ -149,8 +167,8 @@
                                 <div class="item">
                                     <div class="item-list ">
                                         <button class="button light back left" (click)="goToStart()">indietro</button>
-                                        <button class="button forward right"
-                                            (click)="goToDatiDestinazione()">avanti</button>
+                                        <!-- <button class="button forward right"
+                                            (click)="goToDatiDestinazione()">avanti</button> -->
                                     </div>
                                 </div>
                             </div>
@@ -164,8 +182,8 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
-                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
                                 </div>
                             </div>
                         </div>
@@ -174,8 +192,8 @@
                         <div class="scheda-table single-column">
                             <div class="scheda-row">
                                 <div class="item">
-                                    <div class="item-title"><span class="step">3</span> Prima casa <img
-                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                    <div class="item-title"><span class="step">3</span>{{headP1}}<img
+                                            src="/assets/img/icon-right-arrow@2x.png">{{headP2}}<img
                                             src="/assets/img/icon-right-arrow@2x.png"> Mutuo</div>
 
                                 </div>
@@ -204,8 +222,8 @@
                                             <label class="container">Fisso
                                                 <input type="radio"
                                                     [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'F'" value="F"
-                                                    id="F" name="radioTasso"
-                                                    (change)="setTasso('F')">[disabled]="!immobile.mutuo"
+                                                    id="F" name="radioTasso" (change)="setTasso('F')"
+                                                    [disabled]="!immobile.mutuo">
                                                 <span class=" checkmark"></span>
                                             </label><br>
                                             <label class="container">Variabile
@@ -280,8 +298,8 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
-                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
                                 </div>
                             </div>
                         </div>
@@ -290,8 +308,8 @@
                         <div class="scheda-table single-column">
                             <div class="scheda-row">
                                 <div class="item">
-                                    <div class="item-title"><span class="step">3</span> Prima casa <img
-                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                    <div class="item-title"><span class="step">3</span>{{headP1}}<img
+                                            src="/assets/img/icon-right-arrow@2x.png">{{headP2}}<img
                                             src="/assets/img/icon-right-arrow@2x.png"> Dati</div>
 
                                 </div>
@@ -303,8 +321,8 @@
                                             <label>Tipo affittuario</label>
                                             <select class="select-css"
                                                 (change)="selezionaTipoAffittuario($event.target)">
-                                                <option *ngFor="let tipo of tipiAffittuario" value="{{tipo.id}}">
-                                                    {{tipo.desc}}</option>
+                                                <option *ngFor="let tipo of tipiAffittuario" value="{{tipo.codice}}">
+                                                    {{tipo.descrizione}}</option>
                                             </select>
                                         </div>
                                         <div class="form-item single">
@@ -382,8 +400,8 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
-                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
                                 </div>
                             </div>
                         </div>
@@ -392,8 +410,8 @@
                         <div class="scheda-table single-column">
                             <div class="scheda-row">
                                 <div class="item">
-                                    <div class="item-title"><span class="step">3</span> Prima casa <img
-                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                    <div class="item-title"><span class="step">3</span>{{headP1}}<img
+                                            src="/assets/img/icon-right-arrow@2x.png">{{headP2}}<img
                                             src="/assets/img/icon-right-arrow@2x.png"> Dati catastali</div>
 
                                 </div>
@@ -492,8 +510,8 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo" *ngIf="immobile.indirizzo != ''">
-                                    {{immobile.indirizzo + ', ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia +')'}}
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
                                 </div>
                             </div>
                         </div>
@@ -502,8 +520,8 @@
                         <div class="scheda-table single-column">
                             <div class="scheda-row">
                                 <div class="item">
-                                    <div class="item-title"><span class="step">4</span> Prima casa <img
-                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                    <div class="item-title"><span class="step">4</span>{{headP1}}<img
+                                            src="/assets/img/icon-right-arrow@2x.png">{{headP2}}<img
                                             src="/assets/img/icon-right-arrow@2x.png"> Cointestatari</div>
                                 </div>
                             </div>
@@ -568,7 +586,9 @@
                         <div class="scheda-table">
                             <div class="scheda-row">
                                 <div class="item tipologia abitazione"></div>
-                                <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
+                                <div class="item indirizzo" *ngIf="immobile.indirizzo && immobile.indirizzo != ''">
+                                    {{(immobile.indirizzo ? immobile.indirizzo : '') + ', ' + (immobile.civico ? immobile.civico : '') + ', ' + (immobile.citta ? immobile.citta : '') + ' (' + (immobile.provincia ? immobile.provincia: '') +')'}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -576,8 +596,8 @@
                         <div class="scheda-table single-column">
                             <div class="scheda-row">
                                 <div class="item">
-                                    <div class="item-title"><span class="step">4</span> Prima casa <img
-                                            src="/assets/img/icon-right-arrow@2x.png"> Residente <img
+                                    <div class="item-title"><span class="step">4</span>{{headP1}}<img
+                                            src="/assets/img/icon-right-arrow@2x.png">{{headP2}}<img
                                             src="/assets/img/icon-right-arrow@2x.png"> Tassazione</div>
                                 </div>
                             </div>
@@ -588,9 +608,9 @@
                                             <label>Tipologia tassa</label>
                                             <select class="select-css" (change)="selezionaTassa($event.target)">
                                                 <option *ngFor="let tipologia of tipologieTasse"
-                                                    value="{{tipologia.id}}"
-                                                    selected="{{tipologia.id === tassaSelezionata.tassa_id ? 'selected' : ''}}">
-                                                    {{tipologia.desc}}
+                                                    value="{{tipologia.codice}}"
+                                                    selected="{{tipologia.codice === tassaSelezionata.tassa_id ? 'selected' : ''}}">
+                                                    {{tipologia.descrizione}}
                                                 </option>
                                             </select>
                                         </div>
@@ -614,14 +634,6 @@
                                                 &euro;
                                                 <button class="button small"
                                                     (click)="rimuoviTassa(tassa)">x</button></span></li>
-                                        <!-- <li><span>Imu</span><span>1,200 &euro; <a href="#"
-                                                    class="button small">x</a></span></li>
-                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
-                                                    class="button small">x</a></span></li>
-                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
-                                                    class="button small">x</a></span></li>
-                                        <li><span>Imu</span><span>1,200 &euro; <a href="#"
-                                                    class="button small">x</a></span></li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -629,7 +641,7 @@
                                 <div class="item">
                                     <div class="item-list ">
                                         <button class="button light back left"
-                                            (click)="goToCatastali()">indietro</button>
+                                            (click)="goToCointestatari()">indietro</button>
                                         <button class="button forward right" (click)="salvaImmobile()">salva</button>
                                     </div>
                                 </div>

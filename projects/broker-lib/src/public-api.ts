@@ -46,6 +46,7 @@ export * from './lib/models/immobili/cancellazioneImmobileRequest';
 export * from './lib/models/immobili/cointestatarioDettaglio';
 export * from './lib/models/immobili/datiCatastaliDettaglio';
 export * from './lib/models/immobili/immobileDettaglio';
+export * from './lib/models/immobili/immobileDettaglioVM';
 export * from './lib/models/immobili/inserimentoImmobileResponse';
 export * from './lib/models/immobili/mutuoDettaglio';
 export * from './lib/models/immobili/omiDettaglio';

@@ -1,4 +1,4 @@
 export class DdlItem {
-    public id: number;
-    public desc: string;
+    public codice: number;
+    public descrizione: string;
 }

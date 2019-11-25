@@ -16,11 +16,13 @@ export class ImmobileDettaglio {
     public valore_acquisto: number;
     public quota: number;
     public catastale_cod: string;
+    public comune_zone_cod: string;
     public indirizzo: string;
     public civico: string;
     public citta: string;
     public cap: string;
     public provincia: string;
+    public istat_cod: string;
     public latitudine: string;
     public longitudine: string;
     public prima_casa: boolean;

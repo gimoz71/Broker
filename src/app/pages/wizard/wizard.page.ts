@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService } from 'broker-lib';
+import { ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Cliente } from 'projects/broker-lib/src/public-api';
 
@@ -14,6 +14,7 @@ export class WizardPage implements OnInit {
   public cliente: Cliente;
 
   public immobile: ImmobileDettaglio;
+
   public immobileTassoFisso: boolean;
   public immobileTassoVariabile: boolean;
 
@@ -25,36 +26,52 @@ export class WizardPage implements OnInit {
   public wizardCointestatari: boolean;
   public wizardTassazione: boolean;
 
+  // ddl di tutto il wizard
   public tipologieTasse: Array<DdlItem>;
   public tipiAffittuario: Array<DdlItem>;
   public euribor: Array<DdlItem>;
+  public tipiOmi: Array<DdlItem>;
 
   public tassaSelezionata: TassaDettaglio;
   public cointestatarioSelezionato: CointestatarioDettaglio;
+
+  public primacasa: boolean;
+  public residente: boolean;
+  public affittata: boolean;
+
+  public headP1: string;
+  public headP2: string;
 
   constructor(
     private immobiliService: ImmobiliService,
     private router: Router,
     private alertService: AlertService,
     private logErroriService: LogErroriService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private dropdownService: DropdownService
   ) {
 
-    this.immobile = new ImmobileDettaglio();
-    const cointestatari: Array<CointestatarioDettaglio> = new Array<CointestatarioDettaglio>();
-    this.immobile.cointestatari = cointestatari;
-    const tasse: Array<TassaDettaglio> = new Array<TassaDettaglio>();
-    this.immobile.tasse = tasse;
-    const spese: Array<SpesaDettaglio> = new Array<SpesaDettaglio>();
-    this.immobile.spese = spese;
-    const affitto: AffittoDettaglio = new AffittoDettaglio();
-    this.immobile.affitto_dettaglio = affitto;
-    const mutuo: MutuoDettaglio = new MutuoDettaglio();
-    this.immobile.mutuo_dettaglio = mutuo;
-    const datiCatastali: DatiCatastaliDettaglio = new DatiCatastaliDettaglio();
-    this.immobile.dati_catastali = datiCatastali;
-    const omi: OmiDettaglio = new OmiDettaglio();
-    this.immobile.omi = omi;
+    const immobileInSessione = this.sessionService.getImmobileDettaglio();
+    if (immobileInSessione !== undefined) {
+      this.immobile = immobileInSessione;
+    } else {
+      this.immobile = new ImmobileDettaglio();
+      const cointestatari: Array<CointestatarioDettaglio> = new Array<CointestatarioDettaglio>();
+      this.immobile.cointestatari = cointestatari;
+      const tasse: Array<TassaDettaglio> = new Array<TassaDettaglio>();
+      this.immobile.tasse = tasse;
+      const spese: Array<SpesaDettaglio> = new Array<SpesaDettaglio>();
+      this.immobile.spese = spese;
+      const affitto: AffittoDettaglio = new AffittoDettaglio();
+      this.immobile.affitto_dettaglio = affitto;
+      const mutuo: MutuoDettaglio = new MutuoDettaglio();
+      this.immobile.mutuo_dettaglio = mutuo;
+      const datiCatastali: DatiCatastaliDettaglio = new DatiCatastaliDettaglio();
+      this.immobile.dati_catastali = datiCatastali;
+      const omi: OmiDettaglio = new OmiDettaglio();
+      this.immobile.omi = omi;
+
+    }
 
     this.immobileTassoFisso = true;
     this.immobileTassoVariabile = true;
@@ -69,6 +86,9 @@ export class WizardPage implements OnInit {
 
     this.tassaSelezionata = new TassaDettaglio();
     this.cointestatarioSelezionato = new CointestatarioDettaglio();
+
+    this.headP1 = "";
+    this.headP2 = "";
   }
 
   public goToDestinazione(): void {
@@ -163,6 +183,10 @@ export class WizardPage implements OnInit {
     this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
   }
 
+  public selezionaOmi(val: any): void {
+    this.immobile.comune_zone_cod = val.selectedOptions[0].value;
+  }
+
   public selezionaTassa(val: any): void {
     this.tassaSelezionata.tassa_id = val.selectedOptions[0].value;
     this.tassaSelezionata.descrizione_tassa = val.selectedOptions[0].innerText.trim();
@@ -217,10 +241,23 @@ export class WizardPage implements OnInit {
     }
   }
 
+  public scegliDestinazione(primacasa: boolean, residente: boolean, affittata: boolean): void {
+    this.primacasa = primacasa;
+    this.residente = residente;
+    this.affittata = affittata;
+    this.headP1 = (this.primacasa ? "Prima casa" : "Seconda casa");
+    this.headP2 = (this.residente ? "Residente" : "Non residente");
+    this.goToDatiDestinazione();
+  }
+
+  public caricaOmi(): void {
+    this.tipiOmi = this.dropdownService.getTipiOmi("");
+  }
+
   ngOnInit() {
-    this.tipologieTasse = this.sessionService.getTipologieTasse();
-    this.tipiAffittuario = this.sessionService.getTipiAffittuari();
-    this.euribor = this.sessionService.getEuribor();
+    this.tipologieTasse = this.dropdownService.getTipologieTasse();
+    this.tipiAffittuario = this.dropdownService.getTipiAffittuari();
+    this.euribor = this.dropdownService.getEuribor();
 
     if (this.sessionService.cliente === undefined || this.sessionService.cliente == null) {
       this.cliente = new Cliente();
