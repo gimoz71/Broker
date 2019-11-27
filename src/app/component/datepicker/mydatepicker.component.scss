@@ -1,0 +1,25 @@
+.date-picker-wrapper {
+  padding: 1rem;
+}
+
+.container{
+    display: flex; 
+    flex-flow: row; 
+    width: 100%;
+    align-content:stretch;
+}
+
+.group{
+    padding: 10px;
+    width: 100%;
+}
+
+.container input.igx-date-picker__input-date {
+    position: absolute;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.igx-input-group__label {
+    display: none;
+}

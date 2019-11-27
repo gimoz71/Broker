@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService } from 'broker-lib';
+import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, RaDatePipe } from 'broker-lib';
 import { Router } from '@angular/router';
-import { Cliente } from 'projects/broker-lib/src/public-api';
+import { BaseComponent } from 'src/app/component/base.component';
 
 
 @Component({
@@ -9,9 +9,7 @@ import { Cliente } from 'projects/broker-lib/src/public-api';
   templateUrl: './wizard.page.html',
   styleUrls: ['./wizard.page.scss'],
 })
-export class WizardPage implements OnInit {
-
-  public cliente: Cliente;
+export class WizardPage extends BaseComponent implements OnInit {
 
   public immobile: ImmobileDettaglio;
 
@@ -42,18 +40,25 @@ export class WizardPage implements OnInit {
   public headP1: string;
   public headP2: string;
 
+  public dataInizioMutuo: Date = new Date();
+
   constructor(
     private immobiliService: ImmobiliService,
-    private router: Router,
-    private alertService: AlertService,
-    private logErroriService: LogErroriService,
-    private sessionService: SessionService,
-    private dropdownService: DropdownService
+    public router: Router,
+    public alertService: AlertService,
+    public logErroriService: LogErroriService,
+    public sessionService: SessionService,
+    private dropdownService: DropdownService,
+    public storeService: StoreService,
+    public datePipe: RaDatePipe
   ) {
 
+    super(sessionService, storeService, router, logErroriService, alertService);
+
     const immobileInSessione = this.sessionService.getImmobileDettaglio();
-    if (immobileInSessione !== undefined) {
+    if (immobileInSessione !== undefined && immobileInSessione !== null) {
       this.immobile = immobileInSessione;
+      this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
     } else {
       this.immobile = new ImmobileDettaglio();
       const cointestatari: Array<CointestatarioDettaglio> = new Array<CointestatarioDettaglio>();
@@ -167,10 +172,8 @@ export class WizardPage implements OnInit {
         // salvataggio andato a buon fine. Riporto alla home (?)
         this.router.navigate(['home']);
       } else {
-        const wsErrore: WsLogErrore = new WsLogErrore();
-
-        this.logErroriService.postErrore(wsErrore, '');
-        this.alertService.presentErrorAlert("Si è verificato un errore nel salvataggio dell'immobile: " + r.ErrorMessage.msg_testo);
+        this.logError(1, ""); // mettere i dati corretti per l'errore
+        this.presentErrorAlert("Si è verificato un errore nel salvataggio dell'immobile: " + r.ErrorMessage.msg_testo);
       }
     });
   }
@@ -195,7 +198,7 @@ export class WizardPage implements OnInit {
   public aggiungiTassa(): void {
 
     if (this.tassaSelezionata.tassa_id === 0) {
-      this.alertService.presentAlert("Selezionare una tassa dalla lista");
+      this.presentAlert("Selezionare una tassa dalla lista");
     } else {
 
       const tassaDaAggiungere: TassaDettaglio = new TassaDettaglio();
@@ -255,15 +258,12 @@ export class WizardPage implements OnInit {
   }
 
   ngOnInit() {
+    super.ngOnInit();
+    this.loadCliente();
+
     this.tipologieTasse = this.dropdownService.getTipologieTasse();
     this.tipiAffittuario = this.dropdownService.getTipiAffittuari();
     this.euribor = this.dropdownService.getEuribor();
-
-    if (this.sessionService.cliente === undefined || this.sessionService.cliente == null) {
-      this.cliente = new Cliente();
-    } else {
-      this.cliente = this.sessionService.cliente;
-    }
 
     this.cointestatarioSelezionato.nominativo = this.cliente.cognome + ' ' + this.cliente.nome;
     this.cointestatarioSelezionato.quota = 100;

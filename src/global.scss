@@ -378,9 +378,6 @@ input:checked + .slider:before {
     text-align: center;
     background-position: 12px center;
     background-repeat: no-repeat;
-    &.no-icon {
-        padding: 9px 16px;
-    }
     &.full-width {
         display: block;
     }
@@ -784,30 +781,7 @@ input:checked + .slider:before {
             background-position: center top;
             z-index: 0;
         }
-        &.login {
-            top: 30px;
-            text-align: center;
-            .login-form {
-                width: 75%;
-                @media (min-width: 768px) {
-                    width: 400px;
-                }
-                margin-left: auto;
-                margin-right: auto;
-                .form-item {
-                    margin: 5px 0;
-                }
-                input {
-                    &::placeholder {
-                        text-align: center;
-                    }
-                }
-            }
-            .button {
-                font-size: 1em;
-                padding: 16px;
-            }
-        }
+        
         .header {
             position: absolute;
             top: 0;

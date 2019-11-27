@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientiService, SessionService, LogErroriService, StoreService } from 'broker-lib';
+import { ClientiService, SessionService, LogErroriService, StoreService, AlertService } from 'broker-lib';
 
 import { Cliente, Immobile, WsToken } from 'broker-lib';
 
 import { Router } from '@angular/router';
+import { BaseComponent } from 'src/app/component/base.component';
 /// import { Cliente, Immobile, WsToken } from 'projects/broker-lib/src/public-api';
 
 @Component({
@@ -11,9 +12,7 @@ import { Router } from '@angular/router';
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit {
-
-    public wsToken: WsToken;
+export class HomePage extends BaseComponent implements OnInit {
 
     public clienti: Array<Cliente>;
     public clienteScelto: Cliente;
@@ -23,10 +22,13 @@ export class HomePage implements OnInit {
 
     constructor(
         private clientiService: ClientiService,
-        private sessionService: SessionService,
-        private storeService: StoreService,
-        private router: Router
+        public sessionService: SessionService,
+        public storeService: StoreService,
+        public router: Router,
+        public logErroriService: LogErroriService,
+        public alertService: AlertService
     ) {
+        super(sessionService, storeService, router, logErroriService, alertService);
         this.clienti = new Array<Cliente>();
         this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();
@@ -34,17 +36,8 @@ export class HomePage implements OnInit {
     }
 
     ngOnInit(): void {
-
-        this.storeService.getUserDataPromise().then((val: WsToken) => {
-            if (val == null) {
-                this.router.navigate(['login']);
-                // this.navController.navigateRoot('home');
-            } else {
-                this.wsToken = val;
-                this.initializeApp();
-            }
-        });
-
+        super.ngOnInit();
+        this.initializeApp();
     }
 
     private initializeApp() {
@@ -57,14 +50,6 @@ export class HomePage implements OnInit {
         });
     }
 
-    public getUtenteEmail(): string {
-        if (this.wsToken !== undefined) {
-            return this.wsToken[0].utente.email;
-        } else {
-            return 'email utente';
-        }
-    }
-
     public caricaCliente(cliente: Cliente) {
         this.clienteScelto = cliente;
 
@@ -74,47 +59,15 @@ export class HomePage implements OnInit {
                 this.immobiliCliente = this.sessionService.immobiliCliente;
             }
         });
-
-        // this.immobiliCliente = new Array<Immobile>();
-
-        // TEST COMUNICAZIONE POST
-        // const errore = new Error.WsLogErrore();
-        // errore.token = 'testtoken';
-        // errore.log_stacktrace = '';
-        // errore.log_descrerr = '';
-        // errore.log_metodoerr = '';
-        // errore.log_link = '';
-        // errore.log_query = '';
-        // errore.username = '';
-
-        // console.log('trasmetto l\'errore');
-        // this.logErroriService.postErrore(errore, '').subscribe(r => {
-        //     console.log('errore trasmesso');
-        // });
-
-        // TEST GESTIONE ERRORE
-        //  throw new TypeError('Ho generato un errore');
-
-        // carico la lista degli immobili
-        // this.immobiliService.getImmobili(this.clienteScelto.id_cliente + '', '').subscribe(r => {
-        //     if (r.Success) {
-        //         this.tempImmobiliCliente = r.Data;
-        //         for (const imm of this.tempImmobiliCliente) {
-        //             if (imm.id_cliente === this.clienteScelto.id_cliente) {
-        //                 this.immobiliCliente.push(imm);
-        //             }
-        //         }
-        //     }
-        // });
-    }
-
-    public goToWizard(): void {
-        this.router.navigate(['wizard']);
     }
 
     public apriSchedaImmobile(immobile: number) {
-        // console.log('immobile', immobile);
-        // console.log('immobile_id', immobile.immobile_id);
-        this.router.navigate(['scheda-immobile'], { queryParams: { immobile_id: immobile } });
+        // this.router.navigate(['scheda-immobile'], { queryParams: { immobile_id: immobile } });
+        this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
+    }
+
+    public goToWizard(): void {
+        this.sessionService.clearImmobileDettaglio();
+        this.goToPage('wizard');
     }
 }

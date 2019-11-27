@@ -264,9 +264,16 @@
                                         </div>
                                         <div class="form-item single">
                                             <label>Data inizio</label>
-                                            <input type="text" placeholder="" value="24/05/2019"
-                                                [(ngModel)]="immobile.mutuo_dettaglio.data_inizio"
-                                                [disabled]="!immobile.mutuo">
+                                            <!-- <input type="date" placeholder="" value="" [(ngModel)]="dataInizioMutuo"
+                                                [disabled]="!immobile.mutuo"> -->
+                                            <!-- <input type="date" [ngModel]="dataInizioMutuo | date:'dd/MM/yyyy'"
+                                                [value]="dataInizioMutuo | date:'dd/MM/yyyy'"
+                                                (ngModelChange)="dataInizioMutuo = $event"> -->
+                                            <!-- <igx-date-picker [(ngModel)]="dataInizioMutuo" labelVisibility="false">
+                                            </igx-date-picker> -->
+                                            <ra-date-picker [inputDate]="dataInizioMutuo"></ra-date-picker>
+                                            <!-- <ion-datetime displayFormat="dd/MM/yyyy" [(ngModel)]="dataInizioMutuo">
+                                            </ion-datetime> -->
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo iniziale</label>

@@ -1,6 +1,6 @@
 import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobile.module';
 // import { ErrorHandlerService } from './../../projects/broker-lib/src/lib/services/error-handler/error-handler.service';
-import { ErrorHandlerService } from 'broker-lib';
+import { ErrorHandlerService, RaDatePipe } from 'broker-lib';
 import { SessionService, StoreService, LoginService } from 'broker-lib';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -16,11 +16,12 @@ import { BrokerLibModule } from 'broker-lib';
 
 import { HomePage } from './pages/home/home.page';
 import { HomePageModule } from './pages/home/home.module';
-import { LoginPage } from './pages/login/login.page';
 
 import { FormsModule } from '@angular/forms';
 import { LoginPageModule } from './pages/login/login.module';
 import { WizardPageModule } from './pages/wizard/wizard.module';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MyDatePicker } from './component/datepicker/mydatepicker.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -58,8 +59,8 @@ const routes: Routes = [
     HomePageModule,
     LoginPageModule,
     WizardPageModule,
-    SchedaImmobilePageModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    BrowserAnimationsModule
   ],
   providers: [
     // ErrorHandlerService,
@@ -69,7 +70,9 @@ const routes: Routes = [
     LoginService,
     StatusBar,
     SplashScreen,
+    RaDatePipe
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

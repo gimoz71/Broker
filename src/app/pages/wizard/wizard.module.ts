@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 
 import { WizardPage } from './wizard.page';
 import { AlertService } from 'broker-lib';
+import { IgxDatePickerModule } from 'igniteui-angular';
+import { MyDatePicker } from 'src/app/component/datepicker/mydatepicker.component';
+import { MyDatePickerModule } from 'src/app/component/datepicker/mydatepicker.module';
 
 
 
@@ -22,7 +25,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    IgxDatePickerModule,
+    MyDatePickerModule
   ],
   declarations: [WizardPage],
   providers: [AlertService]

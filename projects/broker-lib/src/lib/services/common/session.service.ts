@@ -58,4 +58,8 @@ export class SessionService {
         return this.immobile;
     }
 
+    public clearImmobileDettaglio(): void {
+        this.immobile = null;
+    }
+
 }
