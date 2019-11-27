@@ -36,6 +36,11 @@ export class SessionService {
         });
     }
 
+    public clearUserData(): void {
+        this.storeService.clearUserData();
+        this.userData = new WsToken();
+    }
+
     public setUserData(userData: WsToken): number {
         this.userData = userData;
         if (userData != null) {

@@ -13,6 +13,11 @@ export class StoreService {
         this.wsToken = null;
     }
 
+    public clearUserData(): void {
+        this.storage.clear();
+        this.wsToken = null;
+    }
+
     public setUserData(ws_token: WsToken): number {
         console.log("setUserData");
         this.wsToken = ws_token;

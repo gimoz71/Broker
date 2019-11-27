@@ -70,4 +70,8 @@ export class HomePage extends BaseComponent implements OnInit {
         this.sessionService.clearImmobileDettaglio();
         this.goToPage('wizard');
     }
+
+    public svuotaCache(): void {
+        this.sessionService.clearUserData();
+    }
 }
