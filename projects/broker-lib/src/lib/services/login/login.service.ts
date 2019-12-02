@@ -21,15 +21,15 @@ export class LoginService {
         return this.httpService.post(this.constants.cambioPasswordServiceName, bodyCambio, tokenValue);
     }
 
-    // public Login(body: LoginRequest): Observable<Http.HttpResponse> {
-    //     // eseguo la post
-    //     return this.httpService.postNoToken(this.constants.loginServiceName, body);
-    // }
-
-    public Login(body: LoginRequest): Observable<Http.HttpResponse> { // momentaneamente in get per usare il servizio finto di test
+    public Login(body: LoginRequest): Observable<Http.HttpResponse> {
         // eseguo la post
-        return this.httpService.getNoToken(this.constants.loginServiceName);
+        return this.httpService.postNoToken(this.constants.loginServiceName, body);
     }
+
+    // public Login(body: LoginRequest): Observable<Http.HttpResponse> { // momentaneamente in get per usare il servizio finto di test
+    //     // eseguo la post
+    //     return this.httpService.getNoToken(this.constants.loginServiceName);
+    // }
 
     /*
     QUESTA è LA LOGICA DA METTERE SUL CHIAMANTE DELLA LOGIN

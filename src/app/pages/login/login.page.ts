@@ -29,8 +29,8 @@ export class LoginPage implements OnInit {
     const loginRequest: LoginRequest = new LoginRequest();
     loginRequest.username = this.username;
     loginRequest.password = this.password;
-    loginRequest.app_chiamante = '';
-    loginRequest.id_phone = '';
+    loginRequest.app_chiamante = 'P';
+    loginRequest.id_phone = '12345';
 
     this.loginService.Login(loginRequest).subscribe(r => {
       if (r.Success) {

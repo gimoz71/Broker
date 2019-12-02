@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConstantsService {
-    public readonly baseAppUrl: string = 'http://localhost:3000';
-    public readonly tokenHeaderKey: string = 'token';
+    public readonly baseAppUrl: string = 'http://89.31.75.45:443/Spring-JPA-Security';
+    public readonly tokenHeaderKey: string = 'Authorization';
     public readonly pathSeparator: string = '/';
 
     public readonly loginServiceName: string = 'login';
@@ -17,7 +17,7 @@ export class ConstantsService {
     public readonly getCatastoServiceName: string = 'getcatasto';
 
     // clienti
-    public readonly getClientiServiceName: string = 'getclienti';
+    public readonly getClientiServiceName: string = 'getClienti';
     public readonly putClientiServiceName: string = 'putcliente';
     public readonly abilitaAppClienteServiceName: string = 'appcliente';
     public readonly bookValueServiceName: string = 'getbookvalue';
@@ -25,9 +25,9 @@ export class ConstantsService {
 
     // report
     public readonly situazioneGeneraleServiceName: string = 'getsituazione';
-    public readonly graficiServiceName: string = 'getGrafici';
+    public readonly graficiServiceName: string = 'getgrafici';
     public readonly pdfReportServiceName: string = 'getpdfreport';
 
-    public readonly postErroreServiceName: string = 'put_error';
+    public readonly postErroreServiceName: string = 'writeLog';
     public readonly getDropdownServiceName: string = 'get_dropdown';
 }

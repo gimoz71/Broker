@@ -42,10 +42,14 @@ export class HomePage extends BaseComponent implements OnInit {
 
     private initializeApp() {
 
-        this.clientiService.getClienti('').subscribe(r => {
-            if (r.Success) {
-                console.log('RICEVUTO: ' + r.Data);
-                this.clienti = r.Data;
+        this.wsTokenObservable.subscribe(r => {
+            if (r) {
+                this.clientiService.getClienti(this.wsToken.token_value).subscribe(r => {
+                    if (r.Success) {
+                        console.log('RICEVUTO: ' + r.Data);
+                        this.clienti = r.Data;
+                    }
+                });
             }
         });
     }

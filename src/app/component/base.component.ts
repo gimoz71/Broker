@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WsToken, LogErroriService, ErrorMessage, Cliente, AlertService } from 'broker-lib';
 import { StoreService, SessionService } from 'broker-lib';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-base',
@@ -12,6 +13,9 @@ export class BaseComponent implements OnInit {
 
     public wsToken: WsToken;
     public cliente: Cliente;
+
+    private wsTokenSubject: Subject<boolean> = new Subject<boolean>();
+    public wsTokenObservable = this.wsTokenSubject.asObservable();
 
     constructor(
         public sessionService: SessionService,
@@ -27,6 +31,8 @@ export class BaseComponent implements OnInit {
                 this.router.navigate(['login']);
             } else {
                 this.wsToken = val;
+                this.sessionService.setUserData(val);
+                this.wsTokenSubject.next(true);
             }
         });
     }
@@ -45,7 +51,7 @@ export class BaseComponent implements OnInit {
 
     public getUtenteEmail(): string {
         if (this.wsToken !== undefined) {
-            return this.wsToken[0].utente.email;
+            return this.wsToken.utente.email;
         } else {
             return 'email utente';
         }

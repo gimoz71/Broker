@@ -23,6 +23,12 @@ import { WizardPageModule } from './pages/wizard/wizard.module';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MyDatePicker } from './component/datepicker/mydatepicker.component';
 
+import { HttpClientModule } from '@angular/common/http';
+import { HTTP } from '@ionic-native/http/ngx';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RaHttpInterceptor } from './interceptor/http.interceptor';
+
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
@@ -60,7 +66,8 @@ const routes: Routes = [
     LoginPageModule,
     WizardPageModule,
     RouterModule.forRoot(routes),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
     // ErrorHandlerService,
@@ -70,7 +77,13 @@ const routes: Routes = [
     LoginService,
     StatusBar,
     SplashScreen,
-    RaDatePipe
+    RaDatePipe,
+    HTTP,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RaHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
