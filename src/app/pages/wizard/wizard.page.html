@@ -87,9 +87,13 @@
                                             <input type="text" placeholder="" [(ngModel)]="immobile.istat_cod">
                                         </div>
                                         <div class="form-item left " style="width: 5%;">
-                                            <button (click)="caricaOmi()">C</button>
+                                            <label>&nbsp;</label>
+                                            <button (click)="caricaOmi()" class="button no-icon">C</button>
                                         </div>
-                                        <div class="form-item right " style="width: 45%;">
+                                        <div class="form-item left " style="width: 35%;">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                        <div class="form-item left " style="width: 35%;">
                                             <label>OMI</label>
                                             <select class="select-css" (change)="selezionaOmi($event.target)">
                                                 <option *ngFor="let omi of tipiOmi" value="{{omi.codice}}"

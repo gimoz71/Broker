@@ -378,6 +378,9 @@ input:checked + .slider:before {
     text-align: center;
     background-position: 12px center;
     background-repeat: no-repeat;
+    &.no-icon {
+        padding: 9px 16px;
+    }
     &.full-width {
         display: block;
     }
@@ -781,7 +784,37 @@ input:checked + .slider:before {
             background-position: center top;
             z-index: 0;
         }
-        
+        &.login {
+            top: 30px;
+            text-align: center;
+            .login-form {
+                width: 75%;
+                @media (min-width: 768px) {
+                    width: 400px;
+                }
+                margin-left: auto;
+                margin-right: auto;
+                .form-item {
+                    margin: 5px 0;
+                }
+                input {
+                    padding: 10px;
+                    &::placeholder {
+                        text-align: center;
+                    }
+                }
+            }
+            .client-name {
+                font-family: 'Times New Roman', Times, serif;
+                margin: 15px 0;
+                font-size: 22px;
+            }
+            .button {
+                font-size: 1em;
+                padding: 16px 32px;
+                margin-top: 15px;
+            }
+        }
         .header {
             position: absolute;
             top: 0;
@@ -1803,4 +1836,46 @@ input:checked + .slider:before {
             }
         }
     }
+}
+
+.date-picker-wrapper {
+  padding: 0rem;
+
+
+    .container{
+        display: flex; 
+        flex-flow: row; 
+        width: 100%;
+        align-content:stretch;
+        padding: 0;
+    }
+
+    .group{
+        padding: 0;
+        width: 100%;
+        border: solid 1px  $grey-1;
+        background: #fff;
+    }
+
+    .container input.igx-date-picker__input-date {
+        position: absolute;
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .igx-input-group__label {
+        display: none;
+    }
+
+
+    .igx-input-group__bundle, .igx-input-group__bundle:hover {
+        padding:0;
+        box-shadow: none !important;
+    }
+    input {
+        top: -20px;
+        height: auto;
+        width: auto;
+    }
+
 }
