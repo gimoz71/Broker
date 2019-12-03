@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { SchedaImmobilePage } from './scheda-immobile.page';
+import { ModalModule } from 'src/app/component/modal/modal.module';
 
 const routes: Routes = [
   {
@@ -19,8 +20,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    ModalModule
   ],
   declarations: [SchedaImmobilePage]
 })
-export class SchedaImmobilePageModule {}
+export class SchedaImmobilePageModule { }

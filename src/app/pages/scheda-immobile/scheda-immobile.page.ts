@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
 import { LoadingController } from '@ionic/angular';
+import { ModalService } from 'src/app/services/modal/modal.service';
 
 @Component({
     selector: 'app-scheda-immobile',
@@ -24,7 +25,8 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public logErroriService: LogErroriService,
         public storeService: StoreService,
         public alertService: AlertService,
-        public loadingController: LoadingController
+        public loadingController: LoadingController,
+        public modalService: ModalService
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, loadingController);
         this.immobile_id = '';
@@ -39,29 +41,37 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         super.ngOnInit();
         this.loadCliente();
         var cliente = this.getCliente();
-        if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
-            // non ho clienti selezionati
-            this.presentAlert("E' necessario selezionare un cliente");
-            this.goToPage('home');
-        }
-        this.route.queryParams.subscribe(params => {
+        // if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
+        //     // non ho clienti selezionati
+        //     this.presentAlert("E' necessario selezionare un cliente");
+        //     this.goToPage('home');
+        // }
+        // this.route.queryParams.subscribe(params => {
 
-            this.immobile_id = params.immobile_id;
-            this.immobiliService.getImmobile(this.immobile_id, this.sessionService.getUserData().token_value).subscribe(r => {
-                if (r.Success) {
+        //     this.immobile_id = params.immobile_id;
+        //     this.immobiliService.getImmobile(this.immobile_id, this.sessionService.getUserData().token_value).subscribe(r => {
+        //         if (r.Success) {
 
-                    this.immobile = r.Data[0];
-                    this.sessionService.setImmobileDettaglio(this.immobile);
+        //             this.immobile = r.Data[0];
+        //             this.sessionService.setImmobileDettaglio(this.immobile);
 
-                    // Calcolo il totale annuale delle tasse
-                    // let totaleTasse = 0;
-                    // this.immobile.tasse.forEach(t => {
-                    //     totaleTasse += t.importo_annuale;
-                    // });
-                    // this.immobile.tasse_totale = totaleTasse;
+        //             // Calcolo il totale annuale delle tasse
+        //             // let totaleTasse = 0;
+        //             // this.immobile.tasse.forEach(t => {
+        //             //     totaleTasse += t.importo_annuale;
+        //             // });
+        //             // this.immobile.tasse_totale = totaleTasse;
 
-                }
-            });
-        });
+        //         }
+        //     });
+        // });
+    }
+
+    openModal(id: string) {
+        this.modalService.open(id);
+    }
+
+    closeModal(id: string) {
+        this.modalService.close(id);
     }
 }

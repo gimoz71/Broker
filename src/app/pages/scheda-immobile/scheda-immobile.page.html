@@ -55,8 +55,8 @@
                     <div class="scheda-table">
                         <div class="scheda-row">
                             <div class="item">
-
-                                <h3 class="item-title">Proprietà: <span>{{immobile.quota}}%</span></h3>
+                                <h3 class="item-title">Proprietà: <span>{{immobile.quota}}%</span><button
+                                        (click)="openModal('custom-modal-1')">Open Modal 1</button></h3>
                                 <ul class="item-list half-height">
                                     <li><span>Book Value</span><span>-</span></li>
                                     <li><span>Valore catastale</span><span>-</span></li>
@@ -249,3 +249,8 @@
         </div>
     </div>
 </div>
+<app-quoteproprieta-modal id="custom-modal-1">
+    <h1>A Custom Modal!</h1>
+    <p>Home page text: <input type="text" /></p>
+    <button (click)="closeModal('custom-modal-1');">Close</button>
+</app-quoteproprieta-modal>

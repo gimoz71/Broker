@@ -28,6 +28,9 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RaHttpInterceptor } from './interceptor/http.interceptor';
 import { NuovoClientePageModule } from './pages/nuovo-cliente/nuovo-cliente.module';
+import { ModalQuoteProprietaComponent } from './component/modal/quoteproprieta/modalquoteproprieta.component';
+import { ModalModule } from './component/modal/modal.module';
+import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobile.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -69,6 +72,7 @@ const routes: Routes = [
     ReportGeneralePageModule,
     ReportAnalisiPageModule,
     NuovoClientePageModule,
+    SchedaImmobilePageModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     HttpClientModule
