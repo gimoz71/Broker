@@ -29,7 +29,9 @@ export class ImmobiliService {
      * Data dentro al quale si trova l'elenco degli immobili
      */
     public getImmobili(id_cliente: string, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.getImmobiliServiceName, tokenValue);
+        return this.httpService.get(this.constants.getImmobiliServiceName
+            + this.constants.pathSeparator
+            + id_cliente, tokenValue);
         // return this.httpService.get('getimmobili' + '/' + idCliente, tokenValue);
     }
 

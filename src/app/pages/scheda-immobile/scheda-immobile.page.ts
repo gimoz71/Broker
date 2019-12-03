@@ -37,7 +37,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         super.ngOnInit();
         this.loadCliente();
         var cliente = this.getCliente();
-        if (cliente.id_cliente === 0 || cliente.id_cliente === undefined) {
+        if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
             // non ho clienti selezionati
             this.presentAlert("E' necessario selezionare un cliente");
             this.goToPage('home');

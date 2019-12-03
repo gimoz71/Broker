@@ -7,6 +7,7 @@ import { Cliente } from '../../models/clienti/cliente';
 import { Immobile } from '../../models/immobili/immobile';
 import { Subject } from 'rxjs';
 import { ImmobileDettaglio } from '../../models/immobili/immobileDettaglio';
+import { Connection } from '../../models/common/connection';
 
 @Injectable()
 export class SessionService {
@@ -18,16 +19,19 @@ export class SessionService {
     public elencoImmobiliObs = this.elencoImmobiliSubject.asObservable();
     private userData: WsToken;
 
+    private connection: Connection;
+
     constructor(
         private storeService: StoreService,
         private immobiliService: ImmobiliService
     ) {
         this.userData = new WsToken();
+        this.connection = new Connection();
     }
 
     public setCliente(cliente: Cliente): void {
         this.cliente = cliente;
-        this.immobiliService.getImmobili(this.cliente.id_cliente + '', '').subscribe(r => {
+        this.immobiliService.getImmobili(this.cliente.cliente_id + '', '').subscribe(r => {
             if (r.Success) {
                 this.immobiliCliente = r.Data;
                 // sveglia chi è in ascolto
@@ -67,4 +71,11 @@ export class SessionService {
         this.immobile = null;
     }
 
+    public setConnection(conn: Connection): void {
+        this.connection = conn;
+    }
+
+    public getConnection(): Connection {
+        return this.connection;
+    }
 }

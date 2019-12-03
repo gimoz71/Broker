@@ -1,6 +1,4 @@
-import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobile.module';
-// import { ErrorHandlerService } from './../../projects/broker-lib/src/lib/services/error-handler/error-handler.service';
-import { ErrorHandlerService, RaDatePipe } from 'broker-lib';
+
 import { SessionService, StoreService, LoginService } from 'broker-lib';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +19,6 @@ import { FormsModule } from '@angular/forms';
 import { LoginPageModule } from './pages/login/login.module';
 import { WizardPageModule } from './pages/wizard/wizard.module';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MyDatePicker } from './component/datepicker/mydatepicker.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP } from '@ionic-native/http/ngx';
@@ -34,7 +31,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
   { path: 'wizard', loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule) },
-  { path: 'scheda-immobile', loadChildren: () => import('./pages/scheda-immobile/scheda-immobile.module').then(m => m.SchedaImmobilePageModule) }
+  { path: 'scheda-immobile', loadChildren: () => import('./pages/scheda-immobile/scheda-immobile.module').then(m => m.SchedaImmobilePageModule) },
   // { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
   // { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
   // { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' },
@@ -46,7 +43,7 @@ const routes: Routes = [
   // { path: 'patrimonio', loadChildren: './pages/patrimonio/patrimonio.module#PatrimonioPageModule' },
   // { path: 'catastali', loadChildren: './pages/catastali/catastali.module#CatastaliPageModule' },
   // { path: 'report-generale', loadChildren: './pages/report-generale/report-generale.module#ReportGeneralePageModule' },
-  // { path: 'report-analisi', loadChildren: './pages/report-analisi/report-analisi.module#ReportAnalisiPageModule' },
+  { path: 'report-analisi', loadChildren: () => import('./pages/report-analisi/report-analisi.module').then(m => m.ReportAnalisiPageModule) }
   // { path: 'ammortamento', loadChildren: './pages/ammortamento/ammortamento.module#AmmortamentoPageModule' },
   // { path: 'client-home', loadChildren: './pages/client-home/client-home.module#ClientHomePageModule' },
 
@@ -60,7 +57,7 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
-    BrokerLibModule,
+    BrokerLibModule.forRoot(),
     FormsModule,
     HomePageModule,
     LoginPageModule,
@@ -77,13 +74,14 @@ const routes: Routes = [
     LoginService,
     StatusBar,
     SplashScreen,
-    RaDatePipe,
     HTTP,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: RaHttpInterceptor,
       multi: true
     }
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })

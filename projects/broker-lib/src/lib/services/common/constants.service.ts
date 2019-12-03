@@ -10,7 +10,7 @@ export class ConstantsService {
     public readonly cambioPasswordServiceName: string = 'putpassword';
 
     // immobili
-    public readonly getImmobiliServiceName: string = 'getimmobili';
+    public readonly getImmobiliServiceName: string = 'getImmobili';
     public readonly getImmobileServiceName: string = 'getimmobile';
     public readonly putImmobileServiceName: string = 'putimmobile';
     public readonly delImmobileServiceName: string = 'delimmobile';

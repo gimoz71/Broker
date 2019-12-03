@@ -12,11 +12,9 @@ import { ClientiService } from './services/clienti/clienti.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { DropdownService } from './services/dropdown/dropdown.service';
-import { RaDatePipe } from './pipes/date.pipe';
 
 @NgModule({
   declarations: [
-    RaDatePipe
   ],
   imports: [
     HttpClientModule,
@@ -34,4 +32,11 @@ import { RaDatePipe } from './pipes/date.pipe';
   exports: [
   ]
 })
-export class BrokerLibModule { }
+export class BrokerLibModule {
+  static forRoot() {
+    return {
+      ngModule: BrokerLibModule,
+      providers: [],
+    };
+  }
+}

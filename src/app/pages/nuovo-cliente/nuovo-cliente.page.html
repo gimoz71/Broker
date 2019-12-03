@@ -1,9 +1,52 @@
-<!-- <ion-header>
-  <ion-toolbar>
-    <ion-title>nuovo cliente</ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="main-header">
+  <div class="logo"></div>
+  <div class="header-bar">
+    <img src="/assets/img/readvice-logo@2x.png" class="title">
+  </div>
+  <div class="tools">
+    <a href="#" class="hints tasks"><span>10</span></a>
+    <a href="#" class="hints alerts"><span>10</span></a>
+    <a href="#" class="user">{{getUtenteEmail()}}</a>
+  </div>
+</div>
 
-<ion-content>
+<div class="main-body body">
+  <div class="content-area">
+    <div class="tool-area">
+      <div class="tool-table">
+        <div class="tool-row">
+          <div class="tool">
+            <a href="#" style="float: left" class="button add">&lt;</a>
+            <span>Nuovo cliente:</span>
+            <input type="text" placeholder="nome" [(ngModel)]="nome">
+            <input type="text" placeholder="cognome" [(ngModel)]="cognome">
+            <input type="text" placeholder="CF" [(ngModel)]="codicefiscale">
+          </div>
+        </div>
+        <div class="tool-row">
+          <div class="tool">
+            <span>Invia la richiesta per ricevere i dati catastali</span>
+            <a href="#" style="float: right" class="button add">Invia la richiesta &gt;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-area">
+    <div class="header">
+      <div class="row">
+        <div class="header-cell">
+          <span class="small">Nessun cliente selezionato</span>
+        </div>
+      </div>
+    </div>
+    <div class="list">
+      <ul class="lista-immobile">
 
-</ion-content> -->
+      </ul>
+    </div>
+    <div class="footer table">
+
+    </div>
+  </div>
+</div>

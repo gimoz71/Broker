@@ -20,6 +20,9 @@ export class HomePage extends BaseComponent implements OnInit {
     public tempImmobiliCliente: Array<Immobile>;
     public pippo: Immobile;
 
+    public searchName: string;
+    public searchCF: string;
+
     constructor(
         private clientiService: ClientiService,
         public sessionService: SessionService,
@@ -33,6 +36,8 @@ export class HomePage extends BaseComponent implements OnInit {
         this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();
         this.tempImmobiliCliente = new Array<Immobile>();
+        this.searchName = '';
+        this.searchCF = '';
     }
 
     ngOnInit(): void {
@@ -44,10 +49,12 @@ export class HomePage extends BaseComponent implements OnInit {
 
         this.wsTokenObservable.subscribe(r => {
             if (r) {
-                this.clientiService.getClienti(this.wsToken.token_value).subscribe(r => {
-                    if (r.Success) {
-                        console.log('RICEVUTO: ' + r.Data);
-                        this.clienti = r.Data;
+                this.clientiService.getClienti(this.wsToken.token_value).subscribe(t => {
+                    if (t.Success) {
+                        console.log('RICEVUTO: ' + t.Data);
+                        this.clienti = t.Data.elenco_clienti;
+                    } else {
+                        this.manageError(t);
                     }
                 });
             }

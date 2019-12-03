@@ -22,9 +22,6 @@ export * from './lib/services/common/alert.service';
 // handler ------------------------------------------------
 export * from './lib/handler/error/error-handler.service';
 
-// pipes --------------------------------------------------
-export * from './lib/pipes/date.pipe';
-
 // modelli ------------------------------------------------
 // -- report
 export * from './lib/models/report/grafici';

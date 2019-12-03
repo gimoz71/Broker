@@ -8,7 +8,6 @@ import { IonicModule } from '@ionic/angular';
 import { WizardPage } from './wizard.page';
 import { AlertService } from 'broker-lib';
 import { IgxDatePickerModule } from 'igniteui-angular';
-import { MyDatePicker } from 'src/app/component/datepicker/mydatepicker.component';
 import { MyDatePickerModule } from 'src/app/component/datepicker/mydatepicker.module';
 
 

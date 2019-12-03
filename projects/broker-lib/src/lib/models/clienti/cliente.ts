@@ -1,6 +1,6 @@
 // tslint:disable-next-line: no-namespace
 export class Cliente {
-    public id_cliente: number;
+    public cliente_id: number;
     public nome: string;
     public cognome: string;
     public email: string;

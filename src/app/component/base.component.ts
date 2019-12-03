@@ -92,4 +92,21 @@ export class BaseComponent implements OnInit {
     public presentErrorAlert(message: string): void {
         this.alertService.presentErrorAlert(message);
     }
+
+    public manageError(response) {
+        const tipo = response.ErrorMessage.msg_tipo;
+        const code = response.ErrorMessage.msg_code;
+        const testo = response.ErrorMessage.msg_testo;
+        const method = response.ErrorMessage.msg_method;
+        const techdata = response.ErrorMessage.msg_techdata;
+
+        switch (code) {
+            case "005":
+                {
+                    this.alertService.presentErrorAlert("Token Scaduto, necessario Login");
+                    this.router.navigate(['login']);
+                    break;
+                }
+        }
+    }
 }
