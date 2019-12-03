@@ -18,6 +18,8 @@ import { HomePageModule } from './pages/home/home.module';
 import { FormsModule } from '@angular/forms';
 import { LoginPageModule } from './pages/login/login.module';
 import { WizardPageModule } from './pages/wizard/wizard.module';
+import { ReportGeneralePageModule } from './pages/report-generale/report-generale.module';
+import { ReportAnalisiPageModule } from './pages/report-analisi/report-analisi.module';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { HttpClientModule } from '@angular/common/http';
@@ -42,8 +44,9 @@ const routes: Routes = [
   // { path: 'scheda-cliente', loadChildren: './pages/scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
   // { path: 'patrimonio', loadChildren: './pages/patrimonio/patrimonio.module#PatrimonioPageModule' },
   // { path: 'catastali', loadChildren: './pages/catastali/catastali.module#CatastaliPageModule' },
-  // { path: 'report-generale', loadChildren: './pages/report-generale/report-generale.module#ReportGeneralePageModule' },
-  { path: 'report-analisi', loadChildren: () => import('./pages/report-analisi/report-analisi.module').then(m => m.ReportAnalisiPageModule) }
+  { path: 'report-generale', loadChildren: () => import('./pages/report-generale/report-generale.module').then(m => m.ReportGeneralePageModule) },
+  { path: 'report-analisi', loadChildren: () => import('./pages/report-analisi/report-analisi.module').then(m => m.ReportAnalisiPageModule) },
+  // { path: 'report-analisi', loadChildren: './pages/report-analisi/report-analisi.module#ReportAnalisiPageModule' },
   // { path: 'ammortamento', loadChildren: './pages/ammortamento/ammortamento.module#AmmortamentoPageModule' },
   // { path: 'client-home', loadChildren: './pages/client-home/client-home.module#ClientHomePageModule' },
 
@@ -62,6 +65,8 @@ const routes: Routes = [
     HomePageModule,
     LoginPageModule,
     WizardPageModule,
+    ReportGeneralePageModule,
+    ReportAnalisiPageModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     HttpClientModule
