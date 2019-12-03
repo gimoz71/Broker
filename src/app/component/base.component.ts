@@ -3,6 +3,7 @@ import { WsToken, LogErroriService, ErrorMessage, Cliente, AlertService } from '
 import { StoreService, SessionService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
     selector: 'app-base',
@@ -17,12 +18,15 @@ export class BaseComponent implements OnInit {
     private wsTokenSubject: Subject<boolean> = new Subject<boolean>();
     public wsTokenObservable = this.wsTokenSubject.asObservable();
 
+    public loader: any;
+
     constructor(
         public sessionService: SessionService,
         public storeService: StoreService,
         public router: Router,
         public logErroriService: LogErroriService,
-        public alertService: AlertService) { }
+        public alertService: AlertService,
+        public loadingController: LoadingController) { }
 
     ngOnInit(): void {
 
@@ -35,6 +39,20 @@ export class BaseComponent implements OnInit {
                 this.wsTokenSubject.next(true);
             }
         });
+
+
+    }
+
+    public presentLoader() {
+        this.loader = this.loadingController.create({
+            message: 'attendere...',
+            animated: true
+        });
+        this.loader.present();
+    }
+
+    public dismissLoader() {
+        this.loader.dismiss();
     }
 
     public loadCliente(): void {

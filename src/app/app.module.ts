@@ -27,6 +27,7 @@ import { HTTP } from '@ionic-native/http/ngx';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RaHttpInterceptor } from './interceptor/http.interceptor';
+import { NuovoClientePageModule } from './pages/nuovo-cliente/nuovo-cliente.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,7 +41,7 @@ const routes: Routes = [
   // { path: 'scheda-immobile', loadChildren: './pages/scheda-immobile/scheda-immobile.module#SchedaImmobilePageModule' },
   // { path: 'report', loadChildren: './pages/report/report.module#ReportPageModule' },
   // { path: 'analisi', loadChildren: './pages/analisi/analisi.module#AnalisiPageModule' },
-  // { path: 'nuovo-cliente', loadChildren: './pages/nuovo-cliente/nuovo-cliente.module#NuovoClientePageModule' },
+  { path: 'nuovo-cliente', loadChildren: () => import('./pages/nuovo-cliente/nuovo-cliente.module').then(m => m.NuovoClientePageModule) },
   // { path: 'scheda-cliente', loadChildren: './pages/scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
   // { path: 'patrimonio', loadChildren: './pages/patrimonio/patrimonio.module#PatrimonioPageModule' },
   // { path: 'catastali', loadChildren: './pages/catastali/catastali.module#CatastaliPageModule' },
@@ -67,6 +68,7 @@ const routes: Routes = [
     WizardPageModule,
     ReportGeneralePageModule,
     ReportAnalisiPageModule,
+    NuovoClientePageModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     HttpClientModule

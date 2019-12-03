@@ -16,11 +16,12 @@
       <div class="tool-table">
         <div class="tool-row">
           <div class="tool">
-            <a href="#" style="float: left" class="button add">&lt;</a>
+            <button (click)="goToHome()" style="float: left" class="button">&lt;</button>
             <span>Nuovo cliente:</span>
-            <input type="text" placeholder="nome" [(ngModel)]="nome">
-            <input type="text" placeholder="cognome" [(ngModel)]="cognome">
-            <input type="text" placeholder="CF" [(ngModel)]="codicefiscale">
+            <input type="text" placeholder="nome" [(ngModel)]="nuovoCliente.nome">
+            <input type="text" placeholder="cognome" [(ngModel)]="nuovoCliente.cognome">
+            <input type="text" placeholder="CF" [(ngModel)]="nuovoCliente.codice_fiscale">
+            <input type="text" placeholder="Email" [(ngModel)]="nuovoCliente.email">
           </div>
         </div>
         <div class="tool-row">

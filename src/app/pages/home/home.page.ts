@@ -5,6 +5,7 @@ import { Cliente, Immobile, WsToken } from 'broker-lib';
 
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
+import { LoadingController } from '@ionic/angular';
 /// import { Cliente, Immobile, WsToken } from 'projects/broker-lib/src/public-api';
 
 @Component({
@@ -29,9 +30,10 @@ export class HomePage extends BaseComponent implements OnInit {
         public storeService: StoreService,
         public router: Router,
         public logErroriService: LogErroriService,
-        public alertService: AlertService
+        public alertService: AlertService,
+        public loadingController: LoadingController
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService);
+        super(sessionService, storeService, router, logErroriService, alertService, loadingController);
         this.clienti = new Array<Cliente>();
         this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();
@@ -59,6 +61,10 @@ export class HomePage extends BaseComponent implements OnInit {
                 });
             }
         });
+
+        // test per il loader
+        // this.presentLoader();
+        // setTimeout(() => { this.dismissLoader(); }, 3000);
     }
 
     public caricaCliente(cliente: Cliente) {
@@ -84,5 +90,10 @@ export class HomePage extends BaseComponent implements OnInit {
 
     public svuotaCache(): void {
         this.sessionService.clearUserData();
+    }
+
+    public goToNuovoCliente(): void {
+        this.clienteScelto = new Cliente();
+        this.goToPage('nuovo-cliente');
     }
 }

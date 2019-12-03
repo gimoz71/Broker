@@ -4,6 +4,7 @@ import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
     selector: 'app-scheda-immobile',
@@ -22,9 +23,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public sessionService: SessionService,
         public logErroriService: LogErroriService,
         public storeService: StoreService,
-        public alertService: AlertService
+        public alertService: AlertService,
+        public loadingController: LoadingController
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService);
+        super(sessionService, storeService, router, logErroriService, alertService, loadingController);
         this.immobile_id = '';
         this.immobile = new ImmobileDettaglio();
     }
