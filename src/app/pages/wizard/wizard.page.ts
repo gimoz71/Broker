@@ -3,7 +3,6 @@ import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErro
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
-import { LoadingController } from '@ionic/angular';
 
 
 @Component({
@@ -52,11 +51,10 @@ export class WizardPage extends BaseComponent implements OnInit {
     public sessionService: SessionService,
     private dropdownService: DropdownService,
     public storeService: StoreService,
-    public datePipe: RaDatePipe,
-    public loadingController: LoadingController
+    public datePipe: RaDatePipe
   ) {
 
-    super(sessionService, storeService, router, logErroriService, alertService, loadingController);
+    super(sessionService, storeService, router, logErroriService, alertService);
 
     const immobileInSessione = this.sessionService.getImmobileDettaglio();
     if (immobileInSessione !== undefined && immobileInSessione !== null) {

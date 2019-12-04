@@ -5,7 +5,6 @@ import { Cliente, Immobile, WsToken } from 'broker-lib';
 
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
-import { LoadingController } from '@ionic/angular';
 /// import { Cliente, Immobile, WsToken } from 'projects/broker-lib/src/public-api';
 
 @Component({
@@ -30,10 +29,9 @@ export class HomePage extends BaseComponent implements OnInit {
         public storeService: StoreService,
         public router: Router,
         public logErroriService: LogErroriService,
-        public alertService: AlertService,
-        public loadingController: LoadingController
+        public alertService: AlertService
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService, loadingController);
+        super(sessionService, storeService, router, logErroriService, alertService);
         this.clienti = new Array<Cliente>();
         this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();

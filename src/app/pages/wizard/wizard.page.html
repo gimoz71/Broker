@@ -1,17 +1,3 @@
-<!--<ion-header no-border no-padding no-margin>
-  <ion-toolbar color="bar" no-padding no-margin>
-    <ion-buttons slot="start" class="logo left-side-element"  no-padding no-margin> </ion-buttons>
-    <ion-title text-left class="header-bar">
-      <img src="/assets/img/readvice-logo@2x.png" class="title">
-    </ion-title>
-    <ion-buttons slot="end" class="tools">
-        <a href="#" class="hints tasks"><span>10</span></a>
-        <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
-    </ion-buttons>
-</ion-toolbar>
-</ion-header>-->
-
 <div class="main-header">
     <div class="logo"></div>
     <div class="header-bar">
@@ -245,7 +231,7 @@
                                         <div class="form-item left">
                                             <label>Euribor</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.mutuo_dettaglio.descrizione_euribor"
                                                     [disabled]="!immobile.mutuo"><span>%</span>
                                             </div>
@@ -253,7 +239,7 @@
                                         <div class="form-item right">
                                             <label>Spread</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.mutuo_dettaglio.spread"
                                                     [disabled]="!immobile.mutuo"><span>%</span>
                                             </div>
@@ -261,28 +247,21 @@
                                         <div class="form-item single">
                                             <label>Durata</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"
+                                                <input type="text" digitsonly numericType="number" maxlength="4"
+                                                    placeholder="" value="24"
                                                     [(ngModel)]="immobile.mutuo_dettaglio.durata"
                                                     [disabled]="!immobile.mutuo"><span>mesi</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Data inizio</label>
-                                            <!-- <input type="date" placeholder="" value="" [(ngModel)]="dataInizioMutuo"
-                                                [disabled]="!immobile.mutuo"> -->
-                                            <!-- <input type="date" [ngModel]="dataInizioMutuo | date:'dd/MM/yyyy'"
-                                                [value]="dataInizioMutuo | date:'dd/MM/yyyy'"
-                                                (ngModelChange)="dataInizioMutuo = $event"> -->
-                                            <!-- <igx-date-picker [(ngModel)]="dataInizioMutuo" labelVisibility="false">
-                                            </igx-date-picker> -->
                                             <ra-date-picker [inputDate]="dataInizioMutuo"></ra-date-picker>
-                                            <!-- <ion-datetime displayFormat="dd/MM/yyyy" [(ngModel)]="dataInizioMutuo">
-                                            </ion-datetime> -->
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo iniziale</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"
+                                                <input type="text" placeholder="" value="24" digitsonly
+                                                    numericType="decimal"
                                                     [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"
                                                     [disabled]="!immobile.mutuo"><span>&euro;</span>
                                             </div>
@@ -339,7 +318,7 @@
                                         <div class="form-item single">
                                             <label>Durata prima scadenza</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="number"
                                                     [(ngModel)]="immobile.affitto_dettaglio.prima_scadenza_anni"><span>anni</span>
                                             </div>
                                         </div>
@@ -351,7 +330,7 @@
                                         <div class="form-item single">
                                             <label>Importo lordo mensile</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.affitto_dettaglio.importo_mensile"><span>&euro;</span>
                                             </div>
                                         </div>
@@ -370,7 +349,7 @@
                                         <div class="form-item single">
                                             <label>Importo annuo</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.affitto_dettaglio.importo_spese_condominiali"><span>&euro;</span>
                                             </div>
                                         </div>
@@ -385,7 +364,7 @@
                                         <div class="form-item single">
                                             <label>Aliquota</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="number"
                                                     [(ngModel)]="immobile.affitto_dettaglio.aliquota_cedolare"><span>mesi</span>
                                             </div>
                                         </div>
@@ -481,22 +460,22 @@
                                         <div class="form-item right">
                                             <label>Rendita</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.dati_catastali.rendita"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item left">
                                             <label>Sup. catastale</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.dati_catastali.superficie_totale"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                         <div class="form-item right">
                                             <label>&nbsp;</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
-                                                    [(ngModel)]="immobile.dati_catastali.superficie_interna"><span>m<sup>2</sup></span>
+                                                <input type="text" placeholder="" digitsonly numericType="decimal"
+                                                    [(ngModel)]="immobile.dati_catastali.superficie_interni"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                     </div>
@@ -556,7 +535,7 @@
                                         <div class="form-item single">
                                             <label>Quota</label>
                                             <div class="type">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="" digitsonly numericType="number"
                                                     [(ngModel)]="cointestatarioSelezionato.quota"><span>%</span>
                                             </div>
                                         </div>
@@ -628,7 +607,8 @@
                                         <div class="form-item single">
                                             <label>Importo annuale</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" value="24"
+                                                <input type="text" placeholder="" value="24" digitsonly
+                                                    numericType="decimal"
                                                     [(ngModel)]="tassaSelezionata.importo_annuale"><span>&euro;</span>
                                             </div>
                                         </div>

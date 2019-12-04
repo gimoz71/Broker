@@ -1,20 +1,23 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SessionService, WsToken, AlertService } from 'broker-lib';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+import { LoadingController } from '@ionic/angular';
 
 @Injectable()
 export class RaHttpInterceptor implements HttpInterceptor {
 
     public wsToken: WsToken;
+    public loaderToShow: any;
 
     constructor(
         public sessionService: SessionService,
         public router: Router,
-        public alertService: AlertService
+        public alertService: AlertService,
+        public loadingController: LoadingController
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -25,10 +28,24 @@ export class RaHttpInterceptor implements HttpInterceptor {
                 "Content-Type": "application/json"
             })
         });
-        return next.handle(request).pipe(catchError(x => this.handleAuthError(x))); // here use an arrow function, otherwise you may get "Cannot read property 'navigate' of undefined" on angular 4.4.2/net core 2/webpack 2.70;
+        this.showLoader();
+        return next.handle(request).pipe(map((event: HttpEvent<any>) => {
+            if (event instanceof HttpResponse) {
+                console.log('event--->>>', event);
+            }
+            // setTimeout(() => { this.hideLoader(); }, 3000); // <-- usare questa per testare il loader se la connessione è troppo veloce
+            this.hideLoader();
+            return event;
+        }), catchError((x: HttpErrorResponse) => {
+            this.hideLoader();
+            return this.handleAuthError(x);
+        })); // here use an arrow function, otherwise you may get "Cannot read property 'navigate' of undefined" on angular 4.4.2/net core 2/webpack 2.70;
     }
 
-    private handleAuthError(err: HttpErrorResponse): Observable<any> {
+    private handleAuthError(err: any): Observable<any> {
+
+        // ---------- QUI SI DEVONO MAPPARE TUTTI I POSSIBILI ERRORI HTTP E IMPLEMENTARE LE CONSEGUENTI AZIONI
+
         // handle your auth error or rethrow
         if (err.status === 401 || err.status === 403) {
             // navigate /delete cookies or whatever
@@ -39,6 +56,23 @@ export class RaHttpInterceptor implements HttpInterceptor {
             return of(err.message); // or EMPTY may be appropriate here
         }
         return throwError(err);
+    }
+
+    showLoader() {
+        this.loaderToShow = this.loadingController.create({
+            message: 'Attedere prego...'
+        }).then((res) => {
+            res.present();
+
+            res.onDidDismiss().then((dis) => {
+                console.log('Loading dismissed!');
+            });
+        });
+        this.hideLoader();
+    }
+
+    hideLoader() {
+        this.loadingController.dismiss();
     }
 
 }

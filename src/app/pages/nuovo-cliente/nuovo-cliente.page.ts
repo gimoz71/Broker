@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
 import { SessionService, StoreService, LogErroriService, AlertService, InserimentoClienteRequest, ClientiService } from 'broker-lib';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-nuovo-cliente',
@@ -20,10 +18,9 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
     public router: Router,
     public logErroriService: LogErroriService,
     public alertService: AlertService,
-    public clientiService: ClientiService,
-    public loadingController: LoadingController
+    public clientiService: ClientiService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService, loadingController);
+    super(sessionService, storeService, router, logErroriService, alertService);
     this.nuovoCliente = new InserimentoClienteRequest();
   }
 
