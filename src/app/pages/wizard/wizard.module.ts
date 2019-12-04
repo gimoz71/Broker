@@ -9,6 +9,8 @@ import { WizardPage } from './wizard.page';
 import { AlertService } from 'broker-lib';
 import { IgxDatePickerModule } from 'igniteui-angular';
 import { MyDatePickerModule } from 'src/app/component/datepicker/mydatepicker.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { RaDatePipe } from 'src/app/pipes/date.pipe';
 
 
 
@@ -26,9 +28,10 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     IgxDatePickerModule,
-    MyDatePickerModule
+    MyDatePickerModule,
+    PipesModule.forRoot()
   ],
   declarations: [WizardPage],
-  providers: [AlertService]
+  providers: [AlertService, RaDatePipe]
 })
 export class WizardPageModule { }
