@@ -6,7 +6,7 @@
     <div class="tools">
         <a href="#" class="hints tasks"><span>10</span></a>
         <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">{{getUtenteEmail()}}</a>
+        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
     </div>
 </div>
 
@@ -17,11 +17,11 @@
                 <div class="tool-row">
                     <div class="tool">
                         <button (click)="goToHome()" class="button back only-icon">&nbsp;</button>
-                        <h3 class="page-title no-icon">Nuovo cliente</h3>
-                        
+                        <h3 class="page-title no-icon">Modifica password</h3>
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <div class="content">
@@ -30,8 +30,8 @@
                     <div class="scheda-table">
                         <div class="scheda-row">
                             <div class="item tipologia cliente"></div>
-                            <div class="item indirizzo" >
-                                Invia la richiesta per ricevere i dati catastali
+                            <div class="item indirizzo">
+                                alessandro.tamborini@readvice.it
                             </div>
                         </div>
                     </div>
@@ -47,21 +47,17 @@
                         <div class="scheda-table">
                             <div class="item">
                                 <div class="item-list form auto-height">
-                                    <div class="form-item left" style="width: 50%;">
-                                        <label>Nome</label>
-                                        <input type="text" placeholder="nome" [(ngModel)]="nuovoCliente.nome">
+                                    <div class="form-item left" style="width: 33%;">
+                                        <label>Password attuale</label>
+                                        <input type="password">
                                     </div>
-                                    <div class="form-item left" style="width: 50%;">
-                                        <label>Cognome</label>
-                                        <input type="text" placeholder="cognome" [(ngModel)]="nuovoCliente.cognome">
+                                    <div class="form-item left" style="width: 33%;">
+                                        <label>Password nuova</label>
+                                        <input type="password">
                                     </div>
-                                    <div class="form-item left" style="width: 50%;">
-                                        <label>Codice Fiscale</label>
-                                        <input type="text" placeholder="CF" [(ngModel)]="nuovoCliente.codice_fiscale">
-                                    </div>
-                                    <div class="form-item left" style="width: 50%;">
-                                        <label>Email</label>
-                                        <input type="text" placeholder="Email" [(ngModel)]="nuovoCliente.email">
+                                    <div class="form-item left" style="width: 33%;">
+                                        <label>Ripeto password nuova</label>
+                                        <input type="password">
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +65,7 @@
                         <div class="scheda-table single-column">
                             <div class="item">
                                 <div class="item-list ">
-                                    <button class="button forward right">Invia la richiesta</button>
+                                    <button class="button forward right">Salva</button>
                                 </div>
                             </div>
                         </div>
@@ -78,21 +74,4 @@
             </div>
         </div>
     </div>
-    <!--<div class="right-area">
-        <div class="header">
-            <div class="row">
-                <div class="header-cell">
-                    <span class="small">Nessun cliente selezionato</span>
-                </div>
-            </div>
-        </div>
-        <div class="list">
-            <ul class="lista-immobile">
-
-            </ul>
-        </div>
-        <div class="footer table">
-
-        </div>
-    </div>-->
 </div>

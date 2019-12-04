@@ -6,7 +6,9 @@ import { LoginPage } from './pages/login/login.page';
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
-    { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) }
+    { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
+    { path: 'profilo-utente', loadChildren: () => import('./pages/profilo-utente/profilo-utente.module').then(m => m.ProfiloUtentePageModule) },
+
     // { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
     // { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
     // { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' },

@@ -61,6 +61,17 @@
                         <div class="status red"></div>
                     </div>
                 </div>
+                <div class="dettaglio-cliente" *ngIf="!(clienteScelto.cliente_id)">
+                    <div class="cliente">
+                        <div class="cliente-table">
+                            <div class="cliente-row">
+                                <div class="item blank">
+                                <p>Nessun cliente selezionato</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="list-title">numero clienti ({{clienti.length}}):</div>
             </div>
             <div class="list">

@@ -14,6 +14,7 @@ import { BrokerLibModule } from 'broker-lib';
 
 import { HomePage } from './pages/home/home.page';
 import { HomePageModule } from './pages/home/home.module';
+import { ProfiloUtentePageModule } from './pages/profilo-utente/profilo-utente.module';
 
 import { FormsModule } from '@angular/forms';
 import { LoginPageModule } from './pages/login/login.module';
@@ -35,6 +36,7 @@ import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobil
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
+    { path: 'profilo-utente', loadChildren: () => import('./pages/profilo-utente/profilo-utente.module').then(m => m.ProfiloUtentePageModule) },
   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
   { path: 'wizard', loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule) },
   { path: 'scheda-immobile', loadChildren: () => import('./pages/scheda-immobile/scheda-immobile.module').then(m => m.SchedaImmobilePageModule) },
@@ -67,6 +69,7 @@ const routes: Routes = [
     BrokerLibModule.forRoot(),
     FormsModule,
     HomePageModule,
+    ProfiloUtentePageModule,
     LoginPageModule,
     WizardPageModule,
     ReportGeneralePageModule,
