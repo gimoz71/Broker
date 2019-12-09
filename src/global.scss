@@ -180,6 +180,10 @@ input {
     border: solid 1px  $grey-1;
     padding: 8px 10px 6px;
     width: 100%;
+    &.alert {
+        border-color:  $default-red;
+        //background-color: rgba($default-red, .01);
+    }
 }
 
 /* SELECT */
