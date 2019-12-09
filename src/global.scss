@@ -460,9 +460,16 @@ input:checked + .slider:before {
     background: $highlight-text-color;
     color: #fff;
     border-radius: 9px;
-    display: inline-block;
+    display: inline-block !important;
     padding: 4px 8px;
     font-size: .8em;
+    &.patrimonio {
+        border-radius: 1em;
+        padding: 2px 6px;
+        background-color: rgba($default-text-color, .5);
+        margin-right: 5px;
+        //color: $default-text-color;
+    }
 }
 
 
@@ -1036,14 +1043,14 @@ input:checked + .slider:before {
                         background-position: 15px center, 0 0 ;
                         background-size: 22px auto, 100%;
                         text-align: right;
-                        .badge {
+                        /*.badge {
                             background: $highlight-text-color;
                             color: #fff;
                             border-radius: 9px;
                             display: inline-block;
                             padding: 4px 8px;
                             font-size: .8em;
-                        }
+                        }*/
                     }
                     &.bv {
                         width: 22%;
