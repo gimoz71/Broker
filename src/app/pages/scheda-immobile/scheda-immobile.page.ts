@@ -1,5 +1,5 @@
 // import { ImmobileDettaglio } from './../../../../projects/broker-lib/src/lib/models/immobili/immobileDettaglio';
-import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio } from 'broker-lib';
+import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -15,6 +15,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     public immobile_id: string;
     public immobile: ImmobileDettaglio;
+    public immobiliCliente: Array<Immobile>;
 
     constructor(
         public router: Router,
@@ -44,6 +45,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
             this.presentAlert("E' necessario selezionare un cliente");
             this.goToPage('home');
         }
+        this.immobiliCliente = this.sessionService.getImmobiliCliente();
         this.route.queryParams.subscribe(params => {
 
             this.immobile_id = params.immobile_id;
@@ -79,5 +81,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     closeModal(id: string) {
         this.modalService.close(id);
+    }
+
+    public apriSchedaImmobile(immobile: number) {
+        // this.router.navigate(['scheda-immobile'], { queryParams: { immobile_id: immobile } });
+        this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
     }
 }
