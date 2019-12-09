@@ -25,6 +25,7 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    super.ngOnInit();
   }
 
   public goToHome() {

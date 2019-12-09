@@ -18,10 +18,10 @@
                     <div class="tool">
                         <button (click)="goToHome()" class="button back only-icon">&nbsp;</button>
                         <h3 class="page-title no-icon">Nuovo cliente</h3>
-                        
+
                     </div>
                 </div>
-                
+
             </div>
         </div>
         <div class="content">
@@ -30,7 +30,7 @@
                     <div class="scheda-table">
                         <div class="scheda-row">
                             <div class="item tipologia cliente"></div>
-                            <div class="item indirizzo" >
+                            <div class="item indirizzo">
                                 Invia la richiesta per ricevere i dati catastali
                             </div>
                         </div>
@@ -69,7 +69,8 @@
                         <div class="scheda-table single-column">
                             <div class="item">
                                 <div class="item-list ">
-                                    <button class="button forward right">Invia la richiesta</button>
+                                    <button class="button forward right" (click)="saveNewCliente()">Invia la
+                                        richiesta</button>
                                 </div>
                             </div>
                         </div>
