@@ -1,5 +1,5 @@
 // import { ImmobileDettaglio } from './../../../../projects/broker-lib/src/lib/models/immobili/immobileDettaglio';
-import { ImmobileDettaglio, LogErroriService, StoreService, AlertService } from 'broker-lib';
+import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -39,30 +39,38 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         super.ngOnInit();
         this.loadCliente();
         var cliente = this.getCliente();
-        // if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
-        //     // non ho clienti selezionati
-        //     this.presentAlert("E' necessario selezionare un cliente");
-        //     this.goToPage('home');
-        // }
-        // this.route.queryParams.subscribe(params => {
+        if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
+            // non ho clienti selezionati
+            this.presentAlert("E' necessario selezionare un cliente");
+            this.goToPage('home');
+        }
+        this.route.queryParams.subscribe(params => {
 
-        //     this.immobile_id = params.immobile_id;
-        //     this.immobiliService.getImmobile(this.immobile_id, this.sessionService.getUserData().token_value).subscribe(r => {
-        //         if (r.Success) {
+            this.immobile_id = params.immobile_id;
+            this.immobiliService.getImmobile(this.immobile_id, this.sessionService.getUserData().token_value).subscribe(r => {
+                if (r.Success) {
 
-        //             this.immobile = r.Data[0];
-        //             this.sessionService.setImmobileDettaglio(this.immobile);
+                    this.immobile = r.Data[0];
+                    this.sessionService.setImmobileDettaglio(this.immobile);
 
-        //             // Calcolo il totale annuale delle tasse
-        //             // let totaleTasse = 0;
-        //             // this.immobile.tasse.forEach(t => {
-        //             //     totaleTasse += t.importo_annuale;
-        //             // });
-        //             // this.immobile.tasse_totale = totaleTasse;
+                    // Calcolo il totale annuale delle tasse
+                    // let totaleTasse = 0;
+                    // this.immobile.tasse.forEach(t => {
+                    //     totaleTasse += t.importo_annuale;
+                    // });
+                    // this.immobile.tasse_totale = totaleTasse;
 
-        //         }
-        //     });
-        // });
+                }
+            });
+        });
+    }
+
+    public getCointestatari(): Array<CointestatarioDettaglio> {
+        if (this.immobile && this.immobile.cointestatari) {
+            return this.immobile.cointestatari;
+        } else {
+            return new Array<CointestatarioDettaglio>();
+        }
     }
 
     openModal(id: string) {

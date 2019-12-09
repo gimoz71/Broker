@@ -7,7 +7,7 @@ export class ConstantsService {
     public readonly pathSeparator: string = '/';
 
     public readonly loginServiceName: string = 'login';
-    public readonly cambioPasswordServiceName: string = 'putpassword';
+    public readonly cambioPasswordServiceName: string = 'putPassword';
 
     // immobili
     public readonly getImmobiliServiceName: string = 'getImmobili';

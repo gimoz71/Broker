@@ -33,7 +33,7 @@ export class SessionService {
         this.cliente = cliente;
         this.immobiliService.getImmobili(this.cliente.cliente_id + '', '').subscribe(r => {
             if (r.Success) {
-                this.immobiliCliente = r.Data;
+                this.immobiliCliente = r.Data.elenco_immobili;
                 // sveglia chi è in ascolto
                 this.elencoImmobiliSubject.next(true);
             }
@@ -57,6 +57,10 @@ export class SessionService {
 
     public getUserData(): WsToken {
         return this.userData;
+    }
+
+    public getImmobiliCliente(): Array<Immobile> {
+        return this.immobiliCliente;
     }
 
     public setImmobileDettaglio(immobileDettaglio: ImmobileDettaglio): void {

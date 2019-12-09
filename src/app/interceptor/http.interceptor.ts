@@ -12,6 +12,7 @@ export class RaHttpInterceptor implements HttpInterceptor {
 
     public wsToken: WsToken;
     public loaderToShow: any;
+    public presentLoader = true;
 
     constructor(
         public sessionService: SessionService,
@@ -34,9 +35,11 @@ export class RaHttpInterceptor implements HttpInterceptor {
                 console.log('event--->>>', event);
             }
             // setTimeout(() => { this.hideLoader(); }, 3000); // <-- usare questa per testare il loader se la connessione è troppo veloce
+            this.presentLoader = false;
             this.hideLoader();
             return event;
         }), catchError((x: HttpErrorResponse) => {
+            this.presentLoader = false;
             this.hideLoader();
             return this.handleAuthError(x);
         })); // here use an arrow function, otherwise you may get "Cannot read property 'navigate' of undefined" on angular 4.4.2/net core 2/webpack 2.70;
@@ -62,13 +65,16 @@ export class RaHttpInterceptor implements HttpInterceptor {
         this.loaderToShow = this.loadingController.create({
             message: 'Attedere prego...'
         }).then((res) => {
-            res.present();
-
-            res.onDidDismiss().then((dis) => {
-                console.log('Loading dismissed!');
-            });
+            if (this.presentLoader) {
+                res.present();
+                res.onDidDismiss().then((dis) => {
+                    console.log('Loading dismissed!');
+                });
+            } else {
+                res.dismiss();
+            }
         });
-        this.hideLoader();
+        // this.hideLoader();
     }
 
     hideLoader() {

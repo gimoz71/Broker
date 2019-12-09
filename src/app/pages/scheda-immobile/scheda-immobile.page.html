@@ -55,7 +55,8 @@
                     <div class="scheda-table">
                         <div class="scheda-row">
                             <div class="item">
-                                <h3 class="item-title">Proprietà: {{immobile.quota}} %<button  class="button view only-icon"
+                                <h3 class="item-title">Proprietà: {{immobile.quota}} %<button
+                                        class="button view only-icon"
                                         (click)="openModal('custom-modal-1')">&nbsp;</button></h3>
                                 <ul class="item-list half-height">
                                     <li><span>Book Value</span><span>-</span></li>
@@ -251,32 +252,23 @@
 </div>
 <app-quoteproprieta-modal id="custom-modal-1" class="modal-area">
     <div class="scheda modal">
-        <!--<div class="scheda-header">
-            <div class="scheda-table">
-                <div class="scheda-row">
-                    <div class="item tipologia abitazione"></div>
-                    <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
-                    <div class="item date"><span>Novembre</span><span>20</span><span>2019</span></div>
-                </div>
-            </div>
-        </div>-->
         <div class="scheda-content">
             <div class="scheda-table">
                 <div class="scheda-row">
                     <div class="item">
                         <h3 class="item-title">Quote proprietà</h3>
                         <ul class="item-list">
-                            <li><span>{{getCliente().nome + ' ' + getCliente().cognome}}</span><span>%</span></li>
-                            <li><span>Altro proprietario</span><span>50%</span></li>
+                            <li *ngFor="let coint of getCointestatari()">
+                                <span>{{coint.nominativo}}</span><span>{{coint.quota}}%</span></li>
                         </ul>
                         <div class="item-footer">
-                        <button (click)="closeModal('custom-modal-1');" class="button no-icon">Chiudi</button>
+                            <button (click)="closeModal('custom-modal-1');" class="button no-icon">Chiudi</button>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
-    
 </app-quoteproprieta-modal>
+
+LE MIE RICHIESTE > NUOVA > RICHIESTA DOCUMENTALRE

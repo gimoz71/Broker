@@ -71,7 +71,7 @@ export class HomePage extends BaseComponent implements OnInit {
         this.sessionService.setCliente(this.clienteScelto);
         this.sessionService.elencoImmobiliObs.subscribe(r => {
             if (r) {
-                this.immobiliCliente = this.sessionService.immobiliCliente;
+                this.immobiliCliente = this.sessionService.getImmobiliCliente();
             }
         });
     }
