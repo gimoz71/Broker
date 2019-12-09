@@ -20,7 +20,7 @@ export class ConstantsService {
     public readonly getClientiServiceName: string = 'getClienti';
     public readonly putClientiServiceName: string = 'putCliente';
     public readonly abilitaAppClienteServiceName: string = 'appcliente';
-    public readonly bookValueServiceName: string = 'getbookvalue';
+    public readonly bookValueServiceName: string = 'getBookValue';
     public readonly pianoAmmortamentoServiceName: string = 'getpiano';
 
     // report

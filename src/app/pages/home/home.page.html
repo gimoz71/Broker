@@ -48,8 +48,8 @@
                                 <div class="item immobili"><span class="badge">{{clienteScelto.numero_proprieta}}</span>
                                 </div>
                                 <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
-                                        class="bv_value">{{clienteScelto.book_value}}K</span><a href="#"
-                                        class="button view only-icon">&nbsp;</a></div>
+                                        class="bv_value">{{clienteScelto.book_value}}K</span><button
+                                        (click)="goToPatrimonio()" class="button view only-icon">&nbsp;</button></div>
                                 <div class="item anagrafica"><span class="nome">{{clienteScelto.nome}}
                                         {{clienteScelto.cognome}}</span><span
                                         class="cf">{{clienteScelto.codice_fiscale}}</span><span

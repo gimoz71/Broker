@@ -98,4 +98,8 @@ export class HomePage extends BaseComponent implements OnInit {
     public goToProfiloUtente(): void {
         this.goToPage('profilo-utente');
     }
+
+    public goToPatrimonio(): void {
+        this.goToPage('patrimonio');
+    }
 }

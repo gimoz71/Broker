@@ -53,23 +53,32 @@
                                     </div>
                                     <div class="form-item left" style="width: 33%;">
                                         <label>Password nuova</label>
-                                        <input type="password" [(ngModel)]="cambioPasswordRequest.nuova_password">
+                                        <input type="password" [(ngModel)]="cambioPasswordRequest.nuova_password"
+                                            maxlength="20">
                                     </div>
                                     <div class="form-item left" style="width: 33%;">
                                         <label>Ripeto password nuova</label>
                                         <input type="password" class="alert"
-                                            [(ngModel)]="cambioPasswordRequest.ripeti_password">
+                                            [(ngModel)]="cambioPasswordRequest.ripeti_password" maxlength="20">
                                     </div>
                                 </div>
-                                <div class="item-list form auto-height" style="margin-bottom: 0;">
+                                <div class="item-list form auto-height" style="margin-bottom: 0;"
+                                    *ngIf="cambioPasswordRequest.nuova_password != cambioPasswordRequest.ripeti_password">
                                     <div class="form-item alert">Le password non coincidono</div>
+                                </div>
+                                <div class="item-list form auto-height" style="margin-bottom: 0;"
+                                    *ngIf="cambioPasswordRequest.vecchia_password == cambioPasswordRequest.nuova_password">
+                                    <div class="form-item alert">La nuova password deve essere diversa dalla vecchia
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="scheda-table single-column">
                             <div class="item">
                                 <div class="item-list ">
-                                    <button class="button forward right" (click)="salvaNuovaPassword()">Salva</button>
+                                    <button class="button forward right" (click)="salvaNuovaPassword()"
+                                        [disabled]="cambioPasswordRequest.vecchia_password == cambioPasswordRequest.nuova_password 
+                                        && cambioPasswordRequest.nuova_password != cambioPasswordRequest.ripeti_password">Salva</button>
                                 </div>
                             </div>
                         </div>

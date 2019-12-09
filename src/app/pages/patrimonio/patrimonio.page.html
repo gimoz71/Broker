@@ -1,17 +1,3 @@
-<!--<ion-header no-border no-padding no-margin>
-  <ion-toolbar color="bar" no-padding no-margin>
-    <ion-buttons slot="start" class="logo left-side-element"  no-padding no-margin> </ion-buttons>
-    <ion-title text-left class="header-bar">
-      <img src="/assets/img/readvice-logo@2x.png" class="title">
-    </ion-title>
-    <ion-buttons slot="end" class="tools">
-        <a href="#" class="hints tasks"><span>10</span></a>
-        <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
-    </ion-buttons>
-</ion-toolbar>
-</ion-header>-->
-
 <div class="main-header">
     <div class="logo"></div>
     <div class="header-bar">
@@ -31,7 +17,7 @@
                 <div class="tool-row">
                     <div class="tool">
                         <a href="#" class="button back only-icon">&nbsp;</a>
-                        <h3 class="page-title cliente">Francesca Palmi - Immobile</h3>
+                        <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Patrimonio</h3>
                     </div>
                 </div>
             </div>
@@ -42,8 +28,12 @@
                     <div class="scheda-table">
                         <div class="scheda-row">
                             <div class="item immobili"><span class="badge">4</span></div>
-                            <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span class="bv_value">450K</span></div>
-                            <div class="item anagrafica"><span class="nome">Paolo Rossi</span><span class="cf">PLARSS80A01L219Q</span><span class="email">paolo.rossi@domain.it</span></div>
+                            <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
+                                    class="bv_value">{{cliente.book_value}}</span></div>
+                            <div class="item anagrafica"><span
+                                    class="nome">{{cliente.nome + ' ' + cliente.cognome}}</span><span
+                                    class="cf">{{cliente.codice_fiscale}}</span><span
+                                    class="email">{{cliente.email}}</span></div>
                             <div class="item tools"></div>
                         </div>
                     </div>
@@ -52,40 +42,34 @@
                     <div class="scheda-table">
                         <div class="scheda-row">
                             <div class="item">
-                                <div class="item-title">Abitazioni <a href="#" class="button view only-icon">&nbsp;</a></div>
+                                <h3 class="item-title">Abitazioni <span>{{totalePatrimoniA}}</span></h3>
                                 <ul class="item-list">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li *ngFor="let patrimonio of patrimoniA">
+                                        <span>{{patrimonio.descrizione_tipologia}}</span><span>{{patrimonio.book_value}}</span>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Abitazioni <span>500K</span></h3>
+                                <h3 class="item-title">Commerciali <span>{{totalePatrimoniC}}</span></h3>
                                 <ul class="item-list">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li *ngFor="let patrimonio of patrimoniC">
+                                        <span>{{patrimonio.descrizione_tipologia}}</span><span>{{patrimonio.book_value}}</span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="scheda-row">
                             <div class="item">
-                                <h3 class="item-title">Abitazioni <span>500K</span></h3>
+                                <h3 class="item-title">Terreni <span>{{totalePatrimoniT}}</span></h3>
                                 <ul class="item-list">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li *ngFor="let patrimonio of patrimoniT">
+                                        <span>{{patrimonio.descrizione_tipologia}}</span><span>{{patrimonio.book_value}}</span>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Abitazioni <span>500K</span></h3>
+                                <h3 class="item-title">Altro <span>0</span></h3>
                                 <ul class="item-list">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -99,129 +83,20 @@
             <div class="row">
                 <div class="header-cell">
                     <span class="small">immobili di</span>
-                    <span class="nome">Paolo Rossi</span>
+                    <span class="nome">{{cliente.nome + ' ' + cliente.cognome}}</span>
                 </div>
             </div>
         </div>
         <div class="list">
             <ul class="lista-immobile">
-                <li class="immobile selected">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
+                <li class="immobile" *ngFor="let immobileLista of immobiliCliente"
+                    (click)="apriSchedaImmobile(immobileLista.immobile_id)">
+                    <div class="indirizzo">{{immobileLista.indirizzo}},
+                        {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}}
+                        ({{immobileLista.provincia}})</div>
                     <div class="tipologia table">
                         <div class="row">
                             <div class="cell abitazione">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell commerciale">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell parcheggio">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell magazzino">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell abitazione">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell commerciale">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell parcheggio">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell magazzino">
                             </div>
                         </div>
                     </div>

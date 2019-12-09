@@ -31,6 +31,17 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
 
   public salvaNuovaPassword(): void {
     // validazione
+    if (!this.validaPassword()) {
+      this.alertService.presentAlert("Password non valida, i requisiti sono:<br/>" +
+        "- deve contenere almeno un numero.<br/>" +
+        "- deve contenere almeno una lettera minuscola.<br/>" +
+        "- deve contenere almeno una lettera maiuscola<br/>" +
+        "- deve contenere almeno un carattere speciale (@#$%^&+=)<br/>" +
+        "- non deve contenere spazi bianchi<br/>" +
+        "- deve essere lunga almeno 8 caratteri<br/>");
+      return;
+    }
+
     this.loginService.CambioPassword(this.cambioPasswordRequest, this.wsToken.token_value).subscribe(r => {
       if (r.Success) {
         this.alertService.presentAlert("Password correttamente modificata");
@@ -40,5 +51,14 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
+
+  public validaPassword(): boolean {
+    let valid = true;
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*_])(?=.{8,})");
+    if (!strongRegex.test(this.cambioPasswordRequest.nuova_password)) {
+      valid = false;
+    }
+    return valid;
   }
 }
