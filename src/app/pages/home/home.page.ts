@@ -94,4 +94,8 @@ export class HomePage extends BaseComponent implements OnInit {
         this.clienteScelto = new Cliente();
         this.goToPage('nuovo-cliente');
     }
+
+    public goToProfiloUtente(): void {
+        this.goToPage('profilo-utente');
+    }
 }
