@@ -18,7 +18,7 @@ export class ConstantsService {
 
     // clienti
     public readonly getClientiServiceName: string = 'getClienti';
-    public readonly putClientiServiceName: string = 'putcliente';
+    public readonly putClientiServiceName: string = 'putCliente';
     public readonly abilitaAppClienteServiceName: string = 'appcliente';
     public readonly bookValueServiceName: string = 'getbookvalue';
     public readonly pianoAmmortamentoServiceName: string = 'getpiano';
