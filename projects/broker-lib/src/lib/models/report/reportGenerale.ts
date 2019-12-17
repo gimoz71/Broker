@@ -1,4 +1,5 @@
 import { ReportGeneraleAttivo } from './reportGeneraleAttivo';
+import { ReportGeneralePassivo } from './reportGeneralePassivo';
 
 export class ReportGenerale {
     public proprieta_id: number;
@@ -12,6 +13,6 @@ export class ReportGenerale {
     public cap: string;
     public provincia: string;
     public prima_casa: string;
-    public passivi: Array<ReportGeneraleAttivo>;
+    public passivi: Array<ReportGeneralePassivo>;
     public attivo: ReportGeneraleAttivo;
 }
