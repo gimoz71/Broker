@@ -6,7 +6,7 @@
     <div class="tools">
         <a href="#" class="hints tasks"><span>10</span></a>
         <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
+        <a href="#" class="user">{{getUtenteEmail()}}</a>
     </div>
 </div>
 
@@ -46,9 +46,10 @@
                                     <span>{{totalePatrimoniA == 0 ? '--' : totalePatrimoniA}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniA">
-                                        <span class="badge patrimonio">4</span>
-                                        <span>{{patrimonio.descrizione_tipologia}}</span><span>{{patrimonio.book_value}}</span>
+                                        <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value}}</span>
                                     </li>
+                                    <li *ngIf="patrimoniA.length == 0">--</li>
                                 </ul>
                             </div>
                             <div class="item">
@@ -56,9 +57,10 @@
                                     <span>{{totalePatrimoniC == 0 ? '--' : totalePatrimoniC}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniC">
-                                        <span class="badge patrimonio">4</span>
-                                        <span>{{patrimonio.descrizione_tipologia}}</span><span>{{patrimonio.book_value}}</span>
+                                        <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value}}</span>
                                     </li>
+                                    <li *ngIf="patrimoniC.length == 0">--</li>
                                 </ul>
                             </div>
                         </div>
@@ -68,14 +70,16 @@
                                     <span>{{totalePatrimoniT == 0 ? '--' : totalePatrimoniT}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniT">
-                                        <span class="badge patrimonio">4</span>
-                                        <span>{{patrimonio.descrizione_tipologia}}</span><span>{{patrimonio.book_value}}</span>
+                                        <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value}}</span>
                                     </li>
+                                    <li *ngIf="patrimoniT.length == 0">--</li>
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Altro <span>0</span></h3>
+                                <h3 class="item-title">Altro <span>--</span></h3>
                                 <ul class="item-list">
+                                    <li>--</li>
                                 </ul>
                             </div>
                         </div>

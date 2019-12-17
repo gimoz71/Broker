@@ -1,5 +1,5 @@
 
-import { SessionService, StoreService, LoginService } from 'broker-lib';
+import { SessionService, StoreService, LoginService, ReportService } from 'broker-lib';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
@@ -87,6 +87,7 @@ const routes: Routes = [
     StoreService,
     LoginService,
     StatusBar,
+    ReportService,
     SplashScreen,
     HTTP,
     {

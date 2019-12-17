@@ -102,4 +102,8 @@ export class HomePage extends BaseComponent implements OnInit {
     public goToPatrimonio(): void {
         this.goToPage('patrimonio');
     }
+
+    public goToReportAnalisi(): void {
+        this.goToPage('report-analisi');
+    }
 }

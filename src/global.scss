@@ -1959,3 +1959,8 @@ input:checked + .slider:before {
         text-align: center;
     }
 }
+
+canvas {
+    width:100% !important; 
+    height:100% !important;
+}

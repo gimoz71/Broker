@@ -24,7 +24,7 @@ export class ConstantsService {
     public readonly pianoAmmortamentoServiceName: string = 'getpiano';
 
     // report
-    public readonly situazioneGeneraleServiceName: string = 'getsituazione';
+    public readonly situazioneGeneraleServiceName: string = 'getSituazione';
     public readonly graficiServiceName: string = 'getgrafici';
     public readonly pdfReportServiceName: string = 'getpdfreport';
 

@@ -54,8 +54,10 @@
                                         {{clienteScelto.cognome}}</span><span
                                         class="cf">{{clienteScelto.codice_fiscale}}</span><span
                                         class="email">{{clienteScelto.email}}</span></div>
-                                <div class="item tools"><a href="#" class="button edit full-width">Modifica</a><a
-                                        href="#" class="button report full-width">Report</a></div>
+                                <div class="item tools"><button href="#"
+                                        class="button edit full-width">Modifica</button><button href="#"
+                                        class="button report full-width" (click)="goToReportAnalisi()">Report</button>
+                                </div>
                             </div>
                         </div>
                         <div class="status red"></div>

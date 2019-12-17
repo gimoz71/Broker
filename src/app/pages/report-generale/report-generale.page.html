@@ -1,17 +1,3 @@
-<!--<ion-header no-border no-padding no-margin>
-  <ion-toolbar color="bar" no-padding no-margin>
-    <ion-buttons slot="start" class="logo left-side-element"  no-padding no-margin> </ion-buttons>
-    <ion-title text-left class="header-bar">
-      <img src="/assets/img/readvice-logo@2x.png" class="title">
-    </ion-title>
-    <ion-buttons slot="end" class="tools">
-        <a href="#" class="hints tasks"><span>10</span></a>
-        <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
-    </ion-buttons>
-</ion-toolbar>
-</ion-header>-->
-
 <div class="main-header">
     <div class="logo"></div>
     <div class="header-bar">
@@ -20,7 +6,7 @@
     <div class="tools">
         <a href="#" class="hints tasks"><span>10</span></a>
         <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
+        <a href="#" class="user">{{getUtenteEmail()}}</a>
     </div>
 </div>
 
@@ -31,7 +17,7 @@
                 <div class="tool-row">
                     <div class="tool">
                         <a href="#" class="button back only-icon">&nbsp;</a>
-                        <h3 class="page-title cliente">Francesca Palmi - Report</h3>
+                        <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Report</h3>
                         <div style="float: right"><a href="#" class="button upload">Invia scheda</a></div>
                     </div>
                 </div>
@@ -41,7 +27,7 @@
             <div class="report-tab">
                 <ul>
                     <li class="active">Generali</li>
-                    <li>Analisi</li>
+                    <li (click)="goToReportAnalisi()">Analisi</li>
                 </ul>
             </div>
             <div class="report-data">
@@ -57,7 +43,16 @@
                 </div>
                 <div class="table-body-container">
                     <div class="table-body">
-                        <div class="table-row">
+                        <div class="table-row" *ngFor="let imm of situazioneImmobili">
+                            <div class="table-cell">
+                                {{imm.indirizzo + ' ' + imm.civico + ', ' + imm.citta}}</div>
+                            <div class="table-cell">{{imm.quota + '%'}}</div>
+                            <div class="table-cell">{{imm.codice_tipologia}}</div>
+                            <div class="table-cell">10K &euro; <img src="/assets/img/icon-view-mini@2x.png"></div>
+                            <div class="table-cell">10K &euro; <img src="/assets/img/icon-view-mini@2x.png"></div>
+                            <div class="table-cell">10K &euro;</div>
+                        </div>
+                        <!-- <div class="table-row">
                             <div class="table-cell">Nino Bixio 12, Milano</div>
                             <div class="table-cell">100%</div>
                             <div class="table-cell">A/4</div>
@@ -144,15 +139,7 @@
                             <div class="table-cell">10K &euro; <img src="/assets/img/icon-view-mini@2x.png"></div>
                             <div class="table-cell">10K &euro; <img src="/assets/img/icon-view-mini@2x.png"></div>
                             <div class="table-cell">10K &euro;</div>
-                        </div>
-                        <div class="table-row">
-                            <div class="table-cell">Nino Bixio 12, Milano</div>
-                            <div class="table-cell">100%</div>
-                            <div class="table-cell">A/4</div>
-                            <div class="table-cell">10K &euro; <img src="/assets/img/icon-view-mini@2x.png"></div>
-                            <div class="table-cell">10K &euro; <img src="/assets/img/icon-view-mini@2x.png"></div>
-                            <div class="table-cell">10K &euro;</div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="table-total-container">
