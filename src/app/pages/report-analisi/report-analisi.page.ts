@@ -78,6 +78,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     const colori = this.getColoriPieChart(data);
     this.affittuariChart = new Chart(this.affittuariCanvas.nativeElement, {
       type: 'pie',
+        options: {
+            aspectRatio: 1.5,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    boxWidth: 10,
+                }
+            }
+        },
       data: {
         labels: affittuariLabels,
         datasets: [{
@@ -109,6 +118,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     const colori = this.getColoriPieChart(data);
     this.tipologiaChart = new Chart(this.tipologiaCanvas.nativeElement, {
       type: 'pie',
+        options: {
+            aspectRatio: 1.5,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    boxWidth: 10,
+                }
+            }
+        },
       data: {
         labels: tipologiaLabels,
         datasets: [{
@@ -140,6 +158,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     const colori = this.getColoriPieChart(data);
     this.concentrazioneChart = new Chart(this.concentrazioneCanvas.nativeElement, {
       type: 'pie',
+        options: {
+            aspectRatio: 1.5,
+            legend: {
+                position: 'bottom',
+                labels: {
+                    boxWidth: 10,
+                }
+            }
+        },
       data: {
         labels: concentrazioneLabels,
         datasets: [{
@@ -173,6 +200,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
 
     this.indicatoriChart = new Chart(this.indicatoriCanvas.nativeElement, {
       type: 'polarArea',
+      options: {
+          aspectRatio: 1,
+          legend: {
+              position: 'bottom',
+              labels: {
+                  boxWidth: 10,
+              }
+          }
+      },
       data: {
         labels: indicatoriLabels,
         datasets: [{
@@ -299,6 +335,7 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
         ]
       },
       options: {
+        aspectRatio: 3,
         title: {
           display: true,
           text: 'Analisi'
