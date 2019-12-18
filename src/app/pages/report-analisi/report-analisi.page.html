@@ -14,7 +14,7 @@
             <div class="tool-table">
                 <div class="tool-row">
                     <div class="tool">
-                        <a href="#" class="button back only-icon">&nbsp;</a>
+                        <button class="button back only-icon" (click)="goToHome()">&nbsp;</button>
                         <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Report</h3>
                         <div style="float: right"><a href="#" class="button upload">Invia scheda</a></div>
                     </div>
@@ -47,7 +47,8 @@
                             </ion-col>
                             <ion-col size-lg="3" size-md="6" size-sm="12">
                                 <div>
-                                    <canvas id="canvasConcentrazione" #concentrazioneCanvas>{{concentrazioneChart}}</canvas>
+                                    <canvas id="canvasConcentrazione"
+                                        #concentrazioneCanvas>{{concentrazioneChart}}</canvas>
                                 </div>
                             </ion-col>
                             <ion-col size-lg="3" size-md="6" size-sm="12">
@@ -62,7 +63,7 @@
                             </ion-col>
                         </ion-row>
                     </ion-grid>
-                    
+
                 </div>
             </div>
         </div>

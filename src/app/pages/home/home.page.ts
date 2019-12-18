@@ -42,6 +42,9 @@ export class HomePage extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+    }
+
+    ionViewDidEnter() {
         this.initializeApp();
     }
 
@@ -103,7 +106,7 @@ export class HomePage extends BaseComponent implements OnInit {
         this.goToPage('patrimonio');
     }
 
-    public goToReportAnalisi(): void {
-        this.goToPage('report-analisi');
+    public goToAnalisiGenerale(): void {
+        this.goToPage('report-generale');
     }
 }

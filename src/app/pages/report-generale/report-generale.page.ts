@@ -15,6 +15,8 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   public oggettiColonnaDestra: Array<ReportGeneraleOggettoColonna>;
 
+  public etichettaColonna: string;
+
   constructor(public sessionService: SessionService,
     public storeService: StoreService,
     public router: Router,
@@ -28,6 +30,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.cliente = new Cliente();
     this.situazioneImmobili = new Array<ReportGenerale>();
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.etichettaColonna = '';
   }
 
   ionViewDidEnter() {
@@ -94,12 +97,13 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     return toReturn;
   }
 
-  private getTotaleImmobile(immobile: ReportGenerale): number {
+  public getTotaleImmobile(immobile: ReportGenerale): number {
     return this.getTotaleAttiviImmobile(immobile) - this.getTotalePassiviImmobile(immobile);
   }
 
-  private caricaPassiviImmobile(immobile: ReportGenerale): void {
+  public caricaPassiviImmobile(immobile: ReportGenerale): void {
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.etichettaColonna = 'Passivi';
     if (immobile.passivi) {
       for (const passivo of immobile.passivi) {
         const oggettoColonna = new ReportGeneraleOggettoColonna();
@@ -110,8 +114,9 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     }
   }
 
-  private caricaAttiviImmobile(immobile: ReportGenerale): void {
+  public caricaAttiviImmobile(immobile: ReportGenerale): void {
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.etichettaColonna = 'Attivi';
     if (immobile.attivo) {
 
       const oggettoColonnaDescrizioneAffittuario = new ReportGeneraleOggettoColonna();
@@ -145,5 +150,27 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
       this.oggettiColonnaDestra.push(oggettoColonnaDataInizio);
       this.oggettiColonnaDestra.push(oggettoColonnaImportoMensile);
     }
+  }
+
+  public getTotalePassiviImmobili(): number {
+    let tot = 0;
+
+    for (const immobile of this.situazioneImmobili) {
+      tot = tot + this.getTotalePassiviImmobile(immobile);
+    }
+    return tot;
+  }
+
+  public getTotaleAttiviImmobili(): number {
+    let tot = 0;
+
+    for (const immobile of this.situazioneImmobili) {
+      tot = tot + this.getTotaleAttiviImmobile(immobile);
+    }
+    return tot;
+  }
+
+  public getTotaleImmobili(): number {
+    return this.getTotaleAttiviImmobili() - this.getTotalePassiviImmobili();
   }
 }

@@ -70,6 +70,10 @@ export class BaseComponent implements OnInit {
         }
     }
 
+    public goToHome(): void {
+        this.goToPage('home');
+    }
+
     public goToPage(pageName: string): void {
         this.router.navigate([pageName]);
     }
