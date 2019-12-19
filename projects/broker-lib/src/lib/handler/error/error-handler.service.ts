@@ -29,7 +29,7 @@ export class ErrorHandlerService implements ErrorHandler {
         errore.username = '';
         // console.log('trasmetto l\'errore');
         this.logErroriService.postErrore(errore, token).subscribe(r => {
-            console.log('errore trasmesso');
+            console.log('errore trasmesso: ' + errore);
             this.alertService.presentErrorAlert('Errore ' + error.message + ' trasmesso al server');
         });
         console.log('gestione errore completata');

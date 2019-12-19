@@ -27,15 +27,26 @@ export class BaseComponent implements OnInit {
 
     ngOnInit(): void {
 
-        this.storeService.getUserDataPromise().then((val: WsToken) => {
-            if (val == null) {
-                this.router.navigate(['login']);
-            } else {
-                this.wsToken = val;
-                this.sessionService.setUserData(val);
-                this.wsTokenSubject.next(true);
-            }
-        });
+        // this.sessionService.userDataObservable.subscribe(r => {
+        //     if (r) {
+        //         this.wsToken = this.sessionService.getUserData();
+        //         this.wsTokenSubject.next(true);
+        //     } else {
+        //         this.goToPage('login');
+        //     }
+        // });
+        // this.sessionService.loadUserData();
+        this.loadCliente();
+        // this.storeService.getUserDataPromise().then((val: WsToken) => {
+        //     if (val == null) {
+        //         this.router.navigate(['login']);
+        //     } else {
+        //         this.wsToken = val;
+        //         this.sessionService.setUserData(val);
+        //         console.log('sblocco il token');
+        //         this.wsTokenSubject.next(true);
+        //     }
+        // });
 
 
     }

@@ -33,26 +33,42 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.etichettaColonna = '';
   }
 
-  ionViewDidEnter() {
-
-    this.loadCliente();
-    this.cliente = this.getCliente();
-    if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
-      // non ho clienti selezionati
-      this.presentAlert("E' necessario selezionare un cliente");
-      this.goToPage('home');
-    }
-    this.reportService.getSituazioneGenerale(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
-      if (r.Success) {
-        this.situazioneImmobili = r.Data.elenco_immobili;
-      } else {
-        this.manageError(r);
-      }
-    });
-  }
-
   ngOnInit() {
     super.ngOnInit();
+    this.loadCliente();
+  }
+
+  ionViewDidEnter() {
+    this.initializeApp();
+    super.ngOnInit();
+  }
+
+  private initializeApp() {
+    // ottengo il token
+    this.sessionService.userDataObservable.subscribe(present => {
+      if (present) {
+        this.wsToken = this.sessionService.getUserData();
+
+        this.cliente = this.getCliente();
+        if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
+          // non ho clienti selezionati
+          this.presentAlert("E' necessario selezionare un cliente");
+          this.goToPage('home');
+        }
+
+        this.reportService.getSituazioneGenerale(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+          if (r.Success) {
+            this.situazioneImmobili = r.Data.elenco_immobili;
+          } else {
+            this.manageError(r);
+          }
+        });
+      } else {
+        this.alertService.presentAlert('Token assente, necessario login');
+        this.goToPage('login');
+      }
+    });
+    this.sessionService.loadUserData();
   }
 
   private goToReportAnalisi(): void {

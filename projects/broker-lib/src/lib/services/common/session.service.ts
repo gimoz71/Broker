@@ -8,6 +8,7 @@ import { Immobile } from '../../models/immobili/immobile';
 import { Subject } from 'rxjs';
 import { ImmobileDettaglio } from '../../models/immobili/immobileDettaglio';
 import { Connection } from '../../models/common/connection';
+import { resolve } from 'url';
 
 @Injectable()
 export class SessionService {
@@ -20,6 +21,9 @@ export class SessionService {
     private userData: WsToken;
 
     private connection: Connection;
+
+    private userDataSubject: Subject<boolean> = new Subject<boolean>();
+    public userDataObservable = this.userDataSubject.asObservable();
 
     constructor(
         private storeService: StoreService,
@@ -57,6 +61,21 @@ export class SessionService {
 
     public getUserData(): WsToken {
         return this.userData;
+    }
+
+    public loadUserData(): void {
+        if (this.userData !== null && this.userData !== undefined && this.userData.token_value === '') {
+            this.userDataSubject.next(true);
+        } else {
+            this.storeService.getUserDataPromise().then((val: WsToken) => {
+                if (val == null) {
+                    this.userDataSubject.next(false);
+                } else {
+                    this.userData = val;
+                    this.userDataSubject.next(true);
+                }
+            });
+        }
     }
 
     public getImmobiliCliente(): Array<Immobile> {

@@ -42,6 +42,7 @@ export class HomePage extends BaseComponent implements OnInit {
 
     ngOnInit(): void {
         super.ngOnInit();
+
     }
 
     ionViewDidEnter() {
@@ -50,8 +51,9 @@ export class HomePage extends BaseComponent implements OnInit {
 
     private initializeApp() {
 
-        this.wsTokenObservable.subscribe(r => {
-            if (r) {
+        this.sessionService.userDataObservable.subscribe(present => {
+            if (present) {
+                this.wsToken = this.sessionService.getUserData();
                 this.clientiService.getClienti(this.wsToken.token_value).subscribe(t => {
                     if (t.Success) {
                         console.log('RICEVUTO: ' + t.Data);
@@ -60,12 +62,13 @@ export class HomePage extends BaseComponent implements OnInit {
                         this.manageError(t);
                     }
                 });
+            } else {
+                this.alertService.presentAlert('Token assente, necessario login');
+                this.goToPage('login');
             }
         });
+        this.sessionService.loadUserData();
 
-        // test per il loader
-        // this.presentLoader();
-        // setTimeout(() => { this.dismissLoader(); }, 3000);
     }
 
     public caricaCliente(cliente: Cliente) {

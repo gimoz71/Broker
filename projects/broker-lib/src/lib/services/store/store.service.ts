@@ -40,38 +40,6 @@ export class StoreService {
                     console.log(val);
                     if (val != null) {
                         resolve(val);
-                        // eventuale controllo la validità del token
-                        // se non è valido devo eseguire di nuovo il login (vedere app Gisco).
-                        // verificare se esiste un servizio per il controllo di validità del token
-
-                        // this.check.checkToken(this.serverUrl, val.token_value).subscribe(
-                        //     (r)=>{
-                        // console.log(r);
-                        // token corretto lo invio
-                        //         if (r.ErrorMessage.msg_code == 0){
-                        //             resolve(val);
-                        //         }else{
-                        //             //token non corretto faccio il login
-                        //             this.login.login(this.serverUrl, val.token_user, val.token_password).subscribe(
-                        //                 (rl : Login.ws_Token)=>{
-                        //                     console.log(rl);
-                        //                         console.log("log userdata 1");
-                        //                     if (rl.ErrorMessage.msg_code == 0){
-                        //                             this.setUserData(rl);
-                        //                             this.ud = rl;
-                        //                             resolve(rl)
-                        //                     }else{
-                        //                         console.log("errore login 4");
-                        //                         this.setUserData(null);
-                        //                          this.ud = null;
-                        //                         resolve(null);
-                        //                     }
-                        //                 }
-                        //             );
-                        //         }
-                        //         }
-                        //     );
-                        // }
                     } else {
                         console.log("necessario login");
                         this.setUserData(null);
@@ -87,34 +55,6 @@ export class StoreService {
                 // come al punto precedente servirebbe controllare il token ed eventualmente fare di nuovo il login;
 
                 resolve(this.wsToken);
-
-                // this.check.checkToken(this.serverUrl, this.ud.token_value).subscribe(
-                //     //check sul token
-                //     (r: Login.ws_Token)=>{
-                //         //token valido lo invio
-                //         if (r.ErrorMessage.msg_code == 0){
-                //             resolve(this.ud);
-                //         }else{
-                //             this.login.login(this.serverUrl, this.ud.token_user, this.ud.token_password).subscribe(
-                //                 //token non valido faccio il login
-                //                (rl : Login.ws_Token)=>{
-                //                 console.log("log userdata 3");
-                //                 console.log(rl);
-                //                    if (rl.ErrorMessage.msg_code == 0){
-                //                     this.setUserData(rl);
-                //                     this.ud = rl;
-                //                     resolve(rl);
-                //                    }else{
-                //                         resolve (null);
-                //                         this.setUserData(null);
-                //                         this.ud = null;
-                //                        console.log("login non riuscito 1");
-                //                    }
-                //                }
-                //             );
-                //         }
-                //     }
-                // )
             }
         });
     }

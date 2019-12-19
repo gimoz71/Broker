@@ -38,33 +38,48 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     ngOnInit() {
         super.ngOnInit();
-        this.loadCliente();
-        var cliente = this.getCliente();
-        if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
-            // non ho clienti selezionati
-            this.presentAlert("E' necessario selezionare un cliente");
-            this.goToPage('home');
-        }
-        this.immobiliCliente = this.sessionService.getImmobiliCliente();
-        this.route.queryParams.subscribe(params => {
+    }
 
-            this.immobile_id = params.immobile_id;
-            this.immobiliService.getImmobile(this.immobile_id, this.sessionService.getUserData().token_value).subscribe(r => {
-                if (r.Success) {
+    ionViewDidEnter() {
+        this.initializeApp();
+        super.ngOnInit();
 
-                    this.immobile = r.Data[0];
-                    this.sessionService.setImmobileDettaglio(this.immobile);
+    }
 
-                    // Calcolo il totale annuale delle tasse
-                    // let totaleTasse = 0;
-                    // this.immobile.tasse.forEach(t => {
-                    //     totaleTasse += t.importo_annuale;
-                    // });
-                    // this.immobile.tasse_totale = totaleTasse;
+    private initializeApp() {
+        // ottengo il token
+        this.sessionService.userDataObservable.subscribe(present => {
+            if (present) {
+                this.wsToken = this.sessionService.getUserData();
+                this.route.queryParams.subscribe(params => {
 
+                    this.immobile_id = params.immobile_id;
+                    this.immobiliService.getImmobile(this.immobile_id, this.wsToken.token_value).subscribe(s => {
+                        if (s.Success) {
+                            this.immobile = s.Data;
+                            this.sessionService.setImmobileDettaglio(this.immobile);
+                        }
+                    });
+                });
+
+                const cliente = this.getCliente();
+                if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
+                    // non ho clienti selezionati
+                    this.presentAlert("E' necessario selezionare un cliente");
+                    this.goToPage('home');
                 }
-            });
+                this.immobiliCliente = this.sessionService.getImmobiliCliente();
+
+            } else {
+                this.alertService.presentAlert('Token assente, necessario login');
+                this.goToPage('login');
+            }
         });
+        this.sessionService.loadUserData();
+
+
+
+
     }
 
     public getCointestatari(): Array<CointestatarioDettaglio> {

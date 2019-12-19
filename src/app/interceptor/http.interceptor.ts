@@ -49,6 +49,7 @@ export class RaHttpInterceptor implements HttpInterceptor {
 
         // ---------- QUI SI DEVONO MAPPARE TUTTI I POSSIBILI ERRORI HTTP E IMPLEMENTARE LE CONSEGUENTI AZIONI
 
+        console.log('interceptor --->>> handling error: ' + err.status + ' ' + err.message);
         // handle your auth error or rethrow
         if (err.status === 401 || err.status === 403) {
             // navigate /delete cookies or whatever
