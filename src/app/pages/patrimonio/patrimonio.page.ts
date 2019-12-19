@@ -43,32 +43,65 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
     super.ngOnInit();
     this.loadCliente();
 
-    // carico i patrimoni del cliente selezionato
-    this.cliente = this.getCliente();
-    if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
-      // non ho clienti selezionati
-      this.presentAlert("E' necessario selezionare un cliente");
-      this.goToPage('home');
-    }
-    this.immobiliCliente = this.sessionService.getImmobiliCliente();
-    this.clientiService.getBookValue(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
-      if (r.Success) {
-        if (r.Data.elencoTipologieCatastaliA) {
-          this.patrimoniA = r.Data.elencoTipologieCatastaliA;
-          this.calcolaTotalePatrimoniA();
+    // // carico i patrimoni del cliente selezionato
+    // this.cliente = this.getCliente();
+    // if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
+    //   // non ho clienti selezionati
+    //   this.presentAlert("E' necessario selezionare un cliente");
+    //   this.goToPage('home');
+    // }
+    // this.immobiliCliente = this.sessionService.getImmobiliCliente();
+
+  }
+
+  ionViewDidEnter() {
+    this.initializeApp();
+    super.ngOnInit();
+  }
+
+  private initializeApp() {
+    // ottengo il token
+    this.sessionService.userDataObservable.subscribe(present => {
+      if (present) {
+        this.wsToken = this.sessionService.getUserData();
+
+        const cliente = this.getCliente();
+        if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
+          // non ho clienti selezionati
+          this.presentAlert("E' necessario selezionare un cliente");
+          this.goToPage('home');
         }
-        if (r.Data.elencoTipologieCatastaliC) {
-          this.patrimoniA = r.Data.elencoTipologieCatastaliC;
-          this.calcolaTotalePatrimoniC();
-        }
-        if (r.Data.elencoTipologieCatastaliT) {
-          this.patrimoniA = r.Data.elencoTipologieCatastaliT;
-          this.calcolaTotalePatrimoniT();
-        }
+        this.immobiliCliente = this.sessionService.getImmobiliCliente();
+
+        this.clientiService.getBookValue(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+          if (r.Success) {
+            if (r.Data.elencoTipologieCatastaliA) {
+              this.patrimoniA = r.Data.elencoTipologieCatastaliA;
+              this.calcolaTotalePatrimoniA();
+            }
+            if (r.Data.elencoTipologieCatastaliC) {
+              this.patrimoniA = r.Data.elencoTipologieCatastaliC;
+              this.calcolaTotalePatrimoniC();
+            }
+            if (r.Data.elencoTipologieCatastaliT) {
+              this.patrimoniA = r.Data.elencoTipologieCatastaliT;
+              this.calcolaTotalePatrimoniT();
+            }
+          } else {
+            this.manageError(r);
+          }
+        });
+
       } else {
-        this.manageError(r);
+        this.alertService.presentAlert('Token assente, necessario login');
+        this.goToPage('login');
       }
     });
+    this.sessionService.loadUserData();
+
+
+
+
   }
 
   public apriSchedaImmobile(immobile: number) {

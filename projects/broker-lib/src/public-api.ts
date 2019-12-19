@@ -32,6 +32,7 @@ export * from './lib/models/report/graficiIndicatore';
 export * from './lib/models/report/reportGenerale';
 export * from './lib/models/report/reportGeneraleAttivo';
 export * from './lib/models/report/reportGeneralePassivo';
+export * from './lib/models/report/reportGeneraleOggettoColonna';
 // -- clienti
 export * from './lib/models/clienti/cliente';
 export * from './lib/models/clienti/abilitaAppClienteRequest';

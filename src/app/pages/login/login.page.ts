@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoginService, StoreService, SessionService } from 'broker-lib';
+import { LoginService, StoreService, SessionService, AlertService } from 'broker-lib';
 
 import { LoginRequest, WsToken } from 'broker-lib';
 
@@ -21,7 +21,9 @@ export class LoginPage implements OnInit {
   constructor(
     private loginService: LoginService,
     private storeService: StoreService,
-    private router: Router) { }
+    private router: Router,
+    private alertService: AlertService,
+    private sessionService: SessionService) { }
 
   ngOnInit() { }
 
@@ -37,12 +39,18 @@ export class LoginPage implements OnInit {
         // ho avuto risposta positiva. Non è detto che sia loggato pero'
         const data: WsToken = r.Data;
         // per il momento si ipotizza che se Success=true allora ci si è loggati
-        this.storeService.setUserData(data);
+        this.sessionService.setUserData(data);
         this.router.navigate(['home']);
         // this.router.navigate(['home']);
       } else {
-
+        this.alertService.presentErrorAlert('Problema durante il login: ' + r.ErrorMessage.msg_testo);
       }
+    }, err => {
+      let errMessage = err.statusText;
+      if (err.status === 401) {
+        errMessage = "Utente non autorizzato";
+      }
+      this.alertService.presentErrorAlert('Problema durante il login: ' + errMessage);
     });
   }
 

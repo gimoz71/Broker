@@ -45,7 +45,9 @@ export class ImmobiliService {
      */
     public getImmobile(immobile_id: string, tokenValue: string): Observable<Http.HttpResponse> {
         // return this.httpService.get(this.constants.getImmobileServiceName + this.constants.pathSeparator + immobile_id, tokenValue);
-        return this.httpService.get(this.constants.getImmobileServiceName, tokenValue);
+        return this.httpService.get(this.constants.getImmobileServiceName
+            + this.constants.pathSeparator
+            + immobile_id, tokenValue);
     }
 
     /**

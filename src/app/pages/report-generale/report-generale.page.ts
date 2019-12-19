@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 
@@ -13,6 +13,10 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
   public cliente: Cliente;
   public situazioneImmobili: Array<ReportGenerale>;
 
+  public oggettiColonnaDestra: Array<ReportGeneraleOggettoColonna>;
+
+  public etichettaColonna: string;
+
   constructor(public sessionService: SessionService,
     public storeService: StoreService,
     public router: Router,
@@ -25,31 +29,164 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     super(sessionService, storeService, router, logErroriService, alertService);
     this.cliente = new Cliente();
     this.situazioneImmobili = new Array<ReportGenerale>();
-  }
-
-  ionViewDidEnter() {
-
-    this.loadCliente();
-    this.cliente = this.getCliente();
-    if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
-      // non ho clienti selezionati
-      this.presentAlert("E' necessario selezionare un cliente");
-      this.goToPage('home');
-    }
-    this.reportService.getSituazioneGenerale(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
-      if (r.Success) {
-        this.situazioneImmobili = r.Data.elenco_immobili;
-      } else {
-        this.manageError(r);
-      }
-    });
+    this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.etichettaColonna = '';
   }
 
   ngOnInit() {
     super.ngOnInit();
+    this.loadCliente();
+  }
+
+  ionViewDidEnter() {
+    this.initializeApp();
+    super.ngOnInit();
+  }
+
+  private initializeApp() {
+    // ottengo il token
+    this.sessionService.userDataObservable.subscribe(present => {
+      if (present) {
+        this.wsToken = this.sessionService.getUserData();
+
+        this.cliente = this.getCliente();
+        if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
+          // non ho clienti selezionati
+          this.presentAlert("E' necessario selezionare un cliente");
+          this.goToPage('home');
+        }
+
+        this.reportService.getSituazioneGenerale(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+          if (r.Success) {
+            this.situazioneImmobili = r.Data.elenco_immobili;
+          } else {
+            this.manageError(r);
+          }
+        });
+      } else {
+        this.alertService.presentAlert('Token assente, necessario login');
+        this.goToPage('login');
+      }
+    });
+    this.sessionService.loadUserData();
   }
 
   private goToReportAnalisi(): void {
     this.goToPage('report-analisi');
+  }
+
+  private getTotalePassiviImmobile(immobile: ReportGenerale): number {
+    let toReturn = 0;
+
+    if (immobile.passivi) {
+      for (const passivo of immobile.passivi) {
+        const passivostring = passivo.importo_annuale;
+        switch (passivostring) {
+          case "null":
+            break;
+          case "":
+            break;
+          default:
+            toReturn = toReturn + (+passivostring);
+        }
+      }
+    }
+
+    return toReturn;
+  }
+
+  private getTotaleAttiviImmobile(immobile: ReportGenerale): number {
+    let toReturn = 0;
+
+    if (immobile.attivo) {
+      const attivostring = immobile.attivo.importo_mensile;
+      switch (attivostring) {
+        case "null":
+          break;
+        case "":
+          break;
+        default:
+          toReturn = (+attivostring) * 12;
+      }
+    }
+
+    return toReturn;
+  }
+
+  public getTotaleImmobile(immobile: ReportGenerale): number {
+    return this.getTotaleAttiviImmobile(immobile) - this.getTotalePassiviImmobile(immobile);
+  }
+
+  public caricaPassiviImmobile(immobile: ReportGenerale): void {
+    this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.etichettaColonna = 'Passivi';
+    if (immobile.passivi) {
+      for (const passivo of immobile.passivi) {
+        const oggettoColonna = new ReportGeneraleOggettoColonna();
+        oggettoColonna.descrizione = passivo.descrizione_passivo;
+        oggettoColonna.valore = ((passivo.importo_annuale === "" || passivo.importo_annuale === "null") ? "0" : passivo.importo_annuale);
+        this.oggettiColonnaDestra.push(oggettoColonna);
+      }
+    }
+  }
+
+  public caricaAttiviImmobile(immobile: ReportGenerale): void {
+    this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.etichettaColonna = 'Attivi';
+    if (immobile.attivo) {
+
+      const oggettoColonnaDescrizioneAffittuario = new ReportGeneraleOggettoColonna();
+      oggettoColonnaDescrizioneAffittuario.descrizione = 'Descrizione Affittuario';
+      oggettoColonnaDescrizioneAffittuario.valore = immobile.attivo.descrizione_affittuario;
+
+      const oggettoColonnaCedolareSecca = new ReportGeneraleOggettoColonna();
+      oggettoColonnaCedolareSecca.descrizione = 'Cedolare Secca';
+      oggettoColonnaCedolareSecca.valore = ((immobile.attivo.cedolare_secca === "" || immobile.attivo.cedolare_secca === "null") ? "0" : immobile.attivo.cedolare_secca);
+
+      const oggettoColonnaAliquotaCedolare = new ReportGeneraleOggettoColonna();
+      oggettoColonnaAliquotaCedolare.descrizione = 'Aliquota Cedolare';
+      oggettoColonnaAliquotaCedolare.valore = ((immobile.attivo.aliquota_cedolare === "" || immobile.attivo.aliquota_cedolare === "null") ? "0" : immobile.attivo.aliquota_cedolare);
+
+      const oggettoColonnaPrimaScadenzaAnni = new ReportGeneraleOggettoColonna();
+      oggettoColonnaPrimaScadenzaAnni.descrizione = 'Prima Scadenza Anni';
+      oggettoColonnaPrimaScadenzaAnni.valore = immobile.attivo.prima_scadenza_anni;
+
+      const oggettoColonnaDataInizio = new ReportGeneraleOggettoColonna();
+      oggettoColonnaDataInizio.descrizione = 'Data Inizio';
+      oggettoColonnaDataInizio.valore = immobile.attivo.data_inizio;
+
+      const oggettoColonnaImportoMensile = new ReportGeneraleOggettoColonna();
+      oggettoColonnaImportoMensile.descrizione = 'Importo Mensile';
+      oggettoColonnaImportoMensile.valore = ((immobile.attivo.importo_mensile === "" || immobile.attivo.importo_mensile === "null") ? "0" : immobile.attivo.importo_mensile);
+
+      this.oggettiColonnaDestra.push(oggettoColonnaDescrizioneAffittuario);
+      this.oggettiColonnaDestra.push(oggettoColonnaCedolareSecca);
+      this.oggettiColonnaDestra.push(oggettoColonnaAliquotaCedolare);
+      this.oggettiColonnaDestra.push(oggettoColonnaPrimaScadenzaAnni);
+      this.oggettiColonnaDestra.push(oggettoColonnaDataInizio);
+      this.oggettiColonnaDestra.push(oggettoColonnaImportoMensile);
+    }
+  }
+
+  public getTotalePassiviImmobili(): number {
+    let tot = 0;
+
+    for (const immobile of this.situazioneImmobili) {
+      tot = tot + this.getTotalePassiviImmobile(immobile);
+    }
+    return tot;
+  }
+
+  public getTotaleAttiviImmobili(): number {
+    let tot = 0;
+
+    for (const immobile of this.situazioneImmobili) {
+      tot = tot + this.getTotaleAttiviImmobile(immobile);
+    }
+    return tot;
+  }
+
+  public getTotaleImmobili(): number {
+    return this.getTotaleAttiviImmobili() - this.getTotalePassiviImmobili();
   }
 }

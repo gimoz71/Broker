@@ -37,35 +37,51 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     this.cliente = new Cliente();
   }
 
-  ionViewDidEnter() {
-
-    this.loadCliente();
-    this.cliente = this.getCliente();
-    if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
-      // non ho clienti selezionati
-      this.presentAlert("E' necessario selezionare un cliente");
-      this.goToPage('home');
-    }
-    this.reportService.getGrafici(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
-      if (r.Success) {
-        const datiGraficiAndamentoAnnuale = r.Data.andamento_annuale;
-        this.createLinesChart(datiGraficiAndamentoAnnuale);
-        const datiGraficiIndicatori = r.Data.indicatori;
-        this.createIndicatoriChart(datiGraficiIndicatori);
-        const datiGraficiConcentrazione = r.Data.concentrazione;
-        this.createConcentrazioneChart(datiGraficiConcentrazione);
-        const datiGraficiTipologia = r.Data.tipologia;
-        this.createTipologiaChart(datiGraficiTipologia);
-        const datiGraficiAffittuari = r.Data.affittuari;
-        this.createAffittuariChart(datiGraficiAffittuari);
-      } else {
-        this.manageError(r);
-      }
-    });
-  }
-
   ngOnInit() {
     super.ngOnInit();
+    this.loadCliente();
+  }
+
+  ionViewDidEnter() {
+    this.initializeApp();
+    super.ngOnInit();
+  }
+
+  private initializeApp() {
+    // ottengo il token
+    this.sessionService.userDataObservable.subscribe(present => {
+      if (present) {
+        this.wsToken = this.sessionService.getUserData();
+
+        this.cliente = this.getCliente();
+        if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
+          // non ho clienti selezionati
+          this.presentAlert("E' necessario selezionare un cliente");
+          this.goToPage('home');
+        }
+
+        this.reportService.getGrafici(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+          if (r.Success) {
+            const datiGraficiAndamentoAnnuale = r.Data.andamento_annuale;
+            this.createLinesChart(datiGraficiAndamentoAnnuale);
+            const datiGraficiIndicatori = r.Data.indicatori;
+            this.createIndicatoriChart(datiGraficiIndicatori);
+            const datiGraficiConcentrazione = r.Data.concentrazione;
+            this.createConcentrazioneChart(datiGraficiConcentrazione);
+            const datiGraficiTipologia = r.Data.tipologia;
+            this.createTipologiaChart(datiGraficiTipologia);
+            const datiGraficiAffittuari = r.Data.affittuari;
+            this.createAffittuariChart(datiGraficiAffittuari);
+          } else {
+            this.manageError(r);
+          }
+        });
+      } else {
+        this.alertService.presentAlert('Token assente, necessario login');
+        this.goToPage('login');
+      }
+    });
+    this.sessionService.loadUserData();
   }
 
   /*
@@ -78,15 +94,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     const colori = this.getColoriPieChart(data);
     this.affittuariChart = new Chart(this.affittuariCanvas.nativeElement, {
       type: 'pie',
-        options: {
-            aspectRatio: 1.5,
-            legend: {
-                position: 'bottom',
-                labels: {
-                    boxWidth: 10,
-                }
-            }
-        },
+      options: {
+        aspectRatio: 1.5,
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 10,
+          }
+        }
+      },
       data: {
         labels: affittuariLabels,
         datasets: [{
@@ -118,15 +134,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     const colori = this.getColoriPieChart(data);
     this.tipologiaChart = new Chart(this.tipologiaCanvas.nativeElement, {
       type: 'pie',
-        options: {
-            aspectRatio: 1.5,
-            legend: {
-                position: 'bottom',
-                labels: {
-                    boxWidth: 10,
-                }
-            }
-        },
+      options: {
+        aspectRatio: 1.5,
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 10,
+          }
+        }
+      },
       data: {
         labels: tipologiaLabels,
         datasets: [{
@@ -158,15 +174,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     const colori = this.getColoriPieChart(data);
     this.concentrazioneChart = new Chart(this.concentrazioneCanvas.nativeElement, {
       type: 'pie',
-        options: {
-            aspectRatio: 1.5,
-            legend: {
-                position: 'bottom',
-                labels: {
-                    boxWidth: 10,
-                }
-            }
-        },
+      options: {
+        aspectRatio: 1.5,
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 10,
+          }
+        }
+      },
       data: {
         labels: concentrazioneLabels,
         datasets: [{
@@ -201,13 +217,13 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     this.indicatoriChart = new Chart(this.indicatoriCanvas.nativeElement, {
       type: 'polarArea',
       options: {
-          aspectRatio: 1,
-          legend: {
-              position: 'bottom',
-              labels: {
-                  boxWidth: 10,
-              }
+        aspectRatio: 1,
+        legend: {
+          position: 'bottom',
+          labels: {
+            boxWidth: 10,
           }
+        }
       },
       data: {
         labels: indicatoriLabels,
