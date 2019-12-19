@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WsToken, LogErroriService, ErrorMessage, Cliente, AlertService } from 'broker-lib';
+import { WsToken, LogErroriService, ErrorMessage, Cliente, AlertService, IconeService } from 'broker-lib';
 import { StoreService, SessionService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -23,34 +23,12 @@ export class BaseComponent implements OnInit {
         public storeService: StoreService,
         public router: Router,
         public logErroriService: LogErroriService,
-        public alertService: AlertService) { }
+        public alertService: AlertService,
+        public iconeService: IconeService) { }
 
     ngOnInit(): void {
-
-        // this.sessionService.userDataObservable.subscribe(r => {
-        //     if (r) {
-        //         this.wsToken = this.sessionService.getUserData();
-        //         this.wsTokenSubject.next(true);
-        //     } else {
-        //         this.goToPage('login');
-        //     }
-        // });
-        // this.sessionService.loadUserData();
         this.loadCliente();
-        // this.storeService.getUserDataPromise().then((val: WsToken) => {
-        //     if (val == null) {
-        //         this.router.navigate(['login']);
-        //     } else {
-        //         this.wsToken = val;
-        //         this.sessionService.setUserData(val);
-        //         console.log('sblocco il token');
-        //         this.wsTokenSubject.next(true);
-        //     }
-        // });
-
-
     }
-
 
     public loadCliente(): void {
         if (this.sessionService.cliente === undefined || this.sessionService.cliente == null) {
@@ -127,5 +105,10 @@ export class BaseComponent implements OnInit {
                     break;
                 }
         }
+    }
+
+    public getIconaClasseImmobile(tipologia: string): string {
+        const icona = this.iconeService.getClasseIcona(tipologia);
+        return icona;
     }
 }

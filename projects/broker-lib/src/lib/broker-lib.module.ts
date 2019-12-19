@@ -12,6 +12,7 @@ import { ClientiService } from './services/clienti/clienti.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { DropdownService } from './services/dropdown/dropdown.service';
+import { IconeService } from './services/icone/icone.service';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DropdownService } from './services/dropdown/dropdown.service';
     ClientiService,
     DropdownService,
     LogErroriService,
-    ErrorHandlerService
+    ErrorHandlerService,
+    IconeService
   ],
   exports: [
   ]

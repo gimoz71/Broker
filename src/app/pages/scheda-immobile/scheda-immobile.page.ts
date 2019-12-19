@@ -1,5 +1,5 @@
 // import { ImmobileDettaglio } from './../../../../projects/broker-lib/src/lib/models/immobili/immobileDettaglio';
-import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile } from 'broker-lib';
+import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile, IconeService } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -25,9 +25,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public logErroriService: LogErroriService,
         public storeService: StoreService,
         public alertService: AlertService,
-        public modalService: ModalService
+        public modalService: ModalService,
+        public iconeService: IconeService
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService);
+        super(sessionService, storeService, router, logErroriService, alertService, iconeService);
         this.immobile_id = '';
         this.immobile = new ImmobileDettaglio();
     }

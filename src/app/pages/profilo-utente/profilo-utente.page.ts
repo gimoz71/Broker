@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CambioPasswordRequest, SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService } from 'broker-lib';
+import { CambioPasswordRequest, SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, IconeService } from 'broker-lib';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Router } from '@angular/router';
 
@@ -19,9 +19,10 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
     public logErroriService: LogErroriService,
     public alertService: AlertService,
     public clientiService: ClientiService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public iconeService: IconeService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.cambioPasswordRequest = new CambioPasswordRequest();
   }
 

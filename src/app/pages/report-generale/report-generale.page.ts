@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 
@@ -24,9 +24,10 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     public alertService: AlertService,
     public clientiService: ClientiService,
     public loginService: LoginService,
-    public reportService: ReportService
+    public reportService: ReportService,
+    public iconeService: IconeService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.cliente = new Cliente();
     this.situazioneImmobili = new Array<ReportGenerale>();
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();

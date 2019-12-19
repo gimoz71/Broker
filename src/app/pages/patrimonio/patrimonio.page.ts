@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, BookValue, Immobile } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, BookValue, Immobile, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Cliente } from 'projects/broker-lib/src/public-api';
 
@@ -28,9 +28,10 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
     public logErroriService: LogErroriService,
     public alertService: AlertService,
     public clientiService: ClientiService,
-    public loginService: LoginService
+    public loginService: LoginService,
+    public iconeService: IconeService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.patrimoniA = new Array<BookValue>();
     this.patrimoniC = new Array<BookValue>();
     this.patrimoniT = new Array<BookValue>();

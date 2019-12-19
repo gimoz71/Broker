@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
-import { SessionService, StoreService, LogErroriService, AlertService, InserimentoClienteRequest, ClientiService } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, InserimentoClienteRequest, ClientiService, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,9 +18,10 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
     public router: Router,
     public logErroriService: LogErroriService,
     public alertService: AlertService,
-    public clientiService: ClientiService
+    public clientiService: ClientiService,
+    public iconeService: IconeService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.nuovoCliente = new InserimentoClienteRequest();
   }
 

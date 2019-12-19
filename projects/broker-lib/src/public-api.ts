@@ -18,6 +18,7 @@ export * from './lib/services/common/session.service';
 export * from './lib/services/store/store.service';
 export * from './lib/services/login/login.service';
 export * from './lib/services/common/alert.service';
+export * from './lib/services/icone/icone.service';
 
 // handler ------------------------------------------------
 export * from './lib/handler/error/error-handler.service';

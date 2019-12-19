@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientiService, SessionService, LogErroriService, StoreService, AlertService } from 'broker-lib';
+import { ClientiService, SessionService, LogErroriService, StoreService, AlertService, IconeService } from 'broker-lib';
 
 import { Cliente, Immobile, WsToken } from 'broker-lib';
 
@@ -29,9 +29,10 @@ export class HomePage extends BaseComponent implements OnInit {
         public storeService: StoreService,
         public router: Router,
         public logErroriService: LogErroriService,
-        public alertService: AlertService
+        public alertService: AlertService,
+        public iconeService: IconeService
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService);
+        super(sessionService, storeService, router, logErroriService, alertService, iconeService);
         this.clienti = new Array<Cliente>();
         this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();

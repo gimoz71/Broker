@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService } from 'broker-lib';
+import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
@@ -51,10 +51,11 @@ export class WizardPage extends BaseComponent implements OnInit {
     public sessionService: SessionService,
     private dropdownService: DropdownService,
     public storeService: StoreService,
-    public datePipe: RaDatePipe
+    public datePipe: RaDatePipe,
+    public iconeService: IconeService
   ) {
 
-    super(sessionService, storeService, router, logErroriService, alertService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
 
     const immobileInSessione = this.sessionService.getImmobileDettaglio();
     if (immobileInSessione !== undefined && immobileInSessione !== null) {
