@@ -43,7 +43,7 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
       return;
     }
 
-    this.loginService.CambioPassword(this.cambioPasswordRequest, this.wsToken.token_value).subscribe(r => {
+    this.loginService.CambioPassword(this.cambioPasswordRequest).subscribe(r => {
       if (r.Success) {
         this.alertService.presentAlert("Password correttamente modificata");
         this.cambioPasswordRequest = new CambioPasswordRequest();

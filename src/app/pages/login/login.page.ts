@@ -6,6 +6,8 @@ import { LoginRequest, WsToken } from 'broker-lib';
 import { Router } from '@angular/router';
 
 import { HomePage } from '../home/home.page';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 // mport { NavController } from '@ionic/angular';
 
 @Component({
@@ -14,6 +16,8 @@ import { HomePage } from '../home/home.page';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  private unsubscribe$ = new Subject<void>();
 
   public username: string;
   public password: string;
@@ -34,7 +38,9 @@ export class LoginPage implements OnInit {
     loginRequest.app_chiamante = 'P';
     loginRequest.id_phone = '12345';
 
-    this.loginService.Login(loginRequest).subscribe(r => {
+    this.loginService.Login(loginRequest).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
       if (r.Success) {
         // ho avuto risposta positiva. Non è detto che sia loggato pero'
         const data: WsToken = r.Data;
@@ -54,4 +60,8 @@ export class LoginPage implements OnInit {
     });
   }
 
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }

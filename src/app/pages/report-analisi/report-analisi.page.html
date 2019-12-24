@@ -15,7 +15,9 @@
                 <div class="tool-row">
                     <div class="tool">
                         <button class="button back only-icon" (click)="goToHome()">&nbsp;</button>
-                        <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Report</h3>
+                        <h3 class="page-title cliente">
+                            {{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}} - Report
+                        </h3>
                         <div style="float: right"><a href="#" class="button upload">Invia scheda</a></div>
                     </div>
                 </div>

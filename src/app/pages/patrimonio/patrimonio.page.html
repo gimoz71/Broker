@@ -17,7 +17,9 @@
                 <div class="tool-row">
                     <div class="tool">
                         <button class="button back only-icon" (click)="goToHome()">&nbsp;</button>
-                        <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Patrimonio</h3>
+                        <h3 class="page-title cliente">
+                            {{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}} -
+                            Patrimonio</h3>
                     </div>
                 </div>
             </div>
@@ -29,11 +31,11 @@
                         <div class="scheda-row">
                             <div class="item immobili"><span class="badge">4</span></div>
                             <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
-                                    class="bv_value">{{cliente.book_value}}</span></div>
+                                    class="bv_value">{{sessionService.getCliente().book_value}}</span></div>
                             <div class="item anagrafica"><span
-                                    class="nome">{{cliente.nome + ' ' + cliente.cognome}}</span><span
-                                    class="cf">{{cliente.codice_fiscale}}</span><span
-                                    class="email">{{cliente.email}}</span></div>
+                                    class="nome">{{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}}</span><span
+                                    class="cf">{{sessionService.getCliente().codice_fiscale}}</span><span
+                                    class="email">{{sessionService.getCliente().email}}</span></div>
                             <div class="item tools"></div>
                         </div>
                     </div>
@@ -93,14 +95,15 @@
             <div class="row">
                 <div class="header-cell">
                     <span class="small">immobili di</span>
-                    <span class="nome">{{cliente.nome + ' ' + cliente.cognome}}</span>
+                    <span
+                        class="nome">{{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}}</span>
                 </div>
             </div>
         </div>
         <div class="list">
             <ul class="lista-immobile">
-                <li class="immobile" *ngFor="let immobileLista of immobiliCliente"
-                    (click)="apriSchedaImmobile(immobileLista.immobile_id)">
+                <li class="immobile" *ngFor="let immobileLista of sessionService.getImmobiliCliente()"
+                    (click)="apriSchedaImmobile(immobileLista.proprieta_id)">
                     <div class="indirizzo">{{immobileLista.indirizzo}},
                         {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}}
                         ({{immobileLista.provincia}})</div>

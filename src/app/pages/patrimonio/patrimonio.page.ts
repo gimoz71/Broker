@@ -3,6 +3,8 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, BookValue, Immobile, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Cliente } from 'projects/broker-lib/src/public-api';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patrimonio',
@@ -11,12 +13,11 @@ import { Cliente } from 'projects/broker-lib/src/public-api';
 })
 export class PatrimonioPage extends BaseComponent implements OnInit {
 
+  private unsubscribe$ = new Subject<void>();
+
   public patrimoniA: Array<BookValue>;
   public patrimoniC: Array<BookValue>;
   public patrimoniT: Array<BookValue>;
-
-  public cliente: Cliente;
-  public immobiliCliente: Array<Immobile>;
 
   public totalePatrimoniA: number;
   public totalePatrimoniC: number;
@@ -42,7 +43,6 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-    this.loadCliente();
 
     // // carico i patrimoni del cliente selezionato
     // this.cliente = this.getCliente();
@@ -62,19 +62,22 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
 
   private initializeApp() {
     // ottengo il token
-    this.sessionService.userDataObservable.subscribe(present => {
+    this.sessionService.userDataObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(present => {
       if (present) {
         this.wsToken = this.sessionService.getUserData();
 
-        const cliente = this.getCliente();
-        if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
+        const cliente_id = this.sessionService.getCliente().cliente_id;
+        if (cliente_id === 0 || cliente_id === undefined) {
           // non ho clienti selezionati
           this.presentAlert("E' necessario selezionare un cliente");
           this.goToPage('home');
         }
-        this.immobiliCliente = this.sessionService.getImmobiliCliente();
 
-        this.clientiService.getBookValue(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+        this.clientiService.getBookValue(cliente_id).pipe(
+          takeUntil(this.unsubscribe$)
+        ).subscribe(r => {
           if (r.Success) {
             if (r.Data.elencoTipologieCatastaliA) {
               this.patrimoniA = r.Data.elencoTipologieCatastaliA;
@@ -99,10 +102,6 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
       }
     });
     this.sessionService.loadUserData();
-
-
-
-
   }
 
   public apriSchedaImmobile(immobile: number) {
@@ -111,20 +110,25 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
   }
 
   public calcolaTotalePatrimoniA(): void {
-    for (let pat of this.patrimoniA) {
+    for (const pat of this.patrimoniA) {
       this.totalePatrimoniA += +pat.book_value;
     }
   }
 
   public calcolaTotalePatrimoniC(): void {
-    for (let pat of this.patrimoniC) {
+    for (const pat of this.patrimoniC) {
       this.totalePatrimoniA += +pat.book_value;
     }
   }
 
   public calcolaTotalePatrimoniT(): void {
-    for (let pat of this.patrimoniT) {
+    for (const pat of this.patrimoniT) {
       this.totalePatrimoniA += +pat.book_value;
     }
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

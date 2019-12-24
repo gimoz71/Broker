@@ -15,6 +15,7 @@ export class ConstantsService {
     public readonly putImmobileServiceName: string = 'putImmobile';
     public readonly delImmobileServiceName: string = 'delimmobile';
     public readonly getCatastoServiceName: string = 'getcatasto';
+    public readonly getPianoAmmortamentoServiceName: string = 'getPiano';
 
     // clienti
     public readonly getClientiServiceName: string = 'getClienti';

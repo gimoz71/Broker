@@ -31,11 +31,12 @@ export class SessionService {
     ) {
         this.userData = new WsToken();
         this.connection = new Connection();
+        this.cliente = new Cliente();
     }
 
     public setCliente(cliente: Cliente): void {
         this.cliente = cliente;
-        this.immobiliService.getImmobili(this.cliente.cliente_id + '', '').subscribe(r => {
+        this.immobiliService.getImmobili(this.cliente.cliente_id + '').subscribe(r => {
             if (r.Success) {
                 this.immobiliCliente = r.Data.elenco_immobili;
                 // sveglia chi è in ascolto
@@ -76,6 +77,10 @@ export class SessionService {
                 }
             });
         }
+    }
+
+    public getCliente(): Cliente {
+        return this.cliente;
     }
 
     public getImmobiliCliente(): Array<Immobile> {

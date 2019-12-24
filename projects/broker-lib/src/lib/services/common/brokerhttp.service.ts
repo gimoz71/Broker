@@ -14,7 +14,6 @@ export class BrokerHttpService {
 
     private httpClientLogin: HttpClient;
 
-
     constructor(
         private http: HttpClient,
         private constants: ConstantsService,
@@ -22,7 +21,7 @@ export class BrokerHttpService {
         this.httpClientLogin = new HttpClient(this.backEnd);
     }
 
-    public get(path: string, tokenValue: string): Observable<Http.HttpResponse> {
+    public get(path: string): Observable<Http.HttpResponse> {
         return this.http.get<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path);
     }
 
@@ -31,7 +30,7 @@ export class BrokerHttpService {
         return this.httpClientLogin.get<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path);
     }
 
-    public post(path: string, body: any, tokenValue: string): Observable<Http.HttpResponse> {
+    public post(path: string, body: any): Observable<Http.HttpResponse> {
         return this.http.post<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path, body);
     }
 

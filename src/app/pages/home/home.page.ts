@@ -5,6 +5,8 @@ import { Cliente, Immobile, WsToken } from 'broker-lib';
 
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 /// import { Cliente, Immobile, WsToken } from 'projects/broker-lib/src/public-api';
 
 @Component({
@@ -14,8 +16,9 @@ import { BaseComponent } from 'src/app/component/base.component';
 })
 export class HomePage extends BaseComponent implements OnInit {
 
+    private unsubscribe$ = new Subject<void>();
+
     public clienti: Array<Cliente>;
-    public clienteScelto: Cliente;
     public immobiliCliente: Array<Immobile>;
     public tempImmobiliCliente: Array<Immobile>;
     public pippo: Immobile;
@@ -34,7 +37,6 @@ export class HomePage extends BaseComponent implements OnInit {
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService);
         this.clienti = new Array<Cliente>();
-        this.clienteScelto = new Cliente();
         this.immobiliCliente = new Array<Immobile>();
         this.tempImmobiliCliente = new Array<Immobile>();
         this.searchName = '';
@@ -55,7 +57,9 @@ export class HomePage extends BaseComponent implements OnInit {
         this.sessionService.userDataObservable.subscribe(present => {
             if (present) {
                 this.wsToken = this.sessionService.getUserData();
-                this.clientiService.getClienti(this.wsToken.token_value).subscribe(t => {
+                this.clientiService.getClienti().pipe(
+                    takeUntil(this.unsubscribe$)
+                ).subscribe(t => {
                     if (t.Success) {
                         console.log('RICEVUTO: ' + t.Data);
                         this.clienti = t.Data.elenco_clienti;
@@ -73,10 +77,10 @@ export class HomePage extends BaseComponent implements OnInit {
     }
 
     public caricaCliente(cliente: Cliente) {
-        this.clienteScelto = cliente;
-
-        this.sessionService.setCliente(this.clienteScelto);
-        this.sessionService.elencoImmobiliObs.subscribe(r => {
+        this.sessionService.setCliente(cliente);
+        this.sessionService.elencoImmobiliObs.pipe(
+            takeUntil(this.unsubscribe$)
+        ).subscribe(r => {
             if (r) {
                 this.immobiliCliente = this.sessionService.getImmobiliCliente();
             }
@@ -98,7 +102,6 @@ export class HomePage extends BaseComponent implements OnInit {
     }
 
     public goToNuovoCliente(): void {
-        this.clienteScelto = new Cliente();
         this.goToPage('nuovo-cliente');
     }
 
@@ -112,5 +115,10 @@ export class HomePage extends BaseComponent implements OnInit {
 
     public goToAnalisiGenerale(): void {
         this.goToPage('report-generale');
+    }
+
+    ionViewDidLeave() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

@@ -9,7 +9,7 @@ import { ImmobiliService } from 'broker-lib';
 import { ClientiService } from 'broker-lib';
 
 import { Platform } from 'ionic-angular';
-import { PipesModule } from '../../pipes/pipes.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @NgModule({
     imports: [
@@ -22,7 +22,7 @@ import { PipesModule } from '../../pipes/pipes.module';
                 component: HomePage
             }
         ]),
-        PipesModule.forRoot()
+        PipesModule
     ],
     declarations: [HomePage],
     providers: [ImmobiliService,

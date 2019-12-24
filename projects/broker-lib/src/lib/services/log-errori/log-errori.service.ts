@@ -28,8 +28,8 @@ export class LogErroriService {
      * @returns
      * LogErroriService
      */
-    public postErrore(errorData: WsLogErrore, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.post(this.constants.postErroreServiceName, errorData, tokenValue);
+    public postErrore(errorData: WsLogErrore): Observable<Http.HttpResponse> {
+        return this.httpService.post(this.constants.postErroreServiceName, errorData);
     }
 
     public generateErrorMessage(errorMessage: ErrorMessage): WsLogErrore {

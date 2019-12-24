@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
 import { SessionService, StoreService, LogErroriService, AlertService, InserimentoClienteRequest, ClientiService, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nuovo-cliente',
@@ -9,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./nuovo-cliente.page.scss'],
 })
 export class NuovoClientePage extends BaseComponent implements OnInit {
+
+  private unsubscribe$ = new Subject<void>();
 
   public nuovoCliente: InserimentoClienteRequest;
 
@@ -35,7 +39,9 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
 
   public saveNewCliente(): void {
     this.nuovoCliente.promotore_id = this.wsToken.utente.utente_id;
-    this.clientiService.putCliente(this.nuovoCliente, this.wsToken.token_value).subscribe(r => {
+    this.clientiService.putCliente(this.nuovoCliente).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
       if (r.Success) {
         this.alertService.presentAlert("Nuovo cliente inviato correttamente");
         this.nuovoCliente = new InserimentoClienteRequest();
@@ -44,5 +50,10 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

@@ -3,6 +3,8 @@ import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErro
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 
 @Component({
@@ -11,6 +13,8 @@ import { RaDatePipe } from 'src/app/pipes/date.pipe';
   styleUrls: ['./wizard.page.scss'],
 })
 export class WizardPage extends BaseComponent implements OnInit {
+
+  private unsubscribe$ = new Subject<void>();
 
   public immobile: ImmobileDettaglio;
 
@@ -169,7 +173,9 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public salvaImmobile(): void {
-    this.immobiliService.putImmobile(this.immobile, '').subscribe(r => {
+    this.immobiliService.putImmobile(this.immobile).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
       if (r.Success) {
         // salvataggio andato a buon fine. Riporto alla home (?)
         this.router.navigate(['home']);
@@ -261,15 +267,18 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-    this.loadCliente();
 
     this.tipologieTasse = this.dropdownService.getTipologieTasse();
     this.tipiAffittuario = this.dropdownService.getTipiAffittuari();
     this.euribor = this.dropdownService.getEuribor();
 
-    this.cointestatarioSelezionato.nominativo = this.cliente.cognome + ' ' + this.cliente.nome;
+    this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     this.cointestatarioSelezionato.quota = 100;
-    this.cointestatarioSelezionato.codice_fiscale = this.cliente.codice_fiscale;
+    this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
   }
 
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }

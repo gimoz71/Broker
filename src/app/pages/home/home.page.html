@@ -41,19 +41,20 @@
         </div>
         <div class="content home-list">
             <div class="header">
-                <div class="dettaglio-cliente" *ngIf="clienteScelto.cliente_id">
+                <div class="dettaglio-cliente" *ngIf="sessionService.getCliente().cliente_id">
                     <div class="cliente">
                         <div class="cliente-table">
                             <div class="cliente-row">
-                                <div class="item immobili"><span class="badge">{{clienteScelto.numero_proprieta}}</span>
+                                <div class="item immobili"><span
+                                        class="badge">{{sessionService.getCliente().numero_proprieta}}</span>
                                 </div>
                                 <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
-                                        class="bv_value">{{clienteScelto.book_value}}K</span><button
+                                        class="bv_value">{{sessionService.getCliente().book_value}}K</span><button
                                         (click)="goToPatrimonio()" class="button view only-icon">&nbsp;</button></div>
-                                <div class="item anagrafica"><span class="nome">{{clienteScelto.nome}}
-                                        {{clienteScelto.cognome}}</span><span
-                                        class="cf">{{clienteScelto.codice_fiscale}}</span><span
-                                        class="email">{{clienteScelto.email}}</span></div>
+                                <div class="item anagrafica"><span class="nome">{{sessionService.getCliente().nome}}
+                                        {{sessionService.getCliente().cognome}}</span><span
+                                        class="cf">{{sessionService.getCliente().codice_fiscale}}</span><span
+                                        class="email">{{sessionService.getCliente().email}}</span></div>
                                 <div class="item tools"><button href="#"
                                         class="button edit full-width">Modifica</button><button href="#"
                                         class="button report full-width" (click)="goToAnalisiGenerale()">Report</button>
@@ -63,7 +64,7 @@
                         <div class="status red"></div>
                     </div>
                 </div>
-                <div class="dettaglio-cliente" *ngIf="!(clienteScelto.cliente_id)">
+                <div class="dettaglio-cliente" *ngIf="!(sessionService.getCliente().cliente_id)">
                     <div class="cliente">
                         <div class="cliente-table">
                             <div class="cliente-row">
@@ -102,25 +103,28 @@
     <div class="right-area">
         <div class="header">
             <div class="row">
-                <div class="header-cell" *ngIf="!clienteScelto.cliente_id">
+                <div class="header-cell" *ngIf="!sessionService.getCliente().cliente_id">
                     <span class="small">Nessun cliente selezionato</span>
                 </div>
-                <div class="header-cell" *ngIf="clienteScelto.cliente_id">
+                <div class="header-cell" *ngIf="sessionService.getCliente().cliente_id">
                     <span class="small">immobili di</span>
-                    <span class="nome">{{clienteScelto.nome}} {{clienteScelto.cognome}}</span>
+                    <span class="nome">{{sessionService.getCliente().nome}}
+                        {{sessionService.getCliente().cognome}}</span>
                 </div>
             </div>
         </div>
         <div class="list">
             <ul class="lista-immobile">
                 <li class="immobile" *ngFor="let immobileLista of immobiliCliente"
-                    (click)="apriSchedaImmobile(immobileLista.immobile_id)">
+                    (click)="apriSchedaImmobile(immobileLista.proprieta_id)">
                     <div class="indirizzo">{{immobileLista.indirizzo}},
                         {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}}
                         ({{immobileLista.provincia}})</div>
                     <div class="tipologia table">
                         <div class="row">
-                            <div class="cell {{getIconaClasseImmobile('A/1')}}">
+                            <!-- <div [ngClass]="getIconaClasseImmobileCell(immobileLista.codice_catastale)">
+                            </div> -->
+                            <div [ngClass]="getIconaClasseImmobileCell(immobileLista.codice_tipologia)">
                             </div>
                         </div>
                     </div>

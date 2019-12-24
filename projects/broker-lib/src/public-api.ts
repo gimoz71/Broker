@@ -40,7 +40,6 @@ export * from './lib/models/clienti/abilitaAppClienteRequest';
 export * from './lib/models/clienti/bookValue';
 export * from './lib/models/clienti/inserimentoClienteRequest';
 export * from './lib/models/clienti/inserimentoClienteResponse';
-export * from './lib/models/clienti/pianoAmmortamento';
 // -- immobili
 export * from './lib/models/immobili/immobile';
 export * from './lib/models/immobili/affittoDettaglio';
@@ -54,6 +53,9 @@ export * from './lib/models/immobili/mutuoDettaglio';
 export * from './lib/models/immobili/omiDettaglio';
 export * from './lib/models/immobili/spesaDettaglio';
 export * from './lib/models/immobili/tassaDettaglio';
+export * from './lib/models/immobili/pianoAmmortamento';
+export * from './lib/models/immobili/annoPianoAmmortamento';
+
 // -- utenti
 export * from './lib/models/login/wsToken';
 export * from './lib/models/login/loginRequest';

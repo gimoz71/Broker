@@ -13,7 +13,6 @@ import { LoadingController } from '@ionic/angular';
 export class BaseComponent implements OnInit {
 
     public wsToken: WsToken;
-    public cliente: Cliente;
 
     private wsTokenSubject: Subject<boolean> = new Subject<boolean>();
     public wsTokenObservable = this.wsTokenSubject.asObservable();
@@ -27,19 +26,6 @@ export class BaseComponent implements OnInit {
         public iconeService: IconeService) { }
 
     ngOnInit(): void {
-        this.loadCliente();
-    }
-
-    public loadCliente(): void {
-        if (this.sessionService.cliente === undefined || this.sessionService.cliente == null) {
-            this.cliente = new Cliente();
-        } else {
-            this.cliente = this.sessionService.cliente;
-        }
-    }
-
-    public getCliente(): Cliente {
-        return this.cliente;
     }
 
     public getUtenteEmail(): string {
@@ -79,7 +65,7 @@ export class BaseComponent implements OnInit {
         errorMessage.msg_techdata = "";
         errorMessage.msg_tipo = "";
         const message = this.logErroriService.generateErrorMessage(errorMessage);
-        this.logErroriService.postErrore(message, this.wsToken.token_value);
+        this.logErroriService.postErrore(message);
     }
 
     public presentAlert(message: string): void {
@@ -110,5 +96,13 @@ export class BaseComponent implements OnInit {
     public getIconaClasseImmobile(tipologia: string): string {
         const icona = this.iconeService.getClasseIcona(tipologia);
         return icona;
+    }
+
+    public getIconaClasseImmobileCell(tipologia: string): string {
+        return 'cell ' + this.getIconaClasseImmobile(tipologia);
+    }
+
+    public getIconaClasseImmobileItem(tipologia: string): string {
+        return 'item tipologia ' + this.getIconaClasseImmobile(tipologia);
     }
 }

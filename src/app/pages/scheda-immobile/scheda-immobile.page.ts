@@ -1,10 +1,12 @@
 // import { ImmobileDettaglio } from './../../../../projects/broker-lib/src/lib/models/immobili/immobileDettaglio';
-import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile, IconeService } from 'broker-lib';
+import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile, IconeService, MutuoDettaglio, AffittoDettaglio, TassaDettaglio, SpesaDettaglio, DatiCatastaliDettaglio } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
 import { ModalService } from 'src/app/services/modal/modal.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-scheda-immobile',
@@ -13,9 +15,10 @@ import { ModalService } from 'src/app/services/modal/modal.service';
 })
 export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
+    private unsubscribe$ = new Subject<void>();
+
     public immobile_id: string;
     public immobile: ImmobileDettaglio;
-    public immobiliCliente: Array<Immobile>;
 
     constructor(
         public router: Router,
@@ -31,6 +34,12 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService);
         this.immobile_id = '';
         this.immobile = new ImmobileDettaglio();
+        this.immobile.mutuo_dettaglio = new MutuoDettaglio();
+        this.immobile.affitto_dettaglio = new AffittoDettaglio();
+        this.immobile.cointestatari = new Array<CointestatarioDettaglio>();
+        this.immobile.tasse = new Array<TassaDettaglio>();
+        this.immobile.spese = new Array<SpesaDettaglio>();
+        this.immobile.dati_catastali = new DatiCatastaliDettaglio();
     }
 
     public goToWizard(): void {
@@ -49,13 +58,19 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     private initializeApp() {
         // ottengo il token
-        this.sessionService.userDataObservable.subscribe(present => {
+        this.sessionService.userDataObservable.pipe(
+            takeUntil(this.unsubscribe$)
+        ).subscribe(present => {
             if (present) {
                 this.wsToken = this.sessionService.getUserData();
-                this.route.queryParams.subscribe(params => {
+                this.route.queryParams.pipe(
+                    takeUntil(this.unsubscribe$)
+                ).subscribe(params => {
 
                     this.immobile_id = params.immobile_id;
-                    this.immobiliService.getImmobile(this.immobile_id, this.wsToken.token_value).subscribe(s => {
+                    this.immobiliService.getImmobile(this.immobile_id).pipe(
+                        takeUntil(this.unsubscribe$)
+                    ).subscribe(s => {
                         if (s.Success) {
                             this.immobile = s.Data;
                             this.sessionService.setImmobileDettaglio(this.immobile);
@@ -63,13 +78,12 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                     });
                 });
 
-                const cliente = this.getCliente();
-                if (cliente.cliente_id === 0 || cliente.cliente_id === undefined) {
+                const client_id = this.sessionService.getCliente().cliente_id;
+                if (client_id === 0 || client_id === undefined) {
                     // non ho clienti selezionati
                     this.presentAlert("E' necessario selezionare un cliente");
                     this.goToPage('home');
                 }
-                this.immobiliCliente = this.sessionService.getImmobiliCliente();
 
             } else {
                 this.alertService.presentAlert('Token assente, necessario login');
@@ -77,10 +91,6 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
             }
         });
         this.sessionService.loadUserData();
-
-
-
-
     }
 
     public getCointestatari(): Array<CointestatarioDettaglio> {
@@ -100,7 +110,32 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
     }
 
     public apriSchedaImmobile(immobile: number) {
-        // this.router.navigate(['scheda-immobile'], { queryParams: { immobile_id: immobile } });
         this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
+    }
+
+    public getTotaleTasse(immobile: ImmobileDettaglio): number {
+        let tasse = 0;
+        for (const tassa of immobile.tasse) {
+            tasse = tasse + tassa.importo_annuale;
+        }
+        return tasse;
+    }
+
+    public apriPianoAmmortamento() {
+        this.goToPageParams('ammortamento', {
+            queryParams: {
+                immobile_id: this.immobile.proprieta_id,
+                immobile_indirizzo: this.immobile.indirizzo,
+                immobile_civico: this.immobile.civico,
+                immobile_citta: this.immobile.citta,
+                immobile_data_aggiornamento: this.immobile.data_aggiornamento,
+                immobile_codice_tipologia: this.immobile.codice_tipologia
+            }
+        });
+    }
+
+    ionViewDidLeave() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
     }
 }

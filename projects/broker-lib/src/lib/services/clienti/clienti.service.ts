@@ -18,7 +18,7 @@ export class ClientiService {
 
     constructor(
         private httpService: BrokerHttpService,
-        private constants: ConstantsService) {}
+        private constants: ConstantsService) { }
 
     /**
      * Chiamata per ottenere l'elenco dei clienti completo.
@@ -26,8 +26,8 @@ export class ClientiService {
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns contenente l'oggetto Data che a sua volta contiene l'elenco degli oggetti Cliente
      */
-    public getClienti(tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.getClientiServiceName, tokenValue);
+    public getClienti(): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.getClientiServiceName);
     }
 
     /**
@@ -38,8 +38,8 @@ export class ClientiService {
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data dentro al quale si trova l'id dell'oggetto appena generato
      */
-    public putCliente(cliente: InserimentoClienteRequest, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.post(this.constants.putClientiServiceName, cliente, tokenValue);
+    public putCliente(cliente: InserimentoClienteRequest): Observable<Http.HttpResponse> {
+        return this.httpService.post(this.constants.putClientiServiceName, cliente);
     }
 
     /**
@@ -49,8 +49,8 @@ export class ClientiService {
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns response contenente l'esito in Success e ErrorMessages.
      */
-    public abilitaAppCliente(request: AbilitaAppClienteRequest, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.post(this.constants.abilitaAppClienteServiceName, request, tokenValue);
+    public abilitaAppCliente(request: AbilitaAppClienteRequest): Observable<Http.HttpResponse> {
+        return this.httpService.post(this.constants.abilitaAppClienteServiceName, request);
     }
 
     /**
@@ -61,8 +61,8 @@ export class ClientiService {
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data che a sua volta contiene l'elenco degli oggetti BookValue
      */
-    public getBookValue(cliente_id: number, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.bookValueServiceName + this.constants.pathSeparator + cliente_id, tokenValue);
+    public getBookValue(cliente_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.bookValueServiceName + this.constants.pathSeparator + cliente_id);
     }
 
     /**
@@ -73,8 +73,8 @@ export class ClientiService {
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data che a sua volta contiene l'elenco degli oggetti PianoAmmortamento
      */
-    public getPianoAmmortamento(mutuo_id: number, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.pianoAmmortamentoServiceName + this.constants.pathSeparator + mutuo_id, tokenValue);
+    public getPianoAmmortamento(mutuo_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.pianoAmmortamentoServiceName + this.constants.pathSeparator + mutuo_id);
     }
 
 }

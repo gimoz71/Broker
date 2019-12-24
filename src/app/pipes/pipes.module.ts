@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { ClientFilterPipe } from './namefilter.pipe';
 import { RaDatePipe } from './date.pipe';
+import { IonicModule } from '@ionic/angular';
 
 @NgModule({
-    imports: [],
+    imports: [IonicModule],
     declarations: [ClientFilterPipe, RaDatePipe],
     exports: [ClientFilterPipe, RaDatePipe],
 })

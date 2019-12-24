@@ -1775,72 +1775,72 @@ input:checked + .slider:before {
         .tipologia {
             border-bottom: solid 1px #ccc;
             top: 0;
-            &.magazzino {
+            .magazzino {
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url('/assets/img/icon-magazzino-big@2x.png') ;
+                background-image: url('/assets/img/icon-magazzino@2x.png') ;
             }
-            &.negozio {
+            .negozio {
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url('/assets/img/icon-negozio-big@2x.png') ;
+                background-image: url('/assets/img/icon-negozio@2x.png') ;
             }
-            &.garage {
+            .garage {
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url('/assets/img/icon-garage-big@2x.png') ;
+                background-image: url('/assets/img/icon-garage@2x.png') ;
             }
-            &.casa {
+            .casa {
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url('/assets/img/icon-casa-big@2x.png') ;
+                background-image: url('/assets/img/icon-casa@2x.png') ;
             }
-            &.villa {
+            .villa {
                 background-repeat: no-repeat;
                 background-position: center;
-                background-image: url('/assets/img/icon-villa-big@2x.png') ;
+                background-image: url('/assets/img/icon-villa@2x.png') ;
             }
-            &.agricolo {
+            .agricolo {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-agricolo@2x.png') ;
             }
-            &.ufficio {
+            .ufficio {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-ufficio@2x.png') ;
             }
-            &.albergo {
+            .albergo {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-albergo@2x.png') ;
             }
-            &.ospedale {
+            .ospedale {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-ospedale@2x.png') ;
             }
-            &.scuola {
+            .scuola {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-scuola@2x.png') ;
             }
-            &.museo {
+            .museo {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-museo@2x.png') ;
             }
-            &.chiesa {
+            .chiesa {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-chiesa@2x.png') ;
             }
-            &.sport {
+            .sport {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-sport@2x.png') ;
             }
-            &.fabbrica {
+            .fabbrica {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-fabbrica@2x.png') ;
@@ -1850,46 +1850,26 @@ input:checked + .slider:before {
                 background-position: center;
                 background-image: url('/assets/img/icon-teatro@2x.png') ;
             }
-            &.banca {
+            .banca {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-banca@2x.png') ;
             }
-            &.ponte {
+            .ponte {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-ponte@2x.png');
             }
-            &.stazione {
+            .stazione {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-stazione@2x.png');
             }
-            &.cantiere {
+            .cantiere {
                 background-repeat: no-repeat;
                 background-position: center;
                 background-image: url('/assets/img/icon-cantiere@2x.png');
             }
-            /*.abitazione {
-                background-repeat: no-repeat;
-                background-position: center;
-                background-image: url('/assets/img/icon-abitazione@2x.png') ;
-            }
-            .parcheggio {
-                background-repeat: no-repeat;
-                background-position: center;
-                background-image: url('/assets/img/icon-parcheggio@2x.png') ;
-            }
-            .magazzino {
-                background-repeat: no-repeat;
-                background-position: center;
-                background-image: url('/assets/img/icon-magazzino@2x.png') ;
-            }
-            .commerciale {
-                background-repeat: no-repeat;
-                background-position: center;
-                background-image: url('/assets/img/icon-commerciale@2x.png') ;
-            }*/
         }
         .quota {
             bottom: 0;

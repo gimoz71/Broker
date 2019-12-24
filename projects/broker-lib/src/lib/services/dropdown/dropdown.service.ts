@@ -59,8 +59,8 @@ export class DropdownService {
         return this.tipiOmi;
     }
 
-    public getDropdown(Tipoddl: number, Filtro: string, Ordina: string, Componi: string, PrimoVuoto: string, PrimoTutti: string, tokenValue: string): Observable<Http.HttpResponse> {
+    public getDropdown(Tipoddl: number, Filtro: string, Ordina: string, Componi: string, PrimoVuoto: string, PrimoTutti: string): Observable<Http.HttpResponse> {
         const path = '/' + Tipoddl + '/' + Filtro + '/' + Ordina + '/' + Componi + '/' + PrimoVuoto + '/' + PrimoTutti;
-        return this.httpService.get(this.constants.getDropdownServiceName + path, tokenValue);
+        return this.httpService.get(this.constants.getDropdownServiceName + path);
     }
 }

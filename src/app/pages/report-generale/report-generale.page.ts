@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-generale',
@@ -9,6 +11,8 @@ import { BaseComponent } from 'src/app/component/base.component';
   styleUrls: ['./report-generale.page.scss'],
 })
 export class ReportGeneralePage extends BaseComponent implements OnInit {
+
+  private unsubscribe$ = new Subject<void>();
 
   public cliente: Cliente;
   public situazioneImmobili: Array<ReportGenerale>;
@@ -28,7 +32,6 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     public iconeService: IconeService
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
-    this.cliente = new Cliente();
     this.situazioneImmobili = new Array<ReportGenerale>();
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
     this.etichettaColonna = '';
@@ -36,7 +39,6 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
-    this.loadCliente();
   }
 
   ionViewDidEnter() {
@@ -46,18 +48,22 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   private initializeApp() {
     // ottengo il token
-    this.sessionService.userDataObservable.subscribe(present => {
+    this.sessionService.userDataObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(present => {
       if (present) {
         this.wsToken = this.sessionService.getUserData();
 
-        this.cliente = this.getCliente();
-        if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
+        const cliente_id = this.sessionService.getCliente().cliente_id;
+        if (cliente_id === 0 || cliente_id === undefined) {
           // non ho clienti selezionati
           this.presentAlert("E' necessario selezionare un cliente");
           this.goToPage('home');
         }
 
-        this.reportService.getSituazioneGenerale(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+        this.reportService.getSituazioneGenerale(cliente_id).pipe(
+          takeUntil(this.unsubscribe$)
+        ).subscribe(r => {
           if (r.Success) {
             this.situazioneImmobili = r.Data.elenco_immobili;
           } else {
@@ -72,7 +78,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.sessionService.loadUserData();
   }
 
-  private goToReportAnalisi(): void {
+  public goToReportAnalisi(): void {
     this.goToPage('report-analisi');
   }
 
@@ -189,5 +195,10 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   public getTotaleImmobili(): number {
     return this.getTotaleAttiviImmobili() - this.getTotalePassiviImmobili();
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

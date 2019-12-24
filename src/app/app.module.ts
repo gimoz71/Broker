@@ -1,10 +1,10 @@
 
 import { SessionService, StoreService, LoginService, ReportService, IconeService } from 'broker-lib';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
@@ -29,9 +29,9 @@ import { HTTP } from '@ionic-native/http/ngx';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RaHttpInterceptor } from './interceptor/http.interceptor';
 import { NuovoClientePageModule } from './pages/nuovo-cliente/nuovo-cliente.module';
-import { ModalQuoteProprietaComponent } from './component/modal/quoteproprieta/modalquoteproprieta.component';
-import { ModalModule } from './component/modal/modal.module';
 import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobile.module';
+import { PipesModule } from './pipes/pipes.module';
+import { AmmortamentoPageModule } from './pages/ammortamento/ammortamento.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,22 +40,13 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
   { path: 'wizard', loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule) },
   { path: 'scheda-immobile', loadChildren: () => import('./pages/scheda-immobile/scheda-immobile.module').then(m => m.SchedaImmobilePageModule) },
-  // { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
-  // { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
-  // { path: 'dashboard', loadChildren: './pages/dashboard/dashboard.module#DashboardPageModule' },
-  // { path: 'scheda-immobile', loadChildren: './pages/scheda-immobile/scheda-immobile.module#SchedaImmobilePageModule' },
-  // { path: 'report', loadChildren: './pages/report/report.module#ReportPageModule' },
-  // { path: 'analisi', loadChildren: './pages/analisi/analisi.module#AnalisiPageModule' },
   { path: 'nuovo-cliente', loadChildren: () => import('./pages/nuovo-cliente/nuovo-cliente.module').then(m => m.NuovoClientePageModule) },
   // { path: 'scheda-cliente', loadChildren: './pages/scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
   { path: 'patrimonio', loadChildren: () => import('./pages/patrimonio/patrimonio.module').then(m => m.PatrimonioPageModule) },
   // { path: 'catastali', loadChildren: './pages/catastali/catastali.module#CatastaliPageModule' },
   { path: 'report-generale', loadChildren: () => import('./pages/report-generale/report-generale.module').then(m => m.ReportGeneralePageModule) },
   { path: 'report-analisi', loadChildren: () => import('./pages/report-analisi/report-analisi.module').then(m => m.ReportAnalisiPageModule) },
-  // { path: 'report-analisi', loadChildren: './pages/report-analisi/report-analisi.module#ReportAnalisiPageModule' },
-  // { path: 'ammortamento', loadChildren: './pages/ammortamento/ammortamento.module#AmmortamentoPageModule' },
-  // { path: 'client-home', loadChildren: './pages/client-home/client-home.module#ClientHomePageModule' },
-
+  { path: 'ammortamento', loadChildren: () => import('./pages/ammortamento/ammortamento.module').then(m => m.AmmortamentoPageModule) },
 ];
 
 @NgModule({
@@ -76,9 +67,12 @@ const routes: Routes = [
     ReportAnalisiPageModule,
     NuovoClientePageModule,
     SchedaImmobilePageModule,
+    AmmortamentoPageModule,
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
+    PipesModule,
+    IonicModule.forRoot()
   ],
   providers: [
     // ErrorHandlerService,
@@ -98,6 +92,7 @@ const routes: Routes = [
     }
   ],
   exports: [
+    PipesModule
   ],
   bootstrap: [AppComponent]
 })

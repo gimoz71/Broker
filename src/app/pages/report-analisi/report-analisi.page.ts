@@ -3,6 +3,8 @@ import { Chart } from 'chart.js';
 import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-analisi',
@@ -16,13 +18,14 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
   @ViewChild('concentrazioneCanvas', { static: false }) concentrazioneCanvas: ElementRef;
   @ViewChild('tipologiaCanvas', { static: false }) tipologiaCanvas: ElementRef;
   @ViewChild('affittuariCanvas', { static: false }) affittuariCanvas: ElementRef;
+
+  private unsubscribe$ = new Subject<void>();
+
   public linesChart: any;
   public indicatoriChart: any;
   public concentrazioneChart: any;
   public tipologiaChart: any;
   public affittuariChart: any;
-
-  public cliente: Cliente;
 
   constructor(public sessionService: SessionService,
     public storeService: StoreService,
@@ -35,12 +38,10 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     public iconeService: IconeService
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
-    this.cliente = new Cliente();
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.loadCliente();
   }
 
   ionViewDidEnter() {
@@ -50,18 +51,22 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
 
   private initializeApp() {
     // ottengo il token
-    this.sessionService.userDataObservable.subscribe(present => {
+    this.sessionService.userDataObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(present => {
       if (present) {
         this.wsToken = this.sessionService.getUserData();
 
-        this.cliente = this.getCliente();
-        if (this.cliente.cliente_id === 0 || this.cliente.cliente_id === undefined) {
+        const cliente_id = this.sessionService.getCliente().cliente_id;
+        if (cliente_id === 0 || cliente_id === undefined) {
           // non ho clienti selezionati
           this.presentAlert("E' necessario selezionare un cliente");
           this.goToPage('home');
         }
 
-        this.reportService.getGrafici(this.cliente.cliente_id, this.sessionService.getUserData().token_value).subscribe(r => {
+        this.reportService.getGrafici(cliente_id).pipe(
+          takeUntil(this.unsubscribe$)
+        ).subscribe(r => {
           if (r.Success) {
             const datiGraficiAndamentoAnnuale = r.Data.andamento_annuale;
             this.createLinesChart(datiGraficiAndamentoAnnuale);
@@ -408,7 +413,12 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     return toReturn;
   }
 
-  private goToReportGenerale(): void {
+  public goToReportGenerale(): void {
     this.goToPage('report-generale');
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 }

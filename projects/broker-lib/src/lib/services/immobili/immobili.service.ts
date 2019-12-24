@@ -28,10 +28,10 @@ export class ImmobiliService {
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data dentro al quale si trova l'elenco degli immobili
      */
-    public getImmobili(id_cliente: string, tokenValue: string): Observable<Http.HttpResponse> {
+    public getImmobili(id_cliente: string): Observable<Http.HttpResponse> {
         return this.httpService.get(this.constants.getImmobiliServiceName
             + this.constants.pathSeparator
-            + id_cliente, tokenValue);
+            + id_cliente);
         // return this.httpService.get('getimmobili' + '/' + idCliente, tokenValue);
     }
 
@@ -43,11 +43,11 @@ export class ImmobiliService {
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data dentro al quale si trova l'oggetto Immobile
      */
-    public getImmobile(immobile_id: string, tokenValue: string): Observable<Http.HttpResponse> {
+    public getImmobile(immobile_id: string): Observable<Http.HttpResponse> {
         // return this.httpService.get(this.constants.getImmobileServiceName + this.constants.pathSeparator + immobile_id, tokenValue);
         return this.httpService.get(this.constants.getImmobileServiceName
             + this.constants.pathSeparator
-            + immobile_id, tokenValue);
+            + immobile_id);
     }
 
     /**
@@ -58,8 +58,8 @@ export class ImmobiliService {
      * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
      * Data dentro al quale si trova l'id dell'immobile appena salvato
      */
-    public putImmobile(immobile: ImmobileDettaglio, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.post(this.constants.putImmobileServiceName, immobile, tokenValue);
+    public putImmobile(immobile: ImmobileDettaglio): Observable<Http.HttpResponse> {
+        return this.httpService.post(this.constants.putImmobileServiceName, immobile);
     }
 
     /**
@@ -69,8 +69,8 @@ export class ImmobiliService {
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns response contenente l'esito in Success e ErrorMessages.
      */
-    public delImmobile(cancellazioneRequest: CancellazioneImmobileRequest, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.post(this.constants.delImmobileServiceName, cancellazioneRequest, tokenValue);
+    public delImmobile(cancellazioneRequest: CancellazioneImmobileRequest): Observable<Http.HttpResponse> {
+        return this.httpService.post(this.constants.delImmobileServiceName, cancellazioneRequest);
     }
 
     /**
@@ -81,7 +81,11 @@ export class ImmobiliService {
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns response contenente l'esito in Success e ErrorMessages.
      */
-    public invioDatiCatastali(immobile_id: number, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.getCatastoServiceName + this.constants.pathSeparator + immobile_id, tokenValue);
+    public invioDatiCatastali(immobile_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.getCatastoServiceName + this.constants.pathSeparator + immobile_id);
+    }
+
+    public getPianoAmmortamentoImmobile(immobile_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.getPianoAmmortamentoServiceName + this.constants.pathSeparator + immobile_id);
     }
 }

@@ -17,7 +17,8 @@
                 <div class="tool-row">
                     <div class="tool">
                         <button class="button back only-icon" (click)="goToHome()">&nbsp;</button>
-                        <h3 class="page-title cliente">{{getCliente().nome + ' ' + getCliente().cognome}} - Immobile
+                        <h3 class="page-title cliente">
+                            {{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}} - Immobile
                         </h3>
                         <div style="float: right">
                             <a href="#" class="button view">Catastali</a>
@@ -31,9 +32,10 @@
                 <div class="scheda-header">
                     <div class="scheda-table">
                         <div class="scheda-row">
-                            <div class="item tipologia abitazione"></div>
-                            <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
-                            <div class="item date"><span>Novembre</span><span>20</span><span>2019</span></div>
+                            <div [ngClass]="getIconaClasseImmobileItem(immobile.codice_tipologia)"></div>
+                            <div class="item indirizzo">
+                                {{immobile.indirizzo + ' ' + immobile.civico + ', ' + immobile.citta}}</div>
+                            <div class="item date">{{immobile.data_aggiornamento | raDateFormat_gg_mm_aaaa}}</div>
                         </div>
                     </div>
                 </div>
@@ -45,8 +47,8 @@
                                         class="button view only-icon"
                                         (click)="openModal('custom-modal-1')">&nbsp;</button></h3>
                                 <ul class="item-list half-height">
-                                    <li><span>Book Value</span><span>-</span></li>
-                                    <li><span>Valore catastale</span><span>-</span></li>
+                                    <li><span>Book Value</span><span>{{immobile.valore_acquisto}}</span></li>
+                                    <li><span>Valore catastale</span><span>{{immobile.valore_acquisto}}</span></li>
                                     <li><span>Valore commerciale</span><span>-</span></li>
                                     <li><span>Rendita</span><span>{{immobile.dati_catastali ? immobile.dati_catastali.rendita : '-'}}</span>
                                     </li>
@@ -54,21 +56,24 @@
                                 </ul>
                             </div>
                             <div class="item">
-                                <div class="item-title">Mutuo: <a href="#" class="button view only-icon">&nbsp;</a>
+                                <div class="item-title">Mutuo: <button class="button view only-icon"
+                                        (click)="apriPianoAmmortamento()">&nbsp;</button>
                                 </div>
                                 <ul class="item-list half-height">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li><span>Data</span><span>{{immobile.mutuo_dettaglio.data_inizio | raDateFormat_gg_mm_aaaa}}</span>
+                                    </li>
+
+                                    <li><span>Durata</span><span>{{immobile.mutuo_dettaglio.durata}}</span></li>
+                                    <li><span>Tasso</span><span>{{immobile.mutuo_dettaglio.tipo_tasso}}</span></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="scheda-row">
                             <div class="item">
-                                <h3 class="item-title">Tasse <span>{{immobile.tasse}}</span></h3>
+                                <h3 class="item-title">Tasse <span>{{getTotaleTasse(immobile)}} €</span></h3>
                                 <ul class="item-list half-height">
                                     <li *ngFor="let t of immobile.tasse">
-                                        <span>{{t.descrizione_tassa}}</span><span>{{t.importo_annuale}}</span></li>
+                                        <span>{{t.descrizione_tassa}}</span><span>{{t.importo_annuale}} €</span></li>
                                 </ul>
                             </div>
                             <div class="item">
@@ -91,20 +96,21 @@
             <div class="row">
                 <div class="header-cell">
                     <span class="small">immobili di</span>
-                    <span class="nome">{{getCliente().nome + ' ' + getCliente().cognome}}</span>
+                    <span
+                        class="nome">{{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}}</span>
                 </div>
             </div>
         </div>
         <div class="list">
             <ul class="lista-immobile">
-                <li class="immobile" *ngFor="let immobileLista of immobiliCliente"
-                    (click)="apriSchedaImmobile(immobileLista.immobile_id)">
+                <li class="immobile" *ngFor="let immobileLista of sessionService.getImmobiliCliente()"
+                    (click)="apriSchedaImmobile(immobileLista.proprieta_id)">
                     <div class="indirizzo">{{immobileLista.indirizzo}},
                         {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}}
                         ({{immobileLista.provincia}})</div>
                     <div class="tipologia table">
                         <div class="row">
-                            <div class="cell abitazione">
+                            <div [ngClass]="getIconaClasseImmobileCell(immobileLista.codice_tipologia)">
                             </div>
                         </div>
                     </div>
@@ -147,5 +153,3 @@
         </div>
     </div>
 </app-quoteproprieta-modal>
-
-<!-- LE MIE RICHIESTE > NUOVA > RICHIESTA DOCUMENTALRE -->

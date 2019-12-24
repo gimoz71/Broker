@@ -17,8 +17,8 @@ export class LoginService {
         private constants: ConstantsService) {
     }
 
-    public CambioPassword(bodyCambio: CambioPasswordRequest, tokenValue: string) {
-        return this.httpService.post(this.constants.cambioPasswordServiceName, bodyCambio, tokenValue);
+    public CambioPassword(bodyCambio: CambioPasswordRequest) {
+        return this.httpService.post(this.constants.cambioPasswordServiceName, bodyCambio);
     }
 
     public Login(body: LoginRequest): Observable<Http.HttpResponse> {

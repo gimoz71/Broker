@@ -16,7 +16,7 @@ export class ReportService {
 
     constructor(
         private httpService: BrokerHttpService,
-        private constants: ConstantsService) {}
+        private constants: ConstantsService) { }
 
     /**
      * Chiamata per ottenere il report della situazione generale di un cliente
@@ -25,8 +25,8 @@ export class ReportService {
      * @param tokenValue Token di autenticazione ottenuto dalla login
      * @returns
      */
-    public getSituazioneGenerale(cliente_id: number, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.situazioneGeneraleServiceName + this.constants.pathSeparator + cliente_id, tokenValue);
+    public getSituazioneGenerale(cliente_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.situazioneGeneraleServiceName + this.constants.pathSeparator + cliente_id);
     }
 
     /**
@@ -36,8 +36,8 @@ export class ReportService {
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns
      */
-    public getGrafici(cliente_id: number, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.graficiServiceName + this.constants.pathSeparator + cliente_id, tokenValue);
+    public getGrafici(cliente_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.graficiServiceName + this.constants.pathSeparator + cliente_id);
     }
 
     /**
@@ -47,7 +47,7 @@ export class ReportService {
      * @param  tokenValue Token di autenticazione ottenuto dalla login
      * @returns
      */
-    public getPdfReport(cliente_id: number, tokenValue: string): Observable<Http.HttpResponse> {
-        return this.httpService.get(this.constants.pdfReportServiceName + this.constants.pathSeparator + cliente_id, tokenValue);
+    public getPdfReport(cliente_id: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.pdfReportServiceName + this.constants.pathSeparator + cliente_id);
     }
 }
