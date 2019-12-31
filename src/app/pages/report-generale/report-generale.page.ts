@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'app-report-generale',

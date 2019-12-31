@@ -65,3 +65,4 @@ export * from './lib/models/login/cambioPasswordRequest';
 export * from './lib/models/common/errormessage';
 export * from './lib/models/common/wslogerrore';
 export * from './lib/models/common/ddlitem';
+export * from './lib/models/common/connection';

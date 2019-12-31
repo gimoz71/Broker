@@ -55,7 +55,6 @@ export class WizardPage extends BaseComponent implements OnInit {
     public sessionService: SessionService,
     private dropdownService: DropdownService,
     public storeService: StoreService,
-    public datePipe: RaDatePipe,
     public iconeService: IconeService
   ) {
 
@@ -173,6 +172,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public salvaImmobile(): void {
+    console.log(this.immobile);
     this.immobiliService.putImmobile(this.immobile).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {

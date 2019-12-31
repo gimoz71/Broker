@@ -10,22 +10,22 @@ export class ConstantsService {
     public readonly cambioPasswordServiceName: string = 'putPassword';
 
     // immobili
-    public readonly getImmobiliServiceName: string = 'getImmobili';
-    public readonly getImmobileServiceName: string = 'getImmobile';
-    public readonly putImmobileServiceName: string = 'putImmobile';
+    public readonly getImmobiliServiceName: string = 'getimmobili';
+    public readonly getImmobileServiceName: string = 'getimmobile';
+    public readonly putImmobileServiceName: string = 'putimmobile';
     public readonly delImmobileServiceName: string = 'delimmobile';
     public readonly getCatastoServiceName: string = 'getcatasto';
     public readonly getPianoAmmortamentoServiceName: string = 'getPiano';
 
     // clienti
-    public readonly getClientiServiceName: string = 'getClienti';
-    public readonly putClientiServiceName: string = 'putCliente';
+    public readonly getClientiServiceName: string = 'getclienti';
+    public readonly putClientiServiceName: string = 'putcliente';
     public readonly abilitaAppClienteServiceName: string = 'appcliente';
-    public readonly bookValueServiceName: string = 'getBookValue';
+    public readonly bookValueServiceName: string = 'getbookvalue';
     public readonly pianoAmmortamentoServiceName: string = 'getpiano';
 
     // report
-    public readonly situazioneGeneraleServiceName: string = 'getSituazione';
+    public readonly situazioneGeneraleServiceName: string = 'getsituazione';
     public readonly graficiServiceName: string = 'getgrafici';
     public readonly pdfReportServiceName: string = 'getpdfreport';
 
@@ -52,4 +52,11 @@ export class ConstantsService {
     public readonly tipologiaImmobilePonte: string = 'ponte';
     public readonly tipologiaImmobileStazione: string = 'stazione';
     public readonly tipologiaImmobileCantiere: string = 'cantiere';
+
+    // dropdown
+    public readonly getDdlEuribor: string = 'get_ddl_tipo_euribor';
+    public readonly getDdlAffittuari: string = 'get_ddl_tipo_affittuari';
+    public readonly getDdlTasse: string = 'get_ddl_tasse';
+    public readonly getDdlOmi: string = 'get_ddl_omi';
+    public readonly getDdlCategoriaCatastale: string = 'get_ddl_categoria_catastale';
 }

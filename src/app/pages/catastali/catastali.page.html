@@ -1,37 +1,13 @@
-<!--<ion-header no-border no-padding no-margin>
-  <ion-toolbar color="bar" no-padding no-margin>
-    <ion-buttons slot="start" class="logo left-side-element"  no-padding no-margin> </ion-buttons>
-    <ion-title text-left class="header-bar">
-      <img src="/assets/img/readvice-logo@2x.png" class="title">
-    </ion-title>
-    <ion-buttons slot="end" class="tools">
-        <a href="#" class="hints tasks"><span>10</span></a>
-        <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
-    </ion-buttons>
-</ion-toolbar>
-</ion-header>-->
-
-<div class="main-header">
-    <div class="logo"></div>
-    <div class="header-bar">
-        <img src="/assets/img/readvice-logo@2x.png" class="title">
-    </div>
-    <div class="tools">
-        <a href="#" class="hints tasks"><span>10</span></a>
-        <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">alessandro.tamborini@readvice.it</a>
-    </div>
-</div>
-
 <div class="main-body body">
     <div class="content-area">
         <div class="tool-area">
             <div class="tool-table">
                 <div class="tool-row">
                     <div class="tool">
-                        <a href="#" class="button back only-icon">&nbsp;</a>
-                        <h3 class="page-title cliente">Francesca Palmi - Catastali</h3>
+                        <button class="button back only-icon" (click)="apriSchedaImmobile(0)">&nbsp;</button>
+                        <h3 class="page-title cliente">
+                            {{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}} - Catastali
+                        </h3>
                         <div style="float: right"><a href="#" class="button upload">Invia scheda</a></div>
                     </div>
                 </div>
@@ -42,9 +18,11 @@
                 <div class="scheda-header">
                     <div class="scheda-table">
                         <div class="scheda-row">
-                            <div class="item tipologia abitazione"></div>
-                            <div class="item indirizzo">piazza privata Guide Maquiguas, Cervinia</div>
-                            <div class="item date"><span>Novembre</span><span>20</span><span>2019</span></div>
+                            <div [ngClass]="getIconaClasseImmobileItem(immobile.codice_tipologia)">
+                            </div>
+                            <div class="item indirizzo">
+                                {{immobile.indirizzo + ' ' + immobile.civico + ', ' + immobile.citta}}</div>
+                            <div class="item date">{{immobile.data_aggiornamento | raDateFormat_gg_mm_aaaa}}</div>
                         </div>
                     </div>
                 </div>
@@ -52,86 +30,54 @@
                     <div class="scheda-table single-column">
                         <div class="scheda-row">
                             <div class="item">
-                                <h3 class="item-title">Abitazioni <a href="#" class="button view only-icon">&nbsp;</a></h3>
+                                <h3 class="item-title">Dati catastali</h3>
                                 <ul class="item-list full-height">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li><span>Sezione
+                                            urbana</span><span>{{immobile.dati_catastali.sezione}}</span>
+                                    </li>
+                                    <li><span>Foglio</span><span>{{immobile.dati_catastali.foglio}}</span>
+                                    </li>
+                                    <li><span>Particella</span><span>{{immobile.dati_catastali.particella}}</span>
+                                    </li>
+                                    <li><span>Sub</span><span>{{immobile.dati_catastali.subalterno}}</span>
+                                    </li>
+                                    <li><span>Zona
+                                            cens.</span><span>{{immobile.dati_catastali.zona}}</span>
+                                    </li>
+                                    <li><span>Micro
+                                            zona</span><span>{{immobile.dati_catastali.micro_zona}}</span>
+                                    </li>
+                                    <li><span>Categoria</span><span>{{immobile.dati_catastali.categoria}}</span>
+                                    </li>
+                                    <li><span>Classe</span><span>{{immobile.dati_catastali.classe}}</span>
+                                    </li>
+                                    <li><span>Consistenza</span><span>--</span></li>
+                                    <li>
+                                        <span>Sup
+                                            catastale</span><span>{{immobile.dati_catastali.superficie_totale}}</span><br />
+                                        <span>escluse le aree
+                                            coperte</span><span>{{immobile.dati_catastali.superficie_interni}}</span>
+                                    </li>
+                                    <li><span>Rendita</span>Rendita<span>{{immobile.dati_catastali.rendita}}</span>
+                                    </li>
+                                    <li>
+                                        <span>Indirizzo</span><br />
+                                        <span>{{immobile.indirizzo + ' ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia + ')' }}</span>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Abitazioni <span>500K</span></h3>
+                                <h3 class="item-title">Dati OMI</h3>
                                 <ul class="item-list full-height">
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
-                                    <li><span>Elemento</span><span>valore</span></li>
+                                    <li><span>Rent.</span><span>{{immobile.omi.valore_omi}}</span></li>
+                                    <li><span>Rent. Pot. EUR</span><span>{{immobile.omi.valore_pot}}</span></li>
+                                    <li><span>Inflation</span><span>???</span></li>
+                                    <li><span>Pr./Sqm EUR</span><span>???</span></li>
+                                    <li><span>Compr.Pr./Sqm EUR</span><span>???</span></li>
                                 </ul>
                             </div>
                         </div>
-                       
+
                     </div>
                 </div>
             </div>
@@ -141,130 +87,21 @@
         <div class="header">
             <div class="row">
                 <div class="header-cell">
-                    <span class="small">immobili di</span>
-                    <span class="nome">Paolo Rossi</span>
+                    <span class="small">immobili di</span><span
+                        class="nome">{{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}}</span>
                 </div>
             </div>
         </div>
         <div class="list">
             <ul class="lista-immobile">
-                <li class="immobile selected">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
+                <li class="immobile" *ngFor="let immobileLista of sessionService.getImmobiliCliente()"
+                    (click)="apriSchedaImmobile(immobileLista.proprieta_id)">
+                    <div class="indirizzo">{{immobileLista.indirizzo}},
+                        {{immobileLista.civico}}<br>{{immobileLista.cap}} {{immobileLista.citta}}
+                        ({{immobileLista.provincia}})</div>
                     <div class="tipologia table">
                         <div class="row">
-                            <div class="cell abitazione">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell commerciale">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell parcheggio">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell magazzino">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell abitazione">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell commerciale">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell parcheggio">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="quota table">
-                        <div class="row">
-                            <div class="cell">
-                                27<small>%</small>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="immobile">
-                    <div class="indirizzo">Via F.lli Rosselli, 7<br>57100 Cecina (LI)</div>
-                    <div class="tipologia table">
-                        <div class="row">
-                            <div class="cell magazzino">
+                            <div [ngClass]="getIconaClasseImmobileCell(immobileLista.codice_tipologia)">
                             </div>
                         </div>
                     </div>
@@ -281,7 +118,7 @@
         <div class="footer table">
             <div class="row">
                 <div class="cell">
-                    <a hef="#" class="button add">immobile</a>
+                    <button class="button add" (click)="goToWizard()">immobile</button>
                 </div>
             </div>
         </div>

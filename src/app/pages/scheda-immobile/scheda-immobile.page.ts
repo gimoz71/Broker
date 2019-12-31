@@ -42,10 +42,6 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         this.immobile.dati_catastali = new DatiCatastaliDettaglio();
     }
 
-    public goToWizard(): void {
-        this.goToPage("wizard");
-    }
-
     ngOnInit() {
         super.ngOnInit();
     }
@@ -63,21 +59,26 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         ).subscribe(present => {
             if (present) {
                 this.wsToken = this.sessionService.getUserData();
-                this.route.queryParams.pipe(
-                    takeUntil(this.unsubscribe$)
-                ).subscribe(params => {
-
-                    this.immobile_id = params.immobile_id;
-                    this.immobiliService.getImmobile(this.immobile_id).pipe(
+                if (this.sessionService.getImmobileDettaglio().proprieta_id !== 0
+                    && this.sessionService.getImmobileDettaglio().proprieta_id !== null
+                    && this.sessionService.getImmobileDettaglio().proprieta_id !== undefined) {
+                    this.immobile = this.sessionService.getImmobileDettaglio();
+                } else {
+                    this.route.queryParams.pipe(
                         takeUntil(this.unsubscribe$)
-                    ).subscribe(s => {
-                        if (s.Success) {
-                            this.immobile = s.Data;
-                            this.sessionService.setImmobileDettaglio(this.immobile);
-                        }
-                    });
-                });
+                    ).subscribe(params => {
 
+                        this.immobile_id = params.immobile_id;
+                        this.immobiliService.getImmobile(this.immobile_id).pipe(
+                            takeUntil(this.unsubscribe$)
+                        ).subscribe(s => {
+                            if (s.Success) {
+                                this.immobile = s.Data;
+                                this.sessionService.setImmobileDettaglio(this.immobile);
+                            }
+                        });
+                    });
+                }
                 const client_id = this.sessionService.getCliente().cliente_id;
                 if (client_id === 0 || client_id === undefined) {
                     // non ho clienti selezionati
@@ -109,9 +110,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         this.modalService.close(id);
     }
 
-    public apriSchedaImmobile(immobile: number) {
-        this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
-    }
+
 
     public getTotaleTasse(immobile: ImmobileDettaglio): number {
         let tasse = 0;
@@ -132,6 +131,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                 immobile_codice_tipologia: this.immobile.codice_tipologia
             }
         });
+    }
+
+    public goToCatastali() {
+        this.goToPage('catastali');
     }
 
     ionViewDidLeave() {

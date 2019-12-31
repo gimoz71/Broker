@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'app-report-analisi',
@@ -345,14 +346,16 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
           {
             data: attivi,
             label: 'attivi',
-            borderColor: "#3e95cd",
-            fill: false
+            borderColor: "#0073bf",
+            fill: false,
+            lineTension: 0
           },
           {
             data: passivi,
             label: 'passivi',
-            borderColor: "#8e5ea2",
-            fill: false
+            borderColor: "#f70046",
+            fill: false,
+            lineTension: 0
           },
         ]
       },

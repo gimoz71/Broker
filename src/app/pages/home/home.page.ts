@@ -19,8 +19,6 @@ export class HomePage extends BaseComponent implements OnInit {
     private unsubscribe$ = new Subject<void>();
 
     public clienti: Array<Cliente>;
-    public immobiliCliente: Array<Immobile>;
-    public tempImmobiliCliente: Array<Immobile>;
     public pippo: Immobile;
 
     public searchName: string;
@@ -37,8 +35,6 @@ export class HomePage extends BaseComponent implements OnInit {
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService);
         this.clienti = new Array<Cliente>();
-        this.immobiliCliente = new Array<Immobile>();
-        this.tempImmobiliCliente = new Array<Immobile>();
         this.searchName = '';
         this.searchCF = '';
     }
@@ -78,13 +74,6 @@ export class HomePage extends BaseComponent implements OnInit {
 
     public caricaCliente(cliente: Cliente) {
         this.sessionService.setCliente(cliente);
-        this.sessionService.elencoImmobiliObs.pipe(
-            takeUntil(this.unsubscribe$)
-        ).subscribe(r => {
-            if (r) {
-                this.immobiliCliente = this.sessionService.getImmobiliCliente();
-            }
-        });
     }
 
     public apriSchedaImmobile(immobile: number) {
@@ -92,21 +81,8 @@ export class HomePage extends BaseComponent implements OnInit {
         this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
     }
 
-    public goToWizard(): void {
-        this.sessionService.clearImmobileDettaglio();
-        this.goToPage('wizard');
-    }
-
-    public svuotaCache(): void {
-        this.sessionService.clearUserData();
-    }
-
     public goToNuovoCliente(): void {
         this.goToPage('nuovo-cliente');
-    }
-
-    public goToProfiloUtente(): void {
-        this.goToPage('profilo-utente');
     }
 
     public goToPatrimonio(): void {

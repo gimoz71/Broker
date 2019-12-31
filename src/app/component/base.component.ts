@@ -4,6 +4,7 @@ import { StoreService, SessionService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
+import { AlertController } from 'ionic-angular';
 
 @Component({
     selector: 'app-base',
@@ -43,6 +44,15 @@ export class BaseComponent implements OnInit {
             this.router.navigate(['login']);
             return '';
         }
+    }
+
+    public apriSchedaImmobile(immobile: number) {
+        this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
+    }
+
+    public goToWizard(): void {
+        this.sessionService.clearImmobileDettaglio();
+        this.goToPage('wizard');
     }
 
     public goToHome(): void {
@@ -105,4 +115,12 @@ export class BaseComponent implements OnInit {
     public getIconaClasseImmobileItem(tipologia: string): string {
         return 'item tipologia ' + this.getIconaClasseImmobile(tipologia);
     }
+
+    public goToProfiloUtente(): void {
+        this.goToPage('profilo-utente');
+    }
+
+    // public logout() {
+    //     this.alertService.presentAlertLogout();
+    // }
 }

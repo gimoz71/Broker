@@ -8,7 +8,13 @@ import { Immobile } from '../../models/immobili/immobile';
 import { Subject } from 'rxjs';
 import { ImmobileDettaglio } from '../../models/immobili/immobileDettaglio';
 import { Connection } from '../../models/common/connection';
-import { resolve } from 'url';
+import { DatiCatastaliDettaglio } from '../../models/immobili/datiCatastaliDettaglio';
+import { OmiDettaglio } from '../../models/immobili/omiDettaglio';
+import { SpesaDettaglio } from '../../models/immobili/spesaDettaglio';
+import { MutuoDettaglio } from '../../models/immobili/mutuoDettaglio';
+import { AffittoDettaglio } from '../../models/immobili/affittoDettaglio';
+import { TassaDettaglio } from '../../models/immobili/tassaDettaglio';
+import { CointestatarioDettaglio } from '../../models/immobili/cointestatarioDettaglio';
 
 @Injectable()
 export class SessionService {
@@ -32,6 +38,14 @@ export class SessionService {
         this.userData = new WsToken();
         this.connection = new Connection();
         this.cliente = new Cliente();
+        this.immobile = new ImmobileDettaglio();
+        this.immobile.dati_catastali = new DatiCatastaliDettaglio();
+        this.immobile.spese = new Array<SpesaDettaglio>();
+        this.immobile.omi = new OmiDettaglio();
+        this.immobile.mutuo_dettaglio = new MutuoDettaglio();
+        this.immobile.affitto_dettaglio = new AffittoDettaglio();
+        this.immobile.tasse = new Array<TassaDettaglio>();
+        this.immobile.cointestatari = new Array<CointestatarioDettaglio>();
     }
 
     public setCliente(cliente: Cliente): void {

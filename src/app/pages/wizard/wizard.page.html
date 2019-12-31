@@ -1,15 +1,3 @@
-<div class="main-header">
-    <div class="logo"></div>
-    <div class="header-bar">
-        <img src="/assets/img/readvice-logo@2x.png" class="title">
-    </div>
-    <div class="tools">
-        <a href="#" class="hints tasks"><span>10</span></a>
-        <a href="#" class="hints alerts"><span>10</span></a>
-        <a href="#" class="user">{{getUtenteEmail()}}</a>
-    </div>
-</div>
-
 <div class="main-body body-no-right-menu wizard">
     <div class="content-area">
         <div class="tool-area">
@@ -17,7 +5,9 @@
                 <div class="tool-row">
                     <div class="tool">
                         <button class="button back only-icon" (click)="goToHome()">&nbsp;</button>
-                        <h3 class="page-title cliente">{{cliente.nome + ' ' + cliente.cognome}} - Informazioni immobile
+                        <h3 class="page-title cliente">
+                            {{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}} -
+                            Informazioni immobile
                         </h3>
                     </div>
                 </div>
@@ -83,7 +73,7 @@
                                             <label>OMI</label>
                                             <select class="select-css" (change)="selezionaOmi($event.target)">
                                                 <option *ngFor="let omi of tipiOmi" value="{{omi.codice}}"
-                                                    selected="{{omi.codice === immobile.comune_zone_cod ? 'selected' : ''}}">
+                                                    selected="{{omi.codice+'' === immobile.comune_zone_cod ? 'selected' : ''}}">
                                                     {{omi.descrizione}}
                                                 </option>
                                             </select>

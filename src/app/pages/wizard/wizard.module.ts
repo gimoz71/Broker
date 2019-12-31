@@ -12,8 +12,6 @@ import { MyDatePickerModule } from 'src/app/component/datepicker/mydatepicker.mo
 import { OnlyDigitsDirective } from 'src/app/directive/onlydigits.directive';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 
-
-
 const routes: Routes = [
   {
     path: '',

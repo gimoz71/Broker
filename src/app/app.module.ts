@@ -32,6 +32,7 @@ import { NuovoClientePageModule } from './pages/nuovo-cliente/nuovo-cliente.modu
 import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobile.module';
 import { PipesModule } from './pipes/pipes.module';
 import { AmmortamentoPageModule } from './pages/ammortamento/ammortamento.module';
+import { CatastaliPageModule } from './pages/catastali/catastali.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -43,7 +44,7 @@ const routes: Routes = [
   { path: 'nuovo-cliente', loadChildren: () => import('./pages/nuovo-cliente/nuovo-cliente.module').then(m => m.NuovoClientePageModule) },
   // { path: 'scheda-cliente', loadChildren: './pages/scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
   { path: 'patrimonio', loadChildren: () => import('./pages/patrimonio/patrimonio.module').then(m => m.PatrimonioPageModule) },
-  // { path: 'catastali', loadChildren: './pages/catastali/catastali.module#CatastaliPageModule' },
+  { path: 'catastali', loadChildren: () => import('./pages/catastali/catastali.module').then(m => m.CatastaliPageModule) },
   { path: 'report-generale', loadChildren: () => import('./pages/report-generale/report-generale.module').then(m => m.ReportGeneralePageModule) },
   { path: 'report-analisi', loadChildren: () => import('./pages/report-analisi/report-analisi.module').then(m => m.ReportAnalisiPageModule) },
   { path: 'ammortamento', loadChildren: () => import('./pages/ammortamento/ammortamento.module').then(m => m.AmmortamentoPageModule) },
@@ -71,6 +72,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     HttpClientModule,
+    CatastaliPageModule,
     PipesModule,
     IonicModule.forRoot()
   ],

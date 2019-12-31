@@ -524,6 +524,7 @@ input:checked + .slider:before {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    background-color: transparent;
     position: relative;
     margin: 0 10px;
     top: 6px;
@@ -565,6 +566,7 @@ input:checked + .slider:before {
     background-repeat: no-repeat;
     background-position: left center;
     background-size: contain;
+    background-color: transparent;
     position: relative;
     margin: 0 10px;
     padding-left: 50px;
