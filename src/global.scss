@@ -558,6 +558,9 @@ input:checked + .slider:before {
         background-color: $default-red;
     }
 }
+.logout {
+    background-image: url('/assets/img/logout@2x.png') ;
+ }
 .user {
      display: inline-block;
     //width: 40px;
