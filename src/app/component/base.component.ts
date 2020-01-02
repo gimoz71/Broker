@@ -30,7 +30,8 @@ export class BaseComponent implements OnInit {
     }
 
     public getUtenteEmail(): string {
-        if (this.wsToken !== undefined) {
+        console.log("TOKEN: " + this.wsToken);
+        if (this.wsToken !== undefined && this.wsToken !== null) {
             return this.wsToken.utente.email;
         } else {
             return 'email utente';
@@ -38,6 +39,7 @@ export class BaseComponent implements OnInit {
     }
 
     public getToken(): string {
+
         if (this.wsToken !== undefined) {
             return this.wsToken.token_value;
         } else {
@@ -119,8 +121,4 @@ export class BaseComponent implements OnInit {
     public goToProfiloUtente(): void {
         this.goToPage('profilo-utente');
     }
-
-    // public logout() {
-    //     this.alertService.presentAlertLogout();
-    // }
 }

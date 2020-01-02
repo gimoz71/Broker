@@ -1,14 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { LoginService, StoreService, SessionService, AlertService } from 'broker-lib';
+import { Component, OnInit } from '@angular/core';
+import { LoginService, SessionService, AlertService } from 'broker-lib';
 
 import { LoginRequest, WsToken } from 'broker-lib';
 
 import { Router } from '@angular/router';
 
-import { HomePage } from '../home/home.page';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-// mport { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +22,6 @@ export class LoginPage implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private storeService: StoreService,
     private router: Router,
     private alertService: AlertService,
     private sessionService: SessionService) { }
@@ -47,7 +44,6 @@ export class LoginPage implements OnInit {
         // per il momento si ipotizza che se Success=true allora ci si è loggati
         this.sessionService.setUserData(data);
         this.router.navigate(['home']);
-        // this.router.navigate(['home']);
       } else {
         this.alertService.presentErrorAlert('Problema durante il login: ' + r.ErrorMessage.msg_testo);
       }
