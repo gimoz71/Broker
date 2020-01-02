@@ -33,6 +33,7 @@ import { SchedaImmobilePageModule } from './pages/scheda-immobile/scheda-immobil
 import { PipesModule } from './pipes/pipes.module';
 import { AmmortamentoPageModule } from './pages/ammortamento/ammortamento.module';
 import { CatastaliPageModule } from './pages/catastali/catastali.module';
+import { AppRoutingModule } from './app-routing.module';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -69,7 +70,7 @@ const routes: Routes = [
     NuovoClientePageModule,
     SchedaImmobilePageModule,
     AmmortamentoPageModule,
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
     CatastaliPageModule,
