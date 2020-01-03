@@ -545,6 +545,9 @@ input:checked + .slider:before {
         
         border-radius: 50%;
     }
+    &.logout {
+        //width: 32px;
+    }
 }
 .tasks {
     background-image: url('/assets/img/tasks@2x.png');
