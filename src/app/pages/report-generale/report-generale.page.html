@@ -39,11 +39,17 @@
                                 {{imm.indirizzo + ' ' + imm.civico + ', ' + imm.citta}}</div>
                             <div class="table-cell">{{imm.quota + '%'}}</div>
                             <div class="table-cell">{{imm.codice_tipologia}}</div>
-                            <div class="table-cell">{{getTotalePassiviImmobile(imm)}} &euro; <img
+                            <div
+                                [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobile(imm) < 0, 'positive': getTotalePassiviImmobile(imm) > 0}">
+                                {{getTotalePassiviImmobile(imm)| k_money}} &euro; <img
                                     src="/assets/img/icon-view-mini@2x.png" (click)="caricaPassiviImmobile(imm)"></div>
-                            <div class="table-cell">{{getTotaleAttiviImmobile(imm)}} &euro; <img
+                            <div
+                                [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobile(imm) < 0, 'positive': getTotaleAttiviImmobile(imm) > 0}">
+                                {{getTotaleAttiviImmobile(imm)| k_money}} &euro; <img
                                     src="/assets/img/icon-view-mini@2x.png" (click)="caricaAttiviImmobile(imm)"></div>
-                            <div class="table-cell">{{getTotaleImmobile(imm)}} &euro;</div>
+                            <div
+                                [ngClass]="{'table-cell': true, 'negative': getTotaleImmobile(imm) < 0, 'positive': getTotaleImmobile(imm) > 0}">
+                                {{getTotaleImmobile(imm)| k_money}} &euro;</div>
                         </div>
                     </div>
                 </div>
@@ -53,10 +59,17 @@
                             <div class="table-cell">&nbsp;</div>
                             <div class="table-cell">&nbsp;</div>
                             <div class="table-cell">&nbsp;</div>
-                            <div class="table-cell">{{getTotalePassiviImmobili()}} &euro; <img
-                                    src="/assets/img/icon-view-mini@2x.png"></div>
-                            <div class="table-cell">{{getTotaleAttiviImmobili()}} &euro;</div>
-                            <div class="table-cell">{{getTotaleImmobili()}} &euro;</div>
+                            <div
+                                [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobili() < 0, 'positive': getTotalePassiviImmobili() > 0}">
+                                {{getTotalePassiviImmobili() | k_money}} &euro; <img
+                                    src="/assets/img/icon-view-mini@2x.png">
+                            </div>
+                            <div
+                                [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobili() < 0, 'positive': getTotaleAttiviImmobili() > 0}">
+                                {{getTotaleAttiviImmobili()| k_money}} &euro;</div>
+                            <div [ngClass]="{'table-cell': true,
+                                'negative': getTotaleImmobili() < 0, 'positive': getTotaleImmobili() > 0}">
+                                {{getTotaleImmobili()| k_money}} &euro;</div>
                         </div>
                     </div>
                 </div>

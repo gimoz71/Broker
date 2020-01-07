@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ReportGeneralePage } from './report-generale.page';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 const routes: Routes = [
   {
@@ -19,8 +20,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PipesModule
   ],
   declarations: [ReportGeneralePage]
 })
-export class ReportGeneralePageModule {}
+export class ReportGeneralePageModule { }

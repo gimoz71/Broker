@@ -1553,6 +1553,13 @@ input:checked + .slider:before {
             width: 10%;
         }
     }
+    .negative {
+        color: red;
+        font-weight: 500;
+    }
+    .positive {
+        font-weight: 500;
+    }
     .table-header {
         display: table;
         width:100%;
@@ -1580,6 +1587,13 @@ input:checked + .slider:before {
                 &:last-of-type {
                     border-right: none;
                 }
+            };
+            .negative {
+                color: red;
+                font-weight: 500;
+            };
+            .positive {
+                font-weight: 500;
             }
         }
     }

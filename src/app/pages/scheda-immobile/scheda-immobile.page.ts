@@ -1,5 +1,5 @@
 // import { ImmobileDettaglio } from './../../../../projects/broker-lib/src/lib/models/immobili/immobileDettaglio';
-import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile, IconeService, MutuoDettaglio, AffittoDettaglio, TassaDettaglio, SpesaDettaglio, DatiCatastaliDettaglio } from 'broker-lib';
+import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile, IconeService, MutuoDettaglio, AffittoDettaglio, TassaDettaglio, SpesaDettaglio, DatiCatastaliDettaglio, CancellazioneImmobileRequest } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +7,7 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { AlertController } from '@ionic/angular';
 
 @Component({
     selector: 'app-scheda-immobile',
@@ -29,7 +30,8 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public storeService: StoreService,
         public alertService: AlertService,
         public modalService: ModalService,
-        public iconeService: IconeService
+        public iconeService: IconeService,
+        public alertController: AlertController
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService);
         this.immobile_id = '';
@@ -138,6 +140,43 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     public goToCatastali() {
         this.goToPage('catastali');
+    }
+
+    public deleteImmobile() {
+
+        const alert = this.alertController.create({
+            header: 'Cancellazione Immobile',
+            message: 'Sicuro di voler eliminare questo immobile?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }, {
+                    text: 'Si',
+                    handler: () => {
+                        const cancellazioneImmobileReq = new CancellazioneImmobileRequest();
+                        cancellazioneImmobileReq.immobile_id = this.immobile.proprieta_id;
+                        this.immobiliService.delImmobile(cancellazioneImmobileReq).pipe(
+                            takeUntil(this.unsubscribe$)
+                        ).subscribe(r => {
+                            if (r.Success) {
+                                this.alertService.presentAlert('Immobile cancellato con successo');
+                                this.goToHome();
+                            } else {
+                                this.manageError(r);
+                            }
+                        });
+                    }
+                }
+            ]
+        });
+        alert.then((_alert: any) => {
+            _alert.present();
+        });
     }
 
     ionViewDidLeave() {
