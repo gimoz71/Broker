@@ -94,12 +94,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public getUtenteEmail(): string {
-    console.log("TOKEN: " + this.wsToken);
     if (this.wsToken !== undefined && this.wsToken !== null) {
       return this.wsToken.utente.email;
     } else {
       return 'email utente';
     }
+  }
+
+  public goToProfiloUtente(): void {
+    this.router.navigate(['profilo-utente']);
   }
 
   ngOnDestroy(): void {

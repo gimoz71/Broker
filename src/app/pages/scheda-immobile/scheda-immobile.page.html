@@ -10,7 +10,7 @@
                         </h3>
                         <div style="float: right">
                             <button class="button view" (click)="goToCatastali()">Catastali</button>
-                            <button class="button edit" (click)="goToWizard()">Modifica</button></div>
+                            <button class="button edit" (click)="goToWizardEdit()">Modifica</button></div>
                     </div>
                 </div>
             </div>
@@ -45,15 +45,18 @@
                             </div>
                             <div class="item">
                                 <div class="item-title">Mutuo: <button class="button view only-icon"
-                                        (click)="apriPianoAmmortamento()">&nbsp;</button>
+                                        *ngIf="immobile.mutuo" (click)="apriPianoAmmortamento()">&nbsp;</button>
                                 </div>
-                                <ul class="item-list half-height">
+                                <ul class="item-list half-height" *ngIf="immobile.mutuo">
                                     <li><span>Data</span><span>{{immobile.mutuo_dettaglio.data_inizio | raDateFormat_gg_mm_aaaa}}</span>
                                     </li>
 
                                     <li><span>Durata</span><span>{{immobile.mutuo_dettaglio.durata}}</span></li>
                                     <li><span>Tasso</span><span>{{immobile.mutuo_dettaglio.tipo_tasso}}</span></li>
                                 </ul>
+                                <div *ngIf="!immobile.mutuo">
+                                    <span>Mutuo Assente</span>
+                                </div>
                             </div>
                         </div>
                         <div class="scheda-row">
@@ -115,7 +118,7 @@
         <div class="footer table">
             <div class="row">
                 <div class="cell">
-                    <button class="button add" (click)="goToWizard()">immobile</button>
+                    <button class="button add" (click)="goToWizardNew()">immobile</button>
                 </div>
             </div>
         </div>

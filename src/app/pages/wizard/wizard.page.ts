@@ -60,29 +60,6 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
 
-    const immobileInSessione = this.sessionService.getImmobileDettaglio();
-    if (immobileInSessione !== undefined && immobileInSessione !== null) {
-      this.immobile = immobileInSessione;
-      this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
-    } else {
-      this.immobile = new ImmobileDettaglio();
-      const cointestatari: Array<CointestatarioDettaglio> = new Array<CointestatarioDettaglio>();
-      this.immobile.cointestatari = cointestatari;
-      const tasse: Array<TassaDettaglio> = new Array<TassaDettaglio>();
-      this.immobile.tasse = tasse;
-      const spese: Array<SpesaDettaglio> = new Array<SpesaDettaglio>();
-      this.immobile.spese = spese;
-      const affitto: AffittoDettaglio = new AffittoDettaglio();
-      this.immobile.affitto_dettaglio = affitto;
-      const mutuo: MutuoDettaglio = new MutuoDettaglio();
-      this.immobile.mutuo_dettaglio = mutuo;
-      const datiCatastali: DatiCatastaliDettaglio = new DatiCatastaliDettaglio();
-      this.immobile.dati_catastali = datiCatastali;
-      const omi: OmiDettaglio = new OmiDettaglio();
-      this.immobile.omi = omi;
-
-    }
-
     this.immobileTassoFisso = true;
     this.immobileTassoVariabile = true;
 
@@ -268,6 +245,19 @@ export class WizardPage extends BaseComponent implements OnInit {
   ngOnInit() {
     super.ngOnInit();
 
+    const immobileInSessione = this.sessionService.getImmobileDettaglio();
+    if (immobileInSessione !== undefined && immobileInSessione !== null) {
+      this.immobile = immobileInSessione;
+      if (this.immobile.mutuo_dettaglio !== undefined) {
+        this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
+      } else {
+        this.dataInizioMutuo = new Date(0);
+      }
+
+    } else {
+      this.immobile = new ImmobileDettaglio();
+    }
+    this.normalizzaImmobile();
     this.tipologieTasse = this.dropdownService.getTipologieTasse();
     this.tipiAffittuario = this.dropdownService.getTipiAffittuari();
     this.euribor = this.dropdownService.getEuribor();
@@ -275,6 +265,53 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     this.cointestatarioSelezionato.quota = 100;
     this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+  }
+
+  ionViewDidEnter() {
+    const immobileInSessione = this.sessionService.getImmobileDettaglio();
+    if (immobileInSessione !== undefined && immobileInSessione !== null) {
+      this.immobile = immobileInSessione;
+      if (this.immobile.mutuo_dettaglio !== undefined) {
+        this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
+      } else {
+        this.dataInizioMutuo = new Date(0);
+      }
+    } else {
+      this.immobile = new ImmobileDettaglio();
+    }
+    this.normalizzaImmobile();
+
+  }
+
+  private normalizzaImmobile(): void {
+    if (!this.immobile.cointestatari) {
+      const cointestatari: Array<CointestatarioDettaglio> = new Array<CointestatarioDettaglio>();
+      this.immobile.cointestatari = cointestatari;
+    }
+    if (!this.immobile.tasse) {
+      const tasse: Array<TassaDettaglio> = new Array<TassaDettaglio>();
+      this.immobile.tasse = tasse;
+    }
+    if (!this.immobile.spese) {
+      const spese: Array<SpesaDettaglio> = new Array<SpesaDettaglio>();
+      this.immobile.spese = spese;
+    }
+    if (!this.immobile.affitto_dettaglio) {
+      const affitto: AffittoDettaglio = new AffittoDettaglio();
+      this.immobile.affitto_dettaglio = affitto;
+    }
+    if (!this.immobile.mutuo_dettaglio) {
+      const mutuo: MutuoDettaglio = new MutuoDettaglio();
+      this.immobile.mutuo_dettaglio = mutuo;
+    }
+    if (!this.immobile.dati_catastali) {
+      const datiCatastali: DatiCatastaliDettaglio = new DatiCatastaliDettaglio();
+      this.immobile.dati_catastali = datiCatastali;
+    }
+    if (!this.immobile.omi) {
+      const omi: OmiDettaglio = new OmiDettaglio();
+      this.immobile.omi = omi;
+    }
   }
 
   ionViewDidLeave() {

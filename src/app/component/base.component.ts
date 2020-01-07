@@ -49,11 +49,16 @@ export class BaseComponent implements OnInit {
     }
 
     public apriSchedaImmobile(immobile: number) {
+        this.sessionService.setImmobileDettaglio(null);
         this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
     }
 
-    public goToWizard(): void {
+    public goToWizardNew(): void {
         this.sessionService.clearImmobileDettaglio();
+        this.goToPage('wizard');
+    }
+
+    public goToWizardEdit(): void {
         this.goToPage('wizard');
     }
 

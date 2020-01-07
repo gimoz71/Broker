@@ -21,7 +21,7 @@ export class SessionService {
 
     public cliente: Cliente;
     public immobiliCliente: Array<Immobile>;
-    public immobile: ImmobileDettaglio = undefined;
+    public immobile: ImmobileDettaglio;
     private elencoImmobiliSubject: Subject<boolean> = new Subject<boolean>();
     public elencoImmobiliObs = this.elencoImmobiliSubject.asObservable();
     private userData: WsToken;
@@ -31,6 +31,9 @@ export class SessionService {
     private userDataSubject: Subject<boolean> = new Subject<boolean>();
     public userDataObservable = this.userDataSubject.asObservable();
 
+    private intestazionePagina: string;
+    private paginaPrecedente: string;
+
     constructor(
         private storeService: StoreService,
         private immobiliService: ImmobiliService
@@ -38,6 +41,7 @@ export class SessionService {
         this.userData = new WsToken();
         this.connection = new Connection();
         this.cliente = new Cliente();
+        this.immobiliCliente = new Array<Immobile>();
         this.immobile = new ImmobileDettaglio();
         this.immobile.dati_catastali = new DatiCatastaliDettaglio();
         this.immobile.spese = new Array<SpesaDettaglio>();
@@ -46,6 +50,24 @@ export class SessionService {
         this.immobile.affitto_dettaglio = new AffittoDettaglio();
         this.immobile.tasse = new Array<TassaDettaglio>();
         this.immobile.cointestatari = new Array<CointestatarioDettaglio>();
+        this.intestazionePagina = 'Readvice';
+        this.paginaPrecedente = 'home';
+    }
+
+    public setPaginaPrecedente(pagina: string): void {
+        this.paginaPrecedente = pagina;
+    }
+
+    public getPaginaPrecedente(): string {
+        return this.paginaPrecedente;
+    }
+
+    public setIntestazionePagina(intestazione: string): void {
+        this.intestazionePagina = intestazione;
+    }
+
+    public getIntestazionePagina(): string {
+        return this.intestazionePagina;
     }
 
     public setCliente(cliente: Cliente): void {
@@ -53,6 +75,7 @@ export class SessionService {
         this.immobiliService.getImmobili(this.cliente.cliente_id + '').subscribe(r => {
             if (r.Success) {
                 this.immobiliCliente = r.Data.elenco_immobili;
+                console.log('caricati gli immobili del cliente: ' + this.immobiliCliente.length);
                 // sveglia chi è in ascolto
                 this.elencoImmobiliSubject.next(true);
             }
