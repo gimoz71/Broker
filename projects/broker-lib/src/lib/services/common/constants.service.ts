@@ -58,5 +58,5 @@ export class ConstantsService {
     public readonly getDdlAffittuari: string = 'get_ddl_tipo_affittuari';
     public readonly getDdlTasse: string = 'get_ddl_tasse';
     public readonly getDdlOmi: string = 'get_ddl_omi';
-    public readonly getDdlCategoriaCatastale: string = 'get_ddl_categoria_catastale';
+    public readonly getDdlTipologiaCatastale: string = 'get_ddl_tipologia_catastale';
 }

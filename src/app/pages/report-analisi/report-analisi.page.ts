@@ -419,6 +419,16 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     this.goToPage('report-generale');
   }
 
+  public generatePdfReport(): void {
+    this.reportService.getPdfReport(this.sessionService.getCliente().cliente_id).subscribe(r => {
+      if (r.Success) {
+        this.alertService.presentAlert('Riepilogo PDF inviato correttamente');
+      } else {
+        this.manageError(r);
+      }
+    });
+  }
+
   ionViewDidLeave() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

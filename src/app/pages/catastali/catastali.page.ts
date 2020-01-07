@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart } from 'chart.js';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, IconeService, ImmobileDettaglio } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, IconeService, ImmobileDettaglio, ImmobiliService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
@@ -24,7 +24,8 @@ export class CatastaliPage extends BaseComponent implements OnInit {
     public clientiService: ClientiService,
     public loginService: LoginService,
     public reportService: ReportService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    public immobiliService: ImmobiliService
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.immobile = this.sessionService.getImmobileDettaglio();
@@ -40,6 +41,16 @@ export class CatastaliPage extends BaseComponent implements OnInit {
 
   public apriSchedaImmobile(immobile: number) {
     this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
+  }
+
+  public generatePdfCatasto(): void {
+    this.immobiliService.invioDatiCatastali(this.immobile.proprieta_id).subscribe(r => {
+      if (r.Success) {
+        this.alertService.presentAlert('Riepilogo PDF inviato correttamente');
+      } else {
+        this.manageError(r);
+      }
+    });
   }
 
 }

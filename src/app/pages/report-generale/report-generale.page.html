@@ -8,7 +8,8 @@
                         <h3 class="page-title cliente">
                             {{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}} - Report
                         </h3>
-                        <div style="float: right"><a href="#" class="button upload">Invia scheda</a></div>
+                        <div style="float: right"><button (click)="generatePdfReport()" class="button upload">Invia
+                                scheda</button></div>
                     </div>
                 </div>
             </div>
