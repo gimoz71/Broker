@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
-import { SessionService, StoreService, LogErroriService, AlertService, InserimentoClienteRequest, ClientiService, IconeService } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, InserimentoClienteRequest, ClientiService, IconeService, AbilitaAppClienteRequest } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,6 +15,9 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
 
   public nuovoCliente: InserimentoClienteRequest;
+  public passwordAbilitazione: string;
+
+  public nuovo: boolean;
 
   constructor(
     public sessionService: SessionService,
@@ -27,10 +30,41 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.nuovoCliente = new InserimentoClienteRequest();
+    this.nuovo = true;
+    this.passwordAbilitazione = '';
   }
 
   ngOnInit() {
     super.ngOnInit();
+  }
+
+  ionViewDidEnter() {
+    this.initializeApp();
+  }
+
+  private initializeApp(): void {
+
+    this.sessionService.userDataObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(present => {
+      if (present) {
+        this.wsToken = this.sessionService.getUserData();
+        const cliente_id = this.sessionService.getCliente().cliente_id;
+        if (cliente_id !== 0 && cliente_id !== undefined) {
+          this.nuovoCliente.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+          this.nuovoCliente.nome = this.sessionService.getCliente().nome;
+          this.nuovoCliente.cognome = this.sessionService.getCliente().cognome;
+          this.nuovoCliente.email = this.sessionService.getCliente().email;
+          this.nuovoCliente.cliente_id = this.sessionService.getCliente().cliente_id;
+          this.nuovo = false;
+        }
+
+      } else {
+        this.alertService.presentAlert('Token assente, necessario login');
+        this.goToPage('login');
+      }
+    });
+    this.sessionService.loadUserData();
   }
 
   public goToHome() {
@@ -46,6 +80,20 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
         this.alertService.presentAlert("Nuovo cliente inviato correttamente");
         this.nuovoCliente = new InserimentoClienteRequest();
         this.goToPage("home");
+      } else {
+        this.manageError(r);
+      }
+    });
+  }
+
+  public abilitaApp(): void {
+    const abilitaAppRequest: AbilitaAppClienteRequest = new AbilitaAppClienteRequest();
+    abilitaAppRequest.cliente_id = this.sessionService.getCliente().cliente_id;
+    abilitaAppRequest.password = this.passwordAbilitazione;
+    this.clientiService.abilitaAppCliente(abilitaAppRequest).subscribe(r => {
+      if (r.Success) {
+        this.alertService.presentAlert("Richiesta di abilitazione correttamente trasmessa");
+        this.goToHome();
       } else {
         this.manageError(r);
       }

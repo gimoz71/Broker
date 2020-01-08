@@ -120,6 +120,11 @@ export class SessionService {
         return this.cliente;
     }
 
+    public clearCliente(): void {
+        this.cliente = new Cliente();
+        this.immobiliCliente = new Array<Immobile>();
+    }
+
     public getImmobiliCliente(): Array<Immobile> {
         return this.immobiliCliente;
     }

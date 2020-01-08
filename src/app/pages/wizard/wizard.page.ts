@@ -34,6 +34,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   public tipiAffittuario: Array<DdlItem>;
   public euribor: Array<DdlItem>;
   public tipiOmi: Array<DdlItem>;
+  public categorieCatastali: Array<DdlItem>;
 
   public tassaSelezionata: TassaDettaglio;
   public cointestatarioSelezionato: CointestatarioDettaglio;
@@ -149,7 +150,25 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public salvaImmobile(): void {
+    // tolgo quello che non serve
+    if (!this.immobile.affitto) {
+      delete this.immobile.affitto_dettaglio;
+    }
+    if (!this.immobile.mutuo) {
+      delete this.immobile.mutuo_dettaglio;
+    }
+    if (this.immobile.tasse.length === 0) {
+      delete this.immobile.tasse;
+    }
+    if (this.immobile.cointestatari.length === 0) {
+      delete this.immobile.cointestatari;
+    }
+    if (this.immobile.spese.length === 0) {
+      delete this.immobile.spese;
+    }
     console.log(this.immobile);
+
+    // eseguo la chiamata
     this.immobiliService.putImmobile(this.immobile).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
@@ -167,12 +186,20 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.immobile.mutuo_dettaglio.tipo_tasso = tasso;
   }
 
+  public selezionaEuribor(val: any): void {
+    this.immobile.mutuo_dettaglio.euribor_id = val.selectedOptions[0].value;
+  }
+
   public selezionaTipoAffittuario(val: any): void {
     this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
   }
 
   public selezionaOmi(val: any): void {
     this.immobile.comune_zone_cod = val.selectedOptions[0].value;
+  }
+
+  public selezionaCategoriaCatastale(val: any): void {
+    this.immobile.catastale_cod = val.selectedOptions[0].value;
   }
 
   public selezionaTassa(val: any): void {
@@ -239,7 +266,15 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public caricaOmi(): void {
-    this.tipiOmi = new Array<DdlItem>();
+    this.dropdownService.getTipiOmi(this.immobile.istat_cod).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        this.tipiOmi = r.Data.elenco_filtrato;
+      } else {
+        this.manageError(r);
+      }
+    });
     // this.tipiOmi = this.dropdownService.getTipiOmi("");
   }
 
@@ -263,9 +298,45 @@ export class WizardPage extends BaseComponent implements OnInit {
     // this.tipiAffittuario = this.dropdownService.getTipiAffittuari();
     // this.euribor = this.dropdownService.getEuribor();
 
-    this.tipologieTasse = new Array<DdlItem>();
-    this.tipiAffittuario = new Array<DdlItem>();
-    this.euribor = new Array<DdlItem>();
+    this.dropdownService.getTipologieTasse(false, false, false).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        this.tipologieTasse = r.Data.elenco_filtrato;
+      } else {
+        this.manageError(r);
+      }
+    });
+
+    this.dropdownService.getEuribor().pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        this.euribor = r.Data.elenco_filtrato;
+      } else {
+        this.manageError(r);
+      }
+    });
+
+    this.dropdownService.getTipiAffittuari().pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        this.tipiAffittuario = r.Data.elenco_filtrato;
+      } else {
+        this.manageError(r);
+      }
+    });
+
+    this.dropdownService.getTipologieCatastali().pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        this.categorieCatastali = r.Data.elenco_filtrato;
+      } else {
+        this.manageError(r);
+      }
+    });
 
     this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     this.cointestatarioSelezionato.quota = 100;
