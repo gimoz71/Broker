@@ -1,4 +1,4 @@
 export class AbilitaAppClienteRequest {
-    public cliente_id: string;
+    public cliente_id: number;
     public password: string;
 }

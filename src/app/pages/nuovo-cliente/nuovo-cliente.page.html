@@ -35,19 +35,27 @@
                         <div class="scheda-table">
                             <div class="item">
                                 <div class="item-list form auto-height">
-                                    <div class="form-item left" style="width: 50%;">
+                                    <div class="form-item left" style="width: 50%;" *ngIf="!nuovo">
+                                        <label>Abilita app</label>
+                                        <!-- <button class="button" (click)="abilitaApp()">Abilita app</button> -->
+                                    </div>
+                                    <div class="form-item left" style="width: 50%;" *ngIf="!nuovo">
+                                        <label>Password abilitazione</label>
+                                        <input type="text" placeholder="nome" [(ngModel)]="passwordAbilitazione">
+                                    </div>
+                                    <div class="form-item left" style="width: 50%;" *ngIf="nuovo">
                                         <label>Nome</label>
                                         <input type="text" placeholder="nome" [(ngModel)]="nuovoCliente.nome">
                                     </div>
-                                    <div class="form-item left" style="width: 50%;">
+                                    <div class="form-item left" style="width: 50%;" *ngIf="nuovo">
                                         <label>Cognome</label>
                                         <input type="text" placeholder="cognome" [(ngModel)]="nuovoCliente.cognome">
                                     </div>
-                                    <div class="form-item left" style="width: 50%;">
+                                    <div class="form-item left" style="width: 50%;" *ngIf="nuovo">
                                         <label>Codice Fiscale</label>
                                         <input type="text" placeholder="CF" [(ngModel)]="nuovoCliente.codice_fiscale">
                                     </div>
-                                    <div class="form-item left" style="width: 50%;">
+                                    <div class="form-item left" style="width: 50%;" *ngIf="nuovo">
                                         <label>Email</label>
                                         <input type="text" placeholder="Email" [(ngModel)]="nuovoCliente.email">
                                     </div>
@@ -57,8 +65,11 @@
                         <div class="scheda-table single-column">
                             <div class="item">
                                 <div class="item-list ">
-                                    <button class="button forward right" (click)="saveNewCliente()">Invia la
+                                    <button class="button forward right" (click)="saveNewCliente()" *ngIf="nuovo">Invia
+                                        la
                                         richiesta</button>
+                                    <button class="button forward right" (click)="abilitaApp()" *ngIf="!nuovo">Abilita
+                                        app</button>
                                 </div>
                             </div>
                         </div>

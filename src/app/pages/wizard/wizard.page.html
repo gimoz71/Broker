@@ -59,7 +59,17 @@
                                         </div>
                                         <div class="form-item left " style="width: 35%;">
                                             <label>Provincia</label>
-                                            <input type="text" placeholder="" [(ngModel)]="immobile.provincia">
+                                            <input type="text" placeholder="" value="" [(ngModel)]="immobile.provincia">
+                                        </div>
+                                        <div class="form-item right" style="width: 15%;">
+                                            <label>Cat. Cat.</label>
+                                            <select class="select-css"
+                                                (change)="selezionaCategoriaCatastale($event.target)">
+                                                <option *ngFor="let cat of categorieCatastali" value="{{cat.codice}}"
+                                                    selected="{{cat.codice+'' === immobile.catastale_cod ? 'selected' : ''}}">
+                                                    {{cat.descrizione}}
+                                                </option>
+                                            </select>
                                         </div>
                                         <div class="form-item left " style="width: 35%;">
                                             <label>Comune (ISTAT)</label>
@@ -119,12 +129,12 @@
                                         <div class="form-item">
                                             <h3>Prima casa</h3>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, true, false)"
-                                                class="button choice full-width">Residente</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && residente && !affittata)}">Residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, false, false)"
-                                                class="button choice full-width">Non
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && !residente && !affittata)}">Non
                                                 residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, true, true)"
-                                                class="button choice full-width">Affittata</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && affittata)}">Affittata</a>
                                         </div>
                                     </div>
                                 </div>
@@ -133,12 +143,12 @@
                                         <div class="form-item">
                                             <h3>Seconda casa</h3>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
-                                                class="button choice full-width">Residente</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && residente && !affittata)}">Residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, false, false)"
-                                                class="button choice full-width">Non
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && !residente && !affittata)}">Non
                                                 residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
-                                                class="button choice full-width">Affittata</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && affittata)}">Affittata</a>
                                         </div>
                                     </div>
                                 </div>
@@ -221,9 +231,12 @@
                                         <div class="form-item left">
                                             <label>Euribor</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.descrizione_euribor"
-                                                    [disabled]="!immobile.mutuo"><span>%</span>
+                                                <select class="select-css" (change)="selezionaEuribor($event.target)">
+                                                    <option *ngFor="let eur of euribor" value="{{eur.codice}}"
+                                                        selected="{{eur.codice === immobile.mutuo_dettaglio.euribor_id ? 'selected' : ''}}">
+                                                        {{eur.descrizione}}
+                                                    </option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="form-item right">

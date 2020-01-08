@@ -1,6 +1,6 @@
 export class AffittoDettaglio {
     public proprieta_affitto_id: number = 0;
-    public tipo_affittuario_id: number;
+    public tipo_affittuario_id: number = 0;
     public descrizione_affittuario: string = '';
     public spese_condominiali: boolean = false;
     public importo_spese_condominiali: number = 0;

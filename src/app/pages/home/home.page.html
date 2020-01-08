@@ -8,7 +8,8 @@
                         <input type="text" placeholder="nome" [(ngModel)]="searchName">
                         <input type="text" placeholder="C.F." [(ngModel)]="searchCF">
                         <a href="#" class="button search">&nbsp;</a>
-                        <button style="float: right" class="button add" (click)="goToNuovoCliente()">cliente</button>
+                        <button style="float: right" class="button add"
+                            (click)="goToNuovoCliente(true)">cliente</button>
                     </div>
                 </div>
             </div>
@@ -29,8 +30,8 @@
                                         {{sessionService.getCliente().cognome}}</span><span
                                         class="cf">{{sessionService.getCliente().codice_fiscale}}</span><span
                                         class="email">{{sessionService.getCliente().email}}</span></div>
-                                <div class="item tools"><button href="#"
-                                        class="button edit full-width">Modifica</button><button href="#"
+                                <div class="item tools"><button (click)="goToNuovoCliente(false)"
+                                        class="button edit full-width">Modifica</button><button
                                         class="button report full-width" (click)="goToAnalisiGenerale()">Report</button>
                                 </div>
                             </div>

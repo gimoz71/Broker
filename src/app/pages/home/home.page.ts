@@ -81,7 +81,10 @@ export class HomePage extends BaseComponent implements OnInit {
         this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
     }
 
-    public goToNuovoCliente(): void {
+    public goToNuovoCliente(pulisci: boolean): void {
+        if (pulisci) {
+            this.sessionService.clearCliente();
+        }
         this.goToPage('nuovo-cliente');
     }
 
