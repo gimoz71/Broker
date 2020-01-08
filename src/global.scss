@@ -477,6 +477,7 @@ input:checked + .slider:before {
     display: table;
     vertical-align: middle;
     background: $default-light-blue;
+    width: 100%;
 }
 .header-bar {
     display: table-cell;
