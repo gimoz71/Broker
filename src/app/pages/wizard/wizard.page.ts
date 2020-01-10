@@ -48,6 +48,8 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public dataInizioMutuo: Date = new Date();
 
+  public isNewImmobile: boolean;
+
   constructor(
     private immobiliService: ImmobiliService,
     public router: Router,
@@ -73,10 +75,16 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.wizardTassazione = false;
 
     this.tassaSelezionata = new TassaDettaglio();
+    this.tassaSelezionata.descrizione_tassa = "";
+    this.tassaSelezionata.tassa_id = 0;
+    this.tassaSelezionata.importo_annuale = 0;
+
     this.cointestatarioSelezionato = new CointestatarioDettaglio();
 
     this.headP1 = "";
     this.headP2 = "";
+
+    this.isNewImmobile = true;
   }
 
   ngOnInit() {
@@ -114,6 +122,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     // RECUPERO IMMOBILE DALLA SESSIONE
     const immobileInSessione = this.sessionService.getImmobileDettaglio();
     if (immobileInSessione !== undefined && immobileInSessione !== null) {
+      this.isNewImmobile = false;
       this.immobile = immobileInSessione;
       if (this.immobile.mutuo_dettaglio !== undefined) {
         this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
@@ -131,7 +140,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipologieTasse = r.Data.elenco_filtrato;
+        this.tipologieTasse = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.tipologieTasse.push(emptyItem);
+        this.tipologieTasse = this.tipologieTasse.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -141,7 +155,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.euribor = r.Data.elenco_filtrato;
+        this.euribor = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.euribor.push(emptyItem);
+        this.euribor = this.euribor.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -151,7 +170,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipiAffittuario = r.Data.elenco_filtrato;
+        this.tipiAffittuario = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.tipiAffittuario.push(emptyItem);
+        this.tipiAffittuario = this.tipiAffittuario.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -161,7 +185,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.categorieCatastali = r.Data.elenco_filtrato;
+        this.categorieCatastali = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.categorieCatastali.push(emptyItem);
+        this.categorieCatastali = this.categorieCatastali.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -277,7 +306,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (this.immobile.spese && this.immobile.spese.length === 0) {
       delete this.immobile.spese;
     }
-    console.log(this.immobile);
+    console.log(JSON.stringify(this.immobile));
 
     // eseguo la chiamata
     this.immobiliService.putImmobile(this.immobile).pipe(
@@ -299,29 +328,49 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public selezionaEuribor(val: any): void {
-    this.immobile.mutuo_dettaglio.euribor_id = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.mutuo_dettaglio.euribor_id = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaTipoAffittuario(val: any): void {
-    this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaOmi(val: any): void {
-    this.immobile.comune_zone_cod = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.comune_zone_cod = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaCategoriaCatastale(val: any): void {
-    this.immobile.catastale_cod = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.catastale_cod = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaTassa(val: any): void {
-    this.tassaSelezionata.tassa_id = val.selectedOptions[0].value;
-    this.tassaSelezionata.descrizione_tassa = val.selectedOptions[0].innerText.trim();
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.tassaSelezionata.tassa_id = val.selectedOptions[0].value;
+      this.tassaSelezionata.descrizione_tassa = val.selectedOptions[0].innerText.trim();
+    }
   }
 
   public aggiungiTassa(): void {
 
-    if (this.tassaSelezionata.tassa_id === 0) {
+    if (!this.tassaSelezionata || this.tassaSelezionata.tassa_id === 0) {
       this.presentAlert("Selezionare una tassa dalla lista");
     } else {
 
@@ -391,6 +440,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.affittata = affittata;
     this.headP1 = (this.primacasa ? "Prima casa" : "Seconda casa");
     this.headP2 = (this.residente ? "Residente" : "Non residente");
+    this.isNewImmobile = false;
     this.goToDatiDestinazione();
   }
 
@@ -399,7 +449,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipiOmi = r.Data.elenco_filtrato;
+        this.tipiOmi = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.tipiOmi.push(emptyItem);
+        this.tipiOmi = this.tipiOmi.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }

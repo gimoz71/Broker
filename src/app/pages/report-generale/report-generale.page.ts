@@ -22,6 +22,8 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   public etichettaColonna: string;
 
+  public attiviSelezionato: boolean;
+
   constructor(public sessionService: SessionService,
     public storeService: StoreService,
     public router: Router,
@@ -36,6 +38,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.situazioneImmobili = new Array<ReportGenerale>();
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
     this.etichettaColonna = '';
+    this.attiviSelezionato = false;
   }
 
   ngOnInit() {
@@ -107,15 +110,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     let toReturn = 0;
 
     if (immobile.attivo) {
-      const attivostring = immobile.attivo.importo_mensile;
-      switch (attivostring) {
-        case "null":
-          break;
-        case "":
-          break;
-        default:
-          toReturn = (+attivostring) * 12;
-      }
+      toReturn = immobile.attivo.aliquota_cedolare + immobile.attivo.importo_mensile;
     }
 
     return toReturn;
@@ -127,6 +122,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   public caricaPassiviImmobile(immobile: ReportGenerale): void {
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.attiviSelezionato = false;
     this.etichettaColonna = 'Passivi';
     if (immobile.passivi) {
       for (const passivo of immobile.passivi) {
@@ -140,38 +136,40 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   public caricaAttiviImmobile(immobile: ReportGenerale): void {
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.attiviSelezionato = true;
     this.etichettaColonna = 'Attivi';
     if (immobile.attivo) {
 
       const oggettoColonnaDescrizioneAffittuario = new ReportGeneraleOggettoColonna();
       oggettoColonnaDescrizioneAffittuario.descrizione = 'Descrizione Affittuario';
       oggettoColonnaDescrizioneAffittuario.valore = immobile.attivo.descrizione_affittuario;
+      this.oggettiColonnaDestra.push(oggettoColonnaDescrizioneAffittuario);
 
       const oggettoColonnaCedolareSecca = new ReportGeneraleOggettoColonna();
       oggettoColonnaCedolareSecca.descrizione = 'Cedolare Secca';
-      oggettoColonnaCedolareSecca.valore = ((immobile.attivo.cedolare_secca === "" || immobile.attivo.cedolare_secca === "null") ? "0" : immobile.attivo.cedolare_secca);
+      oggettoColonnaCedolareSecca.valore = ((immobile.attivo.cedolare_secca === "" || immobile.attivo.cedolare_secca === "null") ? "NO" : (immobile.attivo.cedolare_secca.toUpperCase() === 'TRUE' ? 'SI' : 'NO'));
+      this.oggettiColonnaDestra.push(oggettoColonnaCedolareSecca);
 
-      const oggettoColonnaAliquotaCedolare = new ReportGeneraleOggettoColonna();
-      oggettoColonnaAliquotaCedolare.descrizione = 'Aliquota Cedolare';
-      oggettoColonnaAliquotaCedolare.valore = ((immobile.attivo.aliquota_cedolare === "" || immobile.attivo.aliquota_cedolare === "null") ? "0" : immobile.attivo.aliquota_cedolare);
+      if (immobile.attivo.cedolare_secca.toUpperCase() === 'TRUE') {
+        const oggettoColonnaAliquotaCedolare = new ReportGeneraleOggettoColonna();
+        oggettoColonnaAliquotaCedolare.descrizione = 'Aliquota Cedolare';
+        oggettoColonnaAliquotaCedolare.valore = ((immobile.attivo.aliquota_cedolare === null || immobile.attivo.aliquota_cedolare === undefined) ? '0' : immobile.attivo.aliquota_cedolare + '');
+        this.oggettiColonnaDestra.push(oggettoColonnaAliquotaCedolare);
+      }
 
       const oggettoColonnaPrimaScadenzaAnni = new ReportGeneraleOggettoColonna();
       oggettoColonnaPrimaScadenzaAnni.descrizione = 'Prima Scadenza Anni';
-      oggettoColonnaPrimaScadenzaAnni.valore = immobile.attivo.prima_scadenza_anni;
+      oggettoColonnaPrimaScadenzaAnni.valore = immobile.attivo.prima_scadenza_anni + '';
+      this.oggettiColonnaDestra.push(oggettoColonnaPrimaScadenzaAnni);
 
       const oggettoColonnaDataInizio = new ReportGeneraleOggettoColonna();
       oggettoColonnaDataInizio.descrizione = 'Data Inizio';
-      oggettoColonnaDataInizio.valore = immobile.attivo.data_inizio;
+      oggettoColonnaDataInizio.valore = immobile.attivo.data_inizio + ''; // formattare la data!!!
+      this.oggettiColonnaDestra.push(oggettoColonnaDataInizio);
 
       const oggettoColonnaImportoMensile = new ReportGeneraleOggettoColonna();
       oggettoColonnaImportoMensile.descrizione = 'Importo Mensile';
-      oggettoColonnaImportoMensile.valore = ((immobile.attivo.importo_mensile === "" || immobile.attivo.importo_mensile === "null") ? "0" : immobile.attivo.importo_mensile);
-
-      this.oggettiColonnaDestra.push(oggettoColonnaDescrizioneAffittuario);
-      this.oggettiColonnaDestra.push(oggettoColonnaCedolareSecca);
-      this.oggettiColonnaDestra.push(oggettoColonnaAliquotaCedolare);
-      this.oggettiColonnaDestra.push(oggettoColonnaPrimaScadenzaAnni);
-      this.oggettiColonnaDestra.push(oggettoColonnaDataInizio);
+      oggettoColonnaImportoMensile.valore = ((immobile.attivo.importo_mensile === null || immobile.attivo.importo_mensile === undefined) ? '0' : immobile.attivo.importo_mensile + '') + '€';
       this.oggettiColonnaDestra.push(oggettoColonnaImportoMensile);
     }
   }

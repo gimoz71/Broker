@@ -129,12 +129,12 @@
                                         <div class="form-item">
                                             <h3>Prima casa</h3>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, true, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && residente && !affittata)}">Residente</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && residente && !affittata && !isNewImmobile)}">Residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, false, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && !residente && !affittata)}">Non
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && !residente && !affittata && !isNewImmobile)}">Non
                                                 residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, true, true)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && affittata)}">Affittata</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && affittata && !isNewImmobile)}">Affittata</a>
                                         </div>
                                     </div>
                                 </div>
@@ -143,12 +143,12 @@
                                         <div class="form-item">
                                             <h3>Seconda casa</h3>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && residente && !affittata)}">Residente</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && residente && !affittata && !isNewImmobile)}">Residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, false, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && !residente && !affittata)}">Non
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && !residente && !affittata && !isNewImmobile)}">Non
                                                 residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, true, true)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && affittata)}">Affittata</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && affittata && !isNewImmobile)}">Affittata</a>
                                         </div>
                                     </div>
                                 </div>
