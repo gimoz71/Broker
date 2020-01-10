@@ -193,13 +193,31 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public goToDati(): void {
-    this.wizardStart = false;
-    this.wizardDestinazione = false;
-    this.wizardDatiDestinazione = false;
-    this.wizardDati = true;
-    this.wizardCatastali = false;
-    this.wizardCointestatari = false;
-    this.wizardTassazione = false;
+    if (!this.immobile.affitto) {
+      this.goToCatastali();
+    } else {
+      this.wizardStart = false;
+      this.wizardDestinazione = false;
+      this.wizardDatiDestinazione = false;
+      this.wizardDati = true;
+      this.wizardCatastali = false;
+      this.wizardCointestatari = false;
+      this.wizardTassazione = false;
+    }
+  }
+
+  public goToDatiBack(): void {
+    if (!this.immobile.affitto) {
+      this.goToDatiDestinazione();
+    } else {
+      this.wizardStart = false;
+      this.wizardDestinazione = false;
+      this.wizardDatiDestinazione = false;
+      this.wizardDati = true;
+      this.wizardCatastali = false;
+      this.wizardCointestatari = false;
+      this.wizardTassazione = false;
+    }
   }
 
   public goToCatastali(): void {
@@ -336,11 +354,26 @@ export class WizardPage extends BaseComponent implements OnInit {
     cointestatarioDaAggiungere.codice_fiscale = this.cointestatarioSelezionato.codice_fiscale;
     cointestatarioDaAggiungere.quota = this.cointestatarioSelezionato.quota;
 
-    this.immobile.cointestatari.push(cointestatarioDaAggiungere);
+    if (this.cointestatarioSelezionato.quota > 100 || this.cointestatarioSelezionato.quota < 0) {
+      this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
+    } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
+      this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
+    } else {
+      this.immobile.cointestatari.push(cointestatarioDaAggiungere);
 
-    this.cointestatarioSelezionato.codice_fiscale = '';
-    this.cointestatarioSelezionato.nominativo = '';
-    this.cointestatarioSelezionato.quota = 0;
+      this.cointestatarioSelezionato.codice_fiscale = '';
+      this.cointestatarioSelezionato.nominativo = '';
+      this.cointestatarioSelezionato.quota = 0;
+    }
+  }
+
+  private codiceFiscaleCointestatarioPresente(cf: string): boolean {
+    for (const coint of this.immobile.cointestatari) {
+      if (coint.codice_fiscale.toUpperCase() === cf.toUpperCase()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public rimuoviCointestatario(cointestatario: CointestatarioDettaglio): void {
@@ -351,6 +384,8 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public scegliDestinazione(primacasa: boolean, residente: boolean, affittata: boolean): void {
+    this.immobile.prima_casa = primacasa;
+    this.immobile.affitto = affittata;
     this.primacasa = primacasa;
     this.residente = residente;
     this.affittata = affittata;
@@ -400,6 +435,18 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (!this.immobile.omi) {
       const omi: OmiDettaglio = new OmiDettaglio();
       this.immobile.omi = omi;
+    }
+  }
+
+  public changeMutuo(event: any) {
+    if (!event) {
+      // pulisci tutti i campi della pagina mutuo
+      this.immobile.mutuo_dettaglio.tipo_tasso = 'V';
+      this.immobile.mutuo_dettaglio.euribor_id = 0;
+      this.immobile.mutuo_dettaglio.spread = 0;
+      this.immobile.mutuo_dettaglio.durata = 0;
+      this.dataInizioMutuo = new Date(0);
+      this.immobile.mutuo_dettaglio.importo_iniziale = 0;
     }
   }
 
