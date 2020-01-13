@@ -137,13 +137,13 @@ ul {
     padding: 0;
     
     width: 100%;
-    li {
+    /*li {
        
         div {
             
             
         }
-    }
+    }*/
 }
 .form-item {
     padding: 10px 5px 0 5px;
@@ -547,9 +547,9 @@ input:checked + .slider:before {
         
         border-radius: 50%;
     }
-    &.logout {
+    /*&.logout {
         //width: 32px;
-    }
+    }*/
 }
 .tasks {
     background-image: url('/assets/img/tasks@2x.png');
@@ -1095,9 +1095,9 @@ input:checked + .slider:before {
                              font-size: .6em;
                             color: $label-color;
                         }
-                        &.email{
+                        /*&.email{
 
-                        }
+                        }*/
                     }
                 }
                 .status {
