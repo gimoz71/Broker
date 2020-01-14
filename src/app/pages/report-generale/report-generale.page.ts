@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna, IconeService } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna, IconeService, ReportGeneralePassivo } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
@@ -120,16 +120,51 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     return this.getTotaleAttiviImmobile(immobile) - this.getTotalePassiviImmobile(immobile);
   }
 
+  public caricaTotalePassivi(): void {
+    this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
+    this.attiviSelezionato = false;
+    this.etichettaColonna = 'Passivi Totali';
+    for (const immobile of this.situazioneImmobili) {
+      if (immobile.passivi) {
+        for (const passivo of immobile.passivi) {
+          this.addOggettoAColonnaDestra(this.oggettiColonnaDestra, passivo);
+        }
+      }
+    }
+  }
+
+  private addOggettoAColonnaDestra(array: Array<ReportGeneraleOggettoColonna>, oggetto: ReportGeneralePassivo): void {
+
+    if (this.colonnaDestraContieneOggetto(oggetto)) {
+      for (const immobile of this.oggettiColonnaDestra) {
+        if (immobile.descrizione === oggetto.descrizione_passivo) {
+          immobile.valore = (+immobile.valore + +oggetto.importo_annuale) + '';
+        }
+      }
+    } else {
+      const oggettoColonna = new ReportGeneraleOggettoColonna();
+      oggettoColonna.descrizione = oggetto.descrizione_passivo;
+      oggettoColonna.valore = ((oggetto.importo_annuale === "" || oggetto.importo_annuale === "null") ? "0" : oggetto.importo_annuale);
+      this.oggettiColonnaDestra.push(oggettoColonna);
+    }
+  }
+
+  private colonnaDestraContieneOggetto(oggetto: ReportGeneralePassivo): boolean {
+    for (const immobile of this.oggettiColonnaDestra) {
+      if (immobile.descrizione === oggetto.descrizione_passivo) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public caricaPassiviImmobile(immobile: ReportGenerale): void {
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
     this.attiviSelezionato = false;
     this.etichettaColonna = 'Passivi';
     if (immobile.passivi) {
       for (const passivo of immobile.passivi) {
-        const oggettoColonna = new ReportGeneraleOggettoColonna();
-        oggettoColonna.descrizione = passivo.descrizione_passivo;
-        oggettoColonna.valore = ((passivo.importo_annuale === "" || passivo.importo_annuale === "null") ? "0" : passivo.importo_annuale);
-        this.oggettiColonnaDestra.push(oggettoColonna);
+        this.addOggettoAColonnaDestra(this.oggettiColonnaDestra, passivo);
       }
     }
   }

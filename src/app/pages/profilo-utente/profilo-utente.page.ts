@@ -24,6 +24,9 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.cambioPasswordRequest = new CambioPasswordRequest();
+    this.cambioPasswordRequest.nuova_password = '';
+    this.cambioPasswordRequest.vecchia_password = '';
+    this.cambioPasswordRequest.ripeti_password = '';
   }
 
   ngOnInit() {
@@ -61,5 +64,19 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
       valid = false;
     }
     return valid;
+  }
+
+  public isAlertStatus(): boolean {
+    return this.cambioPasswordRequest.ripeti_password.length > 0
+      && (this.arePasswordDifferent()
+        || this.isOldPassworEqualToNew());
+  }
+
+  public arePasswordDifferent(): boolean {
+    return this.cambioPasswordRequest.nuova_password !== this.cambioPasswordRequest.ripeti_password;
+  }
+
+  public isOldPassworEqualToNew(): boolean {
+    return this.cambioPasswordRequest.vecchia_password === this.cambioPasswordRequest.nuova_password;
   }
 }

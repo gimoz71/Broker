@@ -63,7 +63,7 @@
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobili() < 0, 'positive': getTotalePassiviImmobili() > 0}">
                                 {{getTotalePassiviImmobili() | k_money}} &euro; <img
-                                    src="/assets/img/icon-view-mini@2x.png">
+                                    src="/assets/img/icon-view-mini@2x.png" (click)="caricaTotalePassivi()">
                             </div>
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobili() < 0, 'positive': getTotaleAttiviImmobili() > 0}">

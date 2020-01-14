@@ -505,6 +505,17 @@ export class WizardPage extends BaseComponent implements OnInit {
     }
   }
 
+  public avantiIndirizzoImmobile(): boolean {
+    const goOn = !(this.immobile.civico === undefined || this.immobile.civico === '') &&
+      !(this.immobile.citta === undefined || this.immobile.citta === '') &&
+      !(this.immobile.cap === undefined || this.immobile.cap === '') &&
+      !(this.immobile.catastale_cod === undefined || this.immobile.catastale_cod === '' || this.immobile.catastale_cod === '0') &&
+      !(this.immobile.istat_cod === undefined || this.immobile.istat_cod === '');
+    // !(this.immobile.comune_zone_cod === undefined || this.immobile.comune_zone_cod === '' || this.immobile.comune_zone_cod === '0');
+
+    return goOn;
+  }
+
   ionViewDidLeave() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
