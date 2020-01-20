@@ -36,6 +36,10 @@ export class DropdownService {
         return this.getDropdown(this.constants.getDdlTipologiaCatastale, '');
     }
 
+    public getComuni(nomeComune: string): Observable<Http.HttpResponse> {
+        return this.getDropdown(this.constants.getDdlComuni, this.constants.pathSeparator + nomeComune);
+    }
+
     public getDropdown(Tipoddl: string, Filtro: string): Observable<Http.HttpResponse> {
         const path = Tipoddl + Filtro;
         return this.httpService.get(path);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService } from 'broker-lib';
+import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService, DdlItemSearch } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
@@ -50,6 +50,18 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public isNewImmobile: boolean;
 
+  public ddlConfig = {
+    search: true,
+    searchOnKey: 'descrizione',
+    noResultsFound: 'non ci sono risultati',
+    placeholder: 'scegli il comune',
+    clearOnSelection: false,
+    displayKey: 'descrizione',
+    limitTo: 10
+  };
+  public ddlComuniOptions: Array<DdlItem>;
+  public ddlComuneSelected: DdlItem;
+
   constructor(
     private immobiliService: ImmobiliService,
     public router: Router,
@@ -85,6 +97,9 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.headP2 = "";
 
     this.isNewImmobile = true;
+
+    this.ddlComuniOptions = new Array<DdlItem>();
+    this.ddlComuneSelected = new DdlItem();
   }
 
   ngOnInit() {
@@ -113,7 +128,6 @@ export class WizardPage extends BaseComponent implements OnInit {
         }
 
       } else {
-        this.alertService.presentAlert('Token assente, necessario login');
         this.goToPage('login');
       }
     });
@@ -514,6 +528,34 @@ export class WizardPage extends BaseComponent implements OnInit {
     // !(this.immobile.comune_zone_cod === undefined || this.immobile.comune_zone_cod === '' || this.immobile.comune_zone_cod === '0');
 
     return goOn;
+  }
+
+  public comuneSearchChange($event: any) {
+    const input = $event as string;
+    if (input.length === 3) {
+      // eseguo la ricerca
+      this.dropdownService.getComuni(input).subscribe(r => {
+        if (r.Success) {
+          // this.ddlComuniOptions = new Array<DdlItem>();
+          this.ddlComuniOptions.splice(0, this.ddlComuniOptions.length); // svuoto dal vecchio contenuto
+          // aggiorna la lista del dropdown
+          for (const entry of r.Data.elenco_filtrato) {
+            this.ddlComuniOptions.push(entry as DdlItem);
+          }
+          console.log('numero elementi: ' + this.ddlComuniOptions.length);
+        } else {
+          this.manageError(r);
+        }
+      });
+    }
+    return $event;
+  }
+
+  public comuneSelected($event: any) {
+    console.log('comune selezionato ' + JSON.stringify($event));
+    const codiceComuneSelezionato = $event[0].value;
+    console.log('codice comune selezionato ' + codiceComuneSelezionato);
+    this.immobile.istat_cod = codiceComuneSelezionato;
   }
 
   ionViewDidLeave() {

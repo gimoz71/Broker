@@ -59,4 +59,5 @@ export class ConstantsService {
     public readonly getDdlTasse: string = 'get_ddl_tasse';
     public readonly getDdlOmi: string = 'get_ddl_omi';
     public readonly getDdlTipologiaCatastale: string = 'get_ddl_tipologia_catastale';
+    public readonly getDdlComuni: string = 'get_ddl_comuni';
 }

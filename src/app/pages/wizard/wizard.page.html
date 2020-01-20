@@ -73,7 +73,14 @@
                                         </div>
                                         <div class="form-item left " style="width: 35%;">
                                             <label>Comune (ISTAT)</label>
-                                            <input type="text" placeholder="" [(ngModel)]="immobile.istat_cod">
+                                            <ngx-select [items]="ddlComuniOptions" optionValueField="codice"
+                                                optionTextField="descrizione" (typed)="comuneSearchChange($event)"
+                                                (selectionChanges)="comuneSelected($event)">
+                                            </ngx-select>
+                                            <!-- <ngx-select-dropdown (searchChange)="comuneSearchChange($event)"
+                                                [options]="ddlComuniOptions" [config]="ddlConfig"
+                                                [(ngModel)]="ddlComuneSelected">
+                                            </ngx-select-dropdown> -->
                                         </div>
                                         <div class="form-item left " style="width: 15%;">
                                             <label style="width: 100%">&nbsp;</label>

@@ -52,7 +52,6 @@ export class AppComponent implements OnInit, OnDestroy {
       if (present) {
         this.wsToken = this.sessionService.getUserData();
       } else {
-        this.alertService.presentAlert('Token assente, necessario login');
         this.router.navigate(['login']);
       }
     });
