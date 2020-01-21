@@ -553,9 +553,12 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public comuneSelected($event: any) {
     console.log('comune selezionato ' + JSON.stringify($event));
-    const codiceComuneSelezionato = $event[0].value;
-    console.log('codice comune selezionato ' + codiceComuneSelezionato);
-    this.immobile.istat_cod = codiceComuneSelezionato;
+    if ($event[0] !== undefined) {
+      const codiceComuneSelezionato = $event[0].value;
+      console.log('codice comune selezionato ' + codiceComuneSelezionato);
+      this.immobile.istat_cod = codiceComuneSelezionato;
+      this.caricaOmi();
+    }
   }
 
   ionViewDidLeave() {

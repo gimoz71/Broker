@@ -11,6 +11,8 @@ export * from './lib/services/report/report.service';
 export * from './lib/services/clienti/clienti.service';
 // -- immobili
 export * from './lib/services/immobili/immobili.service';
+// -- documenti
+export * from './lib/services/documenti/documenti.service';
 // -- vari
 export * from './lib/services/dropdown/dropdown.service';
 export * from './lib/services/log-errori/log-errori.service';
@@ -55,6 +57,9 @@ export * from './lib/models/immobili/spesaDettaglio';
 export * from './lib/models/immobili/tassaDettaglio';
 export * from './lib/models/immobili/pianoAmmortamento';
 export * from './lib/models/immobili/annoPianoAmmortamento';
+// documenti
+export * from './lib/models/documenti/cartella';
+export * from './lib/models/documenti/documento';
 
 // -- utenti
 export * from './lib/models/login/wsToken';
