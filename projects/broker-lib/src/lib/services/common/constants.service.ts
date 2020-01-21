@@ -19,6 +19,7 @@ export class ConstantsService {
 
     // clienti
     public readonly getClientiServiceName: string = 'getclienti';
+    public readonly getClienteServiceName: string = 'getcliente';
     public readonly putClientiServiceName: string = 'putcliente';
     public readonly abilitaAppClienteServiceName: string = 'appcliente';
     public readonly bookValueServiceName: string = 'getbookvalue';
@@ -31,6 +32,12 @@ export class ConstantsService {
 
     public readonly postErroreServiceName: string = 'writeLog';
     public readonly getDropdownServiceName: string = 'get_dropdown';
+
+    // documenti
+    public readonly getCartelle: string = 'getcartelle';
+    public readonly getDocumento: string = 'getdocumento';
+    public readonly putCartelle: string = 'putcartelle';
+    public readonly putDocumento: string = 'putdocumento';
 
     // tipologia icone immobili
     public readonly tipologiaImmobileVilla: string = 'villa';
@@ -60,4 +67,5 @@ export class ConstantsService {
     public readonly getDdlOmi: string = 'get_ddl_omi';
     public readonly getDdlTipologiaCatastale: string = 'get_ddl_tipologia_catastale';
     public readonly getDdlComuni: string = 'get_ddl_comuni';
+
 }

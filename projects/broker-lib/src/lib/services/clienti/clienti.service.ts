@@ -31,6 +31,16 @@ export class ClientiService {
     }
 
     /**
+     * Chiamata per ottenere il singolo cliente passando il suo id come parametro
+     *
+     * @param  tokenValue Token di autenticazione ottenuto dalla login
+     * @returns contenente l'oggetto Data che a sua volta contiene l'elenco degli oggetti Cliente
+     */
+    public getCliente(idcliente: number): Observable<Http.HttpResponse> {
+        return this.httpService.get(this.constants.getClienteServiceName + this.constants.pathSeparator + idcliente);
+    }
+
+    /**
      * Chiamata per inserire un nuovo cliente
      *
      * @param  cliente

@@ -123,6 +123,22 @@ export class BaseComponent implements OnInit {
         return 'item tipologia ' + this.getIconaClasseImmobile(tipologia);
     }
 
+    public getClasseStatoCliente(stato: string): string {
+        let statusColor = 'red';
+        switch (stato) {
+            case 'R':
+                statusColor = 'red';
+                break;
+            case 'P':
+                statusColor = 'green';
+                break;
+            case 'A':
+                statusColor = 'orange';
+                break;
+        }
+        return 'status ' + statusColor;
+    }
+
     public goToProfiloUtente(): void {
         this.goToPage('profilo-utente');
     }

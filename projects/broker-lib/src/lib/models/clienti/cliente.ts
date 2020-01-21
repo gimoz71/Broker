@@ -8,5 +8,7 @@ export class Cliente {
     public numero_proprieta: number;
     public book_value: number;
     public data_aggiornamento: string;
+    public omi_value_min: number;
+    public omi_value_max: number;
     public stato_cliente: string;
 }

@@ -68,7 +68,7 @@
                                 <div class="item date"><span class="date">20/06/2019</span></div>
                             </div>
                         </div>
-                        <div class="status red"></div>
+                        <div [ngClass]="getClasseStatoCliente(clienteLista.stato_cliente)"></div>
                     </li>
                 </ul>
             </div>

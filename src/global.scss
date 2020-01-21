@@ -1456,6 +1456,14 @@ input:checked + .slider:before {
                             float: right;
                         }
                     }
+                    a {
+                        span{
+                            &:last-of-type {
+                                color: black;
+                                float: none;
+                            }
+                        }
+                    }
                 }
             }
         }

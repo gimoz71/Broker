@@ -18,6 +18,7 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
   public passwordAbilitazione: string;
 
   public nuovo: boolean;
+  public abilitato: boolean;
 
   constructor(
     public sessionService: SessionService,
@@ -31,6 +32,7 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
     this.nuovoCliente = new InserimentoClienteRequest();
     this.nuovo = true;
+    this.abilitato = false;
     this.passwordAbilitazione = '';
   }
 
@@ -56,6 +58,7 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
           this.nuovoCliente.cognome = this.sessionService.getCliente().cognome;
           this.nuovoCliente.email = this.sessionService.getCliente().email;
           this.nuovoCliente.cliente_id = this.sessionService.getCliente().cliente_id;
+          this.abilitato = (this.sessionService.getCliente().stato_cliente === 'A' || this.sessionService.getCliente().stato_cliente === 'P');
           this.nuovo = false;
         }
 

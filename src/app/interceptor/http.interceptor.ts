@@ -53,7 +53,6 @@ export class RaHttpInterceptor implements HttpInterceptor {
         // handle your auth error or rethrow
         if (err.status === 401 || err.status === 403) {
             // navigate /delete cookies or whatever
-            this.alertService.presentErrorAlert("Utente non autorizzato o Token scaduto, necessario Login");
             this.sessionService.clearUserData();
             this.router.navigate(['login']);
             // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
