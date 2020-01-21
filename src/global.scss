@@ -981,15 +981,15 @@ input:checked + .slider:before {
                     border: solid 1px #ccc;
                     &.red {
                         background: #f00;
-
                     }
                     &.green {
                         background: #00AA2D;
-
                     }
                     &.orange {
                         background: #FF5700;
-
+                    }
+                    &.blue {
+                        background: #104D77;
                     }
                 }
             }
@@ -1123,6 +1123,9 @@ input:checked + .slider:before {
                     &.orange {
                         background: #FF5700;
 
+                    }
+                    &.blue {
+                        background: #104D77;
                     }
                 }
                 &.selected {
