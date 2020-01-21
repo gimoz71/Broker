@@ -73,7 +73,14 @@
                                         </div>
                                         <div class="form-item left " style="width: 35%;">
                                             <label>Comune (ISTAT)</label>
-                                            <input type="text" placeholder="" [(ngModel)]="immobile.istat_cod">
+                                            <ngx-select [items]="ddlComuniOptions" optionValueField="codice"
+                                                optionTextField="descrizione" (typed)="comuneSearchChange($event)"
+                                                (selectionChanges)="comuneSelected($event)">
+                                            </ngx-select>
+                                            <!-- <ngx-select-dropdown (searchChange)="comuneSearchChange($event)"
+                                                [options]="ddlComuniOptions" [config]="ddlConfig"
+                                                [(ngModel)]="ddlComuneSelected">
+                                            </ngx-select-dropdown> -->
                                         </div>
                                         <div class="form-item left " style="width: 15%;">
                                             <label style="width: 100%">&nbsp;</label>
@@ -94,7 +101,7 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <button class="button forward right"
+                                        <button class="button forward right" [disabled]="!avantiIndirizzoImmobile()"
                                             (click)="goToDestinazione()">avanti</button>
                                     </div>
                                 </div>
@@ -129,12 +136,12 @@
                                         <div class="form-item">
                                             <h3>Prima casa</h3>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, true, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && residente && !affittata)}">Residente</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && residente && !affittata && !isNewImmobile)}">Residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, false, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && !residente && !affittata)}">Non
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && !residente && !affittata && !isNewImmobile)}">Non
                                                 residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(true, true, true)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && affittata)}">Affittata</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (primacasa && affittata && !isNewImmobile)}">Affittata</a>
                                         </div>
                                     </div>
                                 </div>
@@ -143,12 +150,12 @@
                                         <div class="form-item">
                                             <h3>Seconda casa</h3>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && residente && !affittata)}">Residente</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && residente && !affittata && !isNewImmobile)}">Residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, false, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && !residente && !affittata)}">Non
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && !residente && !affittata && !isNewImmobile)}">Non
                                                 residente</a>
-                                            <a [routerLink]="" (click)="scegliDestinazione(false, true, false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && affittata)}">Affittata</a>
+                                            <a [routerLink]="" (click)="scegliDestinazione(false, true, true)"
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && affittata && !isNewImmobile)}">Affittata</a>
                                         </div>
                                     </div>
                                 </div>
@@ -194,79 +201,85 @@
                                         <div class="form-item ">
                                             <label>Mutuo</label><br>
                                             <label class="switch">
-                                                <input type="checkbox" [(ngModel)]="immobile.mutuo">
+                                                <input type="checkbox" [(ngModel)]="immobile.mutuo"
+                                                    (change)="changeMutuo(immobile.mutuo)">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
-                                        <div class="form-item">
-                                            <label>Detrazione fiscale interessi</label><br>
-                                            <label class="switch">
-                                                <input type="checkbox"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.detrazione_interessi"
-                                                    [disabled]="!immobile.mutuo">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </div>
-                                        <div class="form-item ">
-                                            <label>Tasso</label><br>
-                                            <label class="container">Fisso
-                                                <input type="radio"
-                                                    [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'F'" value="F"
-                                                    id="F" name="radioTasso" (change)="setTasso('F')"
-                                                    [disabled]="!immobile.mutuo">
-                                                <span class=" checkmark"></span>
-                                            </label><br>
-                                            <label class="container">Variabile
-                                                <input type="radio"
-                                                    [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'V'" value="F"
-                                                    id="F" name="radioTasso" (change)="setTasso('V')"
-                                                    [disabled]="!immobile.mutuo">
-                                                <span class="checkmark"></span>
-                                            </label>
+                                        <div *ngIf="immobile.mutuo">
+                                            <div class="form-item">
+                                                <label>Detrazione fiscale interessi</label><br>
+                                                <label class="switch">
+                                                    <input type="checkbox"
+                                                        [(ngModel)]="immobile.mutuo_dettaglio.detrazione_interessi"
+                                                        [disabled]="!immobile.mutuo">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </div>
+                                            <div class="form-item ">
+                                                <label>Tasso</label><br>
+                                                <label class="container">Fisso
+                                                    <input type="radio"
+                                                        [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'F'" value="F"
+                                                        id="F" name="radioTasso" (change)="setTasso('F')"
+                                                        [disabled]="!immobile.mutuo">
+                                                    <span class=" checkmark"></span>
+                                                </label><br>
+                                                <label class="container">Variabile
+                                                    <input type="radio"
+                                                        [checked]="immobile.mutuo_dettaglio.tipo_tasso == 'V'" value="F"
+                                                        id="F" name="radioTasso" (change)="setTasso('V')"
+                                                        [disabled]="!immobile.mutuo">
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="item">
                                     <div class="item-list form">
-                                        <div class="form-item left">
-                                            <label>Euribor</label>
-                                            <div class="type">
-                                                <select class="select-css" (change)="selezionaEuribor($event.target)">
-                                                    <option *ngFor="let eur of euribor" value="{{eur.codice}}"
-                                                        selected="{{eur.codice === immobile.mutuo_dettaglio.euribor_id ? 'selected' : ''}}">
-                                                        {{eur.descrizione}}
-                                                    </option>
-                                                </select>
+                                        <div *ngIf="immobile.mutuo">
+                                            <div class="form-item left">
+                                                <label>Euribor</label>
+                                                <div class="type">
+                                                    <select class="select-css"
+                                                        (change)="selezionaEuribor($event.target)">
+                                                        <option *ngFor="let eur of euribor" value="{{eur.codice}}"
+                                                            selected="{{eur.codice === immobile.mutuo_dettaglio.euribor_id ? 'selected' : ''}}">
+                                                            {{eur.descrizione}}
+                                                        </option>
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-item right">
-                                            <label>Spread</label>
-                                            <div class="type">
-                                                <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.spread"
-                                                    [disabled]="!immobile.mutuo"><span>%</span>
+                                            <div class="form-item right">
+                                                <label>Spread</label>
+                                                <div class="type">
+                                                    <input type="text" placeholder="" digitsonly numericType="decimal"
+                                                        [(ngModel)]="immobile.mutuo_dettaglio.spread"
+                                                        [disabled]="!immobile.mutuo"><span>%</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-item single">
-                                            <label>Durata</label>
-                                            <div class="type">
-                                                <input type="text" digitsonly numericType="number" maxlength="4"
-                                                    placeholder="" value="24"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.durata"
-                                                    [disabled]="!immobile.mutuo"><span>mesi</span>
+                                            <div class="form-item single">
+                                                <label>Durata</label>
+                                                <div class="type">
+                                                    <input type="text" digitsonly numericType="number" maxlength="4"
+                                                        placeholder="" value="24"
+                                                        [(ngModel)]="immobile.mutuo_dettaglio.durata"
+                                                        [disabled]="!immobile.mutuo"><span>mesi</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-item single">
-                                            <label>Data inizio</label>
-                                            <ra-date-picker [inputDate]="dataInizioMutuo"></ra-date-picker>
-                                        </div>
-                                        <div class="form-item single">
-                                            <label>Importo iniziale</label>
-                                            <div class="type">
-                                                <input type="text" placeholder="" value="24" digitsonly
-                                                    numericType="decimal"
-                                                    [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"
-                                                    [disabled]="!immobile.mutuo"><span>&euro;</span>
+                                            <div class="form-item single">
+                                                <label>Data inizio</label>
+                                                <ra-date-picker [inputDate]="dataInizioMutuo"></ra-date-picker>
+                                            </div>
+                                            <div class="form-item single">
+                                                <label>Importo iniziale</label>
+                                                <div class="type">
+                                                    <input type="text" placeholder="" value="24" digitsonly
+                                                        numericType="decimal"
+                                                        [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"
+                                                        [disabled]="!immobile.mutuo"><span>&euro;</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -319,7 +332,7 @@
                                             </select>
                                         </div>
                                         <div class="form-item single">
-                                            <label>Durata prima scadenza</label>
+                                            <label>Durata Contratto</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
                                                     [(ngModel)]="immobile.affitto_dettaglio.prima_scadenza_anni"><span>anni</span>
@@ -345,12 +358,13 @@
                                         <div class="form-item ">
                                             <label>Spese condominiali comprese</label><br>
                                             <label class="switch">
-                                                <input type="checkbox">
-                                                <span class="slider round"
-                                                    [(ngModel)]="immobile.affitto_dettaglio.spese_condominiali"></span>
+                                                <input type="checkbox"
+                                                    [(ngModel)]="immobile.affitto_dettaglio.spese_condominiali">
+                                                <span class="slider round"></span>
                                             </label>
                                         </div>
-                                        <div class="form-item single">
+                                        <div class="form-item single"
+                                            *ngIf="immobile.affitto_dettaglio.spese_condominiali">
                                             <label>Importo annuo</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
@@ -365,7 +379,7 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
-                                        <div class="form-item single">
+                                        <div class="form-item single" *ngIf="immobile.affitto_dettaglio.cedolare_secca">
                                             <label>Aliquota</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
@@ -488,7 +502,8 @@
                             <div class="scheda-table single-column">
                                 <div class="item">
                                     <div class="item-list ">
-                                        <button class="button light back left" (click)="goToDati()">indietro</button>
+                                        <button class="button light back left"
+                                            (click)="goToDatiBack()">indietro</button>
                                         <button class="button forward right"
                                             (click)="goToCointestatari()">avanti</button>
                                     </div>

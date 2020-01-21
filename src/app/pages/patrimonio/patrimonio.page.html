@@ -104,7 +104,7 @@
                     <div class="quota table">
                         <div class="row">
                             <div class="cell">
-                                27<small>%</small>
+                                {{immobileLista.quota}}<small>%</small>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,10 @@
         <div class="footer table">
             <div class="row">
                 <div class="cell">
-                    <a hef="#" class="button add">immobile</a>
+                    <button *ngIf="this.sessionService.getCliente() &&
+                                this.sessionService.getCliente().cliente_id &&
+                                this.sessionService.getCliente().cliente_id != 0" class="button add"
+                        (click)="goToWizardNew()">immobile</button>
                 </div>
             </div>
         </div>

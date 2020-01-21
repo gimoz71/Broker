@@ -137,13 +137,13 @@ ul {
     padding: 0;
     
     width: 100%;
-    li {
+    /*li {
        
         div {
             
             
         }
-    }
+    }*/
 }
 .form-item {
     padding: 10px 5px 0 5px;
@@ -370,9 +370,6 @@ input:checked + .slider:before {
   background: white;
 }
 
-
-
-
 .button {
     font-family: Arial, sans-serif;
     background: $highlight-text-color;
@@ -450,6 +447,9 @@ input:checked + .slider:before {
         padding-left: 20px;
         background-position: center;
     }
+}
+.button:disabled {
+    background-color: $grey-default;
 }
 .overflow-container {
     overflow: auto;
@@ -529,6 +529,7 @@ input:checked + .slider:before {
     position: relative;
     margin: 0 10px;
     top: 6px;
+    cursor: pointer;
     span {
         display: block;
         position: absolute;
@@ -546,9 +547,9 @@ input:checked + .slider:before {
         
         border-radius: 50%;
     }
-    &.logout {
+    /*&.logout {
         //width: 32px;
-    }
+    }*/
 }
 .tasks {
     background-image: url('/assets/img/tasks@2x.png');
@@ -567,7 +568,7 @@ input:checked + .slider:before {
  }
 .user {
      display: inline-block;
-    //width: 40px;
+    cursor: pointer;
     height: 40px;
     background-image: url('/assets/img/user-thumb@2x.png');
     background-repeat: no-repeat;
@@ -1094,9 +1095,9 @@ input:checked + .slider:before {
                              font-size: .6em;
                             color: $label-color;
                         }
-                        &.email{
+                        /*&.email{
 
-                        }
+                        }*/
                     }
                 }
                 .status {
@@ -1788,7 +1789,7 @@ input:checked + .slider:before {
             font-size: .8em;
             padding-left: 20px;
             background: url('/assets/img/icon-position@2x.png') no-repeat left top;
-
+            margin-right: 60px;
         }
         .tipologia, .quota {
             position: absolute;

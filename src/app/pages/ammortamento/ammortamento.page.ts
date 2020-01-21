@@ -86,7 +86,6 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
         });
 
       } else {
-        this.alertService.presentAlert('Token assente, necessario login');
         this.goToPage('login');
       }
     });

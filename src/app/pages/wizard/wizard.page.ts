@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService } from 'broker-lib';
+import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService, DdlItemSearch } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
@@ -48,6 +48,20 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public dataInizioMutuo: Date = new Date();
 
+  public isNewImmobile: boolean;
+
+  public ddlConfig = {
+    search: true,
+    searchOnKey: 'descrizione',
+    noResultsFound: 'non ci sono risultati',
+    placeholder: 'scegli il comune',
+    clearOnSelection: false,
+    displayKey: 'descrizione',
+    limitTo: 10
+  };
+  public ddlComuniOptions: Array<DdlItem>;
+  public ddlComuneSelected: DdlItem;
+
   constructor(
     private immobiliService: ImmobiliService,
     public router: Router,
@@ -73,10 +87,19 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.wizardTassazione = false;
 
     this.tassaSelezionata = new TassaDettaglio();
+    this.tassaSelezionata.descrizione_tassa = "";
+    this.tassaSelezionata.tassa_id = 0;
+    this.tassaSelezionata.importo_annuale = 0;
+
     this.cointestatarioSelezionato = new CointestatarioDettaglio();
 
     this.headP1 = "";
     this.headP2 = "";
+
+    this.isNewImmobile = true;
+
+    this.ddlComuniOptions = new Array<DdlItem>();
+    this.ddlComuneSelected = new DdlItem();
   }
 
   ngOnInit() {
@@ -105,7 +128,6 @@ export class WizardPage extends BaseComponent implements OnInit {
         }
 
       } else {
-        this.alertService.presentAlert('Token assente, necessario login');
         this.goToPage('login');
       }
     });
@@ -114,6 +136,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     // RECUPERO IMMOBILE DALLA SESSIONE
     const immobileInSessione = this.sessionService.getImmobileDettaglio();
     if (immobileInSessione !== undefined && immobileInSessione !== null) {
+      this.isNewImmobile = false;
       this.immobile = immobileInSessione;
       if (this.immobile.mutuo_dettaglio !== undefined) {
         this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
@@ -131,7 +154,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipologieTasse = r.Data.elenco_filtrato;
+        this.tipologieTasse = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.tipologieTasse.push(emptyItem);
+        this.tipologieTasse = this.tipologieTasse.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -141,7 +169,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.euribor = r.Data.elenco_filtrato;
+        this.euribor = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.euribor.push(emptyItem);
+        this.euribor = this.euribor.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -151,7 +184,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipiAffittuario = r.Data.elenco_filtrato;
+        this.tipiAffittuario = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.tipiAffittuario.push(emptyItem);
+        this.tipiAffittuario = this.tipiAffittuario.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -161,7 +199,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.categorieCatastali = r.Data.elenco_filtrato;
+        this.categorieCatastali = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.categorieCatastali.push(emptyItem);
+        this.categorieCatastali = this.categorieCatastali.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -193,13 +236,31 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public goToDati(): void {
-    this.wizardStart = false;
-    this.wizardDestinazione = false;
-    this.wizardDatiDestinazione = false;
-    this.wizardDati = true;
-    this.wizardCatastali = false;
-    this.wizardCointestatari = false;
-    this.wizardTassazione = false;
+    if (!this.immobile.affitto) {
+      this.goToCatastali();
+    } else {
+      this.wizardStart = false;
+      this.wizardDestinazione = false;
+      this.wizardDatiDestinazione = false;
+      this.wizardDati = true;
+      this.wizardCatastali = false;
+      this.wizardCointestatari = false;
+      this.wizardTassazione = false;
+    }
+  }
+
+  public goToDatiBack(): void {
+    if (!this.immobile.affitto) {
+      this.goToDatiDestinazione();
+    } else {
+      this.wizardStart = false;
+      this.wizardDestinazione = false;
+      this.wizardDatiDestinazione = false;
+      this.wizardDati = true;
+      this.wizardCatastali = false;
+      this.wizardCointestatari = false;
+      this.wizardTassazione = false;
+    }
   }
 
   public goToCatastali(): void {
@@ -259,7 +320,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (this.immobile.spese && this.immobile.spese.length === 0) {
       delete this.immobile.spese;
     }
-    console.log(this.immobile);
+    console.log(JSON.stringify(this.immobile));
 
     // eseguo la chiamata
     this.immobiliService.putImmobile(this.immobile).pipe(
@@ -281,29 +342,49 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public selezionaEuribor(val: any): void {
-    this.immobile.mutuo_dettaglio.euribor_id = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.mutuo_dettaglio.euribor_id = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaTipoAffittuario(val: any): void {
-    this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaOmi(val: any): void {
-    this.immobile.comune_zone_cod = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.comune_zone_cod = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaCategoriaCatastale(val: any): void {
-    this.immobile.catastale_cod = val.selectedOptions[0].value;
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.immobile.catastale_cod = val.selectedOptions[0].value;
+    }
   }
 
   public selezionaTassa(val: any): void {
-    this.tassaSelezionata.tassa_id = val.selectedOptions[0].value;
-    this.tassaSelezionata.descrizione_tassa = val.selectedOptions[0].innerText.trim();
+    if (val.selectedOptions[0].value === 0) {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    } else {
+      this.tassaSelezionata.tassa_id = val.selectedOptions[0].value;
+      this.tassaSelezionata.descrizione_tassa = val.selectedOptions[0].innerText.trim();
+    }
   }
 
   public aggiungiTassa(): void {
 
-    if (this.tassaSelezionata.tassa_id === 0) {
+    if (!this.tassaSelezionata || this.tassaSelezionata.tassa_id === 0) {
       this.presentAlert("Selezionare una tassa dalla lista");
     } else {
 
@@ -336,11 +417,26 @@ export class WizardPage extends BaseComponent implements OnInit {
     cointestatarioDaAggiungere.codice_fiscale = this.cointestatarioSelezionato.codice_fiscale;
     cointestatarioDaAggiungere.quota = this.cointestatarioSelezionato.quota;
 
-    this.immobile.cointestatari.push(cointestatarioDaAggiungere);
+    if (this.cointestatarioSelezionato.quota > 100 || this.cointestatarioSelezionato.quota < 0) {
+      this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
+    } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
+      this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
+    } else {
+      this.immobile.cointestatari.push(cointestatarioDaAggiungere);
 
-    this.cointestatarioSelezionato.codice_fiscale = '';
-    this.cointestatarioSelezionato.nominativo = '';
-    this.cointestatarioSelezionato.quota = 0;
+      this.cointestatarioSelezionato.codice_fiscale = '';
+      this.cointestatarioSelezionato.nominativo = '';
+      this.cointestatarioSelezionato.quota = 0;
+    }
+  }
+
+  private codiceFiscaleCointestatarioPresente(cf: string): boolean {
+    for (const coint of this.immobile.cointestatari) {
+      if (coint.codice_fiscale.toUpperCase() === cf.toUpperCase()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public rimuoviCointestatario(cointestatario: CointestatarioDettaglio): void {
@@ -351,11 +447,14 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public scegliDestinazione(primacasa: boolean, residente: boolean, affittata: boolean): void {
+    this.immobile.prima_casa = primacasa;
+    this.immobile.affitto = affittata;
     this.primacasa = primacasa;
     this.residente = residente;
     this.affittata = affittata;
     this.headP1 = (this.primacasa ? "Prima casa" : "Seconda casa");
     this.headP2 = (this.residente ? "Residente" : "Non residente");
+    this.isNewImmobile = false;
     this.goToDatiDestinazione();
   }
 
@@ -364,7 +463,12 @@ export class WizardPage extends BaseComponent implements OnInit {
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipiOmi = r.Data.elenco_filtrato;
+        this.tipiOmi = new Array<DdlItem>();
+        const emptyItem = new DdlItem();
+        emptyItem.codice = 0;
+        emptyItem.descrizione = '';
+        this.tipiOmi.push(emptyItem);
+        this.tipiOmi = this.tipiOmi.concat(r.Data.elenco_filtrato);
       } else {
         this.manageError(r);
       }
@@ -401,6 +505,57 @@ export class WizardPage extends BaseComponent implements OnInit {
       const omi: OmiDettaglio = new OmiDettaglio();
       this.immobile.omi = omi;
     }
+  }
+
+  public changeMutuo(event: any) {
+    if (!event) {
+      // pulisci tutti i campi della pagina mutuo
+      this.immobile.mutuo_dettaglio.tipo_tasso = 'V';
+      this.immobile.mutuo_dettaglio.euribor_id = 0;
+      this.immobile.mutuo_dettaglio.spread = 0;
+      this.immobile.mutuo_dettaglio.durata = 0;
+      this.dataInizioMutuo = new Date(0);
+      this.immobile.mutuo_dettaglio.importo_iniziale = 0;
+    }
+  }
+
+  public avantiIndirizzoImmobile(): boolean {
+    const goOn = !(this.immobile.civico === undefined || this.immobile.civico === '') &&
+      !(this.immobile.citta === undefined || this.immobile.citta === '') &&
+      !(this.immobile.cap === undefined || this.immobile.cap === '') &&
+      !(this.immobile.catastale_cod === undefined || this.immobile.catastale_cod === '' || this.immobile.catastale_cod === '0') &&
+      !(this.immobile.istat_cod === undefined || this.immobile.istat_cod === '');
+    // !(this.immobile.comune_zone_cod === undefined || this.immobile.comune_zone_cod === '' || this.immobile.comune_zone_cod === '0');
+
+    return goOn;
+  }
+
+  public comuneSearchChange($event: any) {
+    const input = $event as string;
+    if (input.length === 3) {
+      // eseguo la ricerca
+      this.dropdownService.getComuni(input).subscribe(r => {
+        if (r.Success) {
+          // this.ddlComuniOptions = new Array<DdlItem>();
+          this.ddlComuniOptions.splice(0, this.ddlComuniOptions.length); // svuoto dal vecchio contenuto
+          // aggiorna la lista del dropdown
+          for (const entry of r.Data.elenco_filtrato) {
+            this.ddlComuniOptions.push(entry as DdlItem);
+          }
+          console.log('numero elementi: ' + this.ddlComuniOptions.length);
+        } else {
+          this.manageError(r);
+        }
+      });
+    }
+    return $event;
+  }
+
+  public comuneSelected($event: any) {
+    console.log('comune selezionato ' + JSON.stringify($event));
+    const codiceComuneSelezionato = $event[0].value;
+    console.log('codice comune selezionato ' + codiceComuneSelezionato);
+    this.immobile.istat_cod = codiceComuneSelezionato;
   }
 
   ionViewDidLeave() {

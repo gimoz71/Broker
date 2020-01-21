@@ -11,6 +11,7 @@ import { IgxDatePickerModule } from 'igniteui-angular';
 import { MyDatePickerModule } from 'src/app/component/datepicker/mydatepicker.module';
 import { OnlyDigitsDirective } from 'src/app/directive/onlydigits.directive';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { NgxSelectModule } from 'ngx-select-ex';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     IgxDatePickerModule,
     MyDatePickerModule,
-    PipesModule
+    PipesModule,
+    NgxSelectModule
   ],
   declarations: [WizardPage,
     OnlyDigitsDirective],

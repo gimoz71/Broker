@@ -2,7 +2,7 @@
 import { SessionService, StoreService, LoginService, ReportService, IconeService } from 'broker-lib';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
 
 import { IonicModule } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -35,21 +35,7 @@ import { AmmortamentoPageModule } from './pages/ammortamento/ammortamento.module
 import { CatastaliPageModule } from './pages/catastali/catastali.module';
 import { AppRoutingModule } from './app-routing.module';
 
-const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule) },
-  { path: 'profilo-utente', loadChildren: () => import('./pages/profilo-utente/profilo-utente.module').then(m => m.ProfiloUtentePageModule) },
-  { path: 'login', loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule) },
-  { path: 'wizard', loadChildren: () => import('./pages/wizard/wizard.module').then(m => m.WizardPageModule) },
-  { path: 'scheda-immobile', loadChildren: () => import('./pages/scheda-immobile/scheda-immobile.module').then(m => m.SchedaImmobilePageModule) },
-  { path: 'nuovo-cliente', loadChildren: () => import('./pages/nuovo-cliente/nuovo-cliente.module').then(m => m.NuovoClientePageModule) },
-  // { path: 'scheda-cliente', loadChildren: './pages/scheda-cliente/scheda-cliente.module#SchedaClientePageModule' },
-  { path: 'patrimonio', loadChildren: () => import('./pages/patrimonio/patrimonio.module').then(m => m.PatrimonioPageModule) },
-  { path: 'catastali', loadChildren: () => import('./pages/catastali/catastali.module').then(m => m.CatastaliPageModule) },
-  { path: 'report-generale', loadChildren: () => import('./pages/report-generale/report-generale.module').then(m => m.ReportGeneralePageModule) },
-  { path: 'report-analisi', loadChildren: () => import('./pages/report-analisi/report-analisi.module').then(m => m.ReportAnalisiPageModule) },
-  { path: 'ammortamento', loadChildren: () => import('./pages/ammortamento/ammortamento.module').then(m => m.AmmortamentoPageModule) },
-];
+import { NgxSelectModule } from 'ngx-select-ex';
 
 @NgModule({
   declarations: [AppComponent],
@@ -58,6 +44,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    SelectDropDownModule,
     IonicModule.forRoot(),
     BrokerLibModule.forRoot(),
     FormsModule,
@@ -75,6 +62,7 @@ const routes: Routes = [
     HttpClientModule,
     CatastaliPageModule,
     PipesModule,
+    NgxSelectModule,
     IonicModule.forRoot()
   ],
   providers: [
@@ -95,7 +83,8 @@ const routes: Routes = [
     }
   ],
   exports: [
-    PipesModule
+    PipesModule,
+    NgxSelectModule
   ],
   bootstrap: [AppComponent]
 })
