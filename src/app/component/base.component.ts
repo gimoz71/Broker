@@ -130,10 +130,10 @@ export class BaseComponent implements OnInit {
                 statusColor = 'red';
                 break;
             case 'P':
-                statusColor = 'green';
+                statusColor = 'blue';
                 break;
             case 'A':
-                statusColor = 'orange';
+                statusColor = 'green';
                 break;
         }
         return 'status ' + statusColor;

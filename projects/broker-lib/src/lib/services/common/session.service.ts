@@ -26,6 +26,8 @@ export class SessionService {
     public elencoImmobiliObs = this.elencoImmobiliSubject.asObservable();
     private userData: WsToken;
 
+    private clientData: Cliente;
+
     private connection: Connection;
 
     private userDataSubject: Subject<boolean> = new Subject<boolean>();
@@ -39,6 +41,7 @@ export class SessionService {
         private immobiliService: ImmobiliService
     ) {
         this.userData = new WsToken();
+        this.clientData = new Cliente();
         this.connection = new Connection();
         this.cliente = new Cliente();
         this.immobiliCliente = new Array<Immobile>();
@@ -91,6 +94,16 @@ export class SessionService {
         this.userData = userData;
         if (userData != null) {
             this.storeService.setUserData(userData);
+        } else {
+            return -1;
+        }
+        return 1;
+    }
+
+    public setClientData(client: Cliente): number {
+        this.clientData = client;
+        if (client != null) {
+            this.storeService.setClientData(client);
         } else {
             return -1;
         }
