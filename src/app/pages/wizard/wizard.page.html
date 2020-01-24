@@ -72,7 +72,7 @@
                                             </select>
                                         </div>
                                         <div class="form-item left " style="width: 35%;">
-                                            <label>Comune (ISTAT)</label>
+                                            <label>Comune</label>
                                             <ngx-select [items]="ddlComuniOptions" optionValueField="codice"
                                                 optionTextField="descrizione" (typed)="comuneSearchChange($event)"
                                                 (selectionChanges)="comuneSelected($event)">
@@ -87,7 +87,7 @@
                                             <button (click)="caricaOmi()" class="button no-icon">cerca</button>
                                         </div> -->
                                         <div class="form-item left " style="width: 35%;">
-                                            <label>OMI</label>
+                                            <label>Zone OMI</label>
                                             <select class="select-css" (change)="selezionaOmi($event.target)">
                                                 <option *ngFor="let omi of tipiOmi" value="{{omi.codice}}"
                                                     selected="{{omi.codice+'' === immobile.comune_zone_cod ? 'selected' : ''}}">
@@ -270,7 +270,9 @@
                                             </div>
                                             <div class="form-item single">
                                                 <label>Data inizio</label>
-                                                <ra-date-picker [inputDate]="dataInizioMutuo"></ra-date-picker>
+                                                <ra-date-picker [inputDate]="dataInizioMutuo"
+                                                    [(ngModel)]="dataInizioMutuo" (sendDate)="associaData($event)">
+                                                </ra-date-picker>
                                             </div>
                                             <div class="form-item single">
                                                 <label>Importo iniziale</label>
