@@ -118,8 +118,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     public getTotaleTasse(immobile: ImmobileDettaglio): number {
         let tasse = 0;
-        for (const tassa of immobile.tasse) {
-            tasse = tasse + tassa.importo_annuale;
+        if (immobile && immobile.tasse) {
+            for (const tassa of immobile.tasse) {
+                tasse = tasse + tassa.importo_annuale;
+            }
         }
         return tasse;
     }
