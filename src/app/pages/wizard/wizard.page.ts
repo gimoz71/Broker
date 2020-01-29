@@ -67,6 +67,8 @@ export class WizardPage extends BaseComponent implements OnInit {
   public ddlComuniOptions: Array<DdlItem>;
   public ddlComuneSelected: DdlItem;
 
+  public selectedCategoriaCatastale: DdlItem;
+
   constructor(
     private immobiliService: ImmobiliService,
     public router: Router,
@@ -105,6 +107,13 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     this.ddlComuniOptions = new Array<DdlItem>();
     this.ddlComuneSelected = new DdlItem();
+
+    this.categorieCatastali = new Array<DdlItem>();
+    this.tipologieTasse = new Array<DdlItem>();
+    this.euribor = new Array<DdlItem>();
+    this.tipiAffittuario = new Array<DdlItem>();
+
+    this.selectedCategoriaCatastale = new DdlItem();
   }
 
   ngOnInit() {
@@ -153,8 +162,19 @@ export class WizardPage extends BaseComponent implements OnInit {
       ddlItem.codice = +this.immobile.istat_cod;
       ddlItem.descrizione = this.immobile.citta;
       this.ddlComuniOptions.push(ddlItem);
+
       // seleziono l'oggetto nella ddl
       this.selectControl.setValue(this.ddlComuniOptions[0]);
+      const ddlItemcategCatast = new DdlItem();
+      ddlItemcategCatast.codice = this.immobile.tipologie_catastali_id;
+      ddlItemcategCatast.descrizione = this.immobile.descrizione_tipologia;
+
+      this.selectedCategoriaCatastale = ddlItemcategCatast;
+      this.loadDdlTipologieCatastali();
+
+      // carico gli omi relativi al codice istat
+      this.caricaOmi();
+
     } else {
       this.immobile = new ImmobileDettaglio();
     }
@@ -162,11 +182,21 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.normalizzaImmobile();
 
     // GESTIONE CENTRALIZZATA DEI DROPDOWN
+    this.loadDdlEuribor();
+    this.loadDdlTipiAffittuari();
+    this.loadDdlTipologieTasse();
+
+    this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
+    this.cointestatarioSelezionato.quota = 100;
+    this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+  }
+
+  private loadDdlTipologieTasse() {
     this.dropdownService.getTipologieTasse(false, false, false).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipologieTasse = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -176,12 +206,14 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
 
+  private loadDdlEuribor() {
     this.dropdownService.getEuribor().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.euribor = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -191,12 +223,14 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
 
+  private loadDdlTipiAffittuari() {
     this.dropdownService.getTipiAffittuari().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipiAffittuario = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -206,12 +240,14 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
 
+  private loadDdlTipologieCatastali() {
     this.dropdownService.getTipologieCatastali().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.categorieCatastali = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -221,10 +257,6 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
-
-    this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
-    this.cointestatarioSelezionato.quota = 100;
-    this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
   }
 
   public goToDestinazione(): void {
@@ -538,7 +570,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       !(this.immobile.citta === undefined || this.immobile.citta === '') &&
       !(this.immobile.cap === undefined || this.immobile.cap === '') &&
       !(this.immobile.catastale_cod === undefined || this.immobile.catastale_cod === '' || this.immobile.catastale_cod === '0') &&
-      !(this.immobile.istat_cod === undefined || this.immobile.istat_cod === '');
+      !(this.immobile.tipologie_catastali_id === undefined || this.immobile.tipologie_catastali_id === 0);
     // !(this.immobile.comune_zone_cod === undefined || this.immobile.comune_zone_cod === '' || this.immobile.comune_zone_cod === '0');
 
     return goOn;

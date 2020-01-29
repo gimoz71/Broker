@@ -69,8 +69,8 @@
                                             <label>Categ. Catastale</label>
                                             <select class="select-css"
                                                 (change)="selezionaCategoriaCatastale($event.target)">
-                                                <option *ngFor="let cat of categorieCatastali" value="{{cat.codice}}"
-                                                    selected="{{cat.codice+'' === immobile.catastale_cod ? 'selected' : ''}}">
+                                                <option *ngFor="let cat of categorieCatastali" [ngValue]="cat.codice"
+                                                    [attr.selected]="cat.codice+'' === immobile.tipologie_catastali_id+'' ? 'selected' : null">
                                                     {{cat.descrizione}}
                                                 </option>
                                             </select>
@@ -78,8 +78,8 @@
                                         <div class="form-item left " style="width: 50%;">
                                             <label>Zone OMI</label>
                                             <select class="select-css" (change)="selezionaOmi($event.target)">
-                                                <option *ngFor="let omi of tipiOmi" value="{{omi.codice}}"
-                                                    selected="{{omi.codice+'' === immobile.comune_zone_cod ? 'selected' : ''}}">
+                                                <option *ngFor="let omi of tipiOmi" [ngValue]="omi.codice"
+                                                    [attr.selected]="omi.codice+'' === immobile.comune_zone_cod+'' ? 'selected' : null">
                                                     {{omi.descrizione}}
                                                 </option>
                                             </select>
