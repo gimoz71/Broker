@@ -9,6 +9,6 @@ export class MutuoDettaglio {
     public descrizione_rate: string = '';
     public numero_rate: number = 0;
     public durata: number = 0;
-    public data_inizio: string = '';
+    public data_inizio: number = 0;
     public importo_iniziale: number = 0;
 }

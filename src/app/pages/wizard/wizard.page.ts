@@ -141,7 +141,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       if (this.immobile.mutuo_dettaglio !== undefined) {
         this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
       } else {
-        this.dataInizioMutuo = new Date(0);
+        this.dataInizioMutuo = new Date();
       }
     } else {
       this.immobile = new ImmobileDettaglio();
@@ -310,6 +310,8 @@ export class WizardPage extends BaseComponent implements OnInit {
     }
     if (!this.immobile.mutuo) {
       delete this.immobile.mutuo_dettaglio;
+    } else {
+      this.immobile.mutuo_dettaglio.data_inizio = this.dataInizioMutuo.getTime();
     }
     if (this.immobile.tasse && this.immobile.tasse.length === 0) {
       delete this.immobile.tasse;
@@ -514,7 +516,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.immobile.mutuo_dettaglio.euribor_id = 0;
       this.immobile.mutuo_dettaglio.spread = 0;
       this.immobile.mutuo_dettaglio.durata = 0;
-      this.dataInizioMutuo = new Date(0);
+      this.dataInizioMutuo = new Date();
       this.immobile.mutuo_dettaglio.importo_iniziale = 0;
     }
   }
@@ -559,6 +561,10 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.immobile.istat_cod = codiceComuneSelezionato;
       this.caricaOmi();
     }
+  }
+
+  public associaData($event) {
+    this.dataInizioMutuo = $event;
   }
 
   ionViewDidLeave() {

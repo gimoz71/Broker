@@ -22,6 +22,7 @@ export class RaHttpInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        this.printInstant(request.url + '__ START _____ ');
         const tokenValue = 'Bearer ' + this.sessionService.getUserData().token_value;
         request = request.clone({
             headers: new HttpHeaders({
@@ -29,20 +30,29 @@ export class RaHttpInterceptor implements HttpInterceptor {
                 "Content-Type": "application/json"
             })
         });
-        this.showLoader();
+        // this.showLoader();
         return next.handle(request).pipe(map((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 console.log('event--->>>', event);
             }
             // setTimeout(() => { this.hideLoader(); }, 3000); // <-- usare questa per testare il loader se la connessione è troppo veloce
             this.presentLoader = false;
-            this.hideLoader();
+            // this.hideLoader();
+            this.printInstant(request.url + '__ END _____ ');
             return event;
         }), catchError((x: HttpErrorResponse) => {
             this.presentLoader = false;
-            this.hideLoader();
+            // this.hideLoader();
             return this.handleAuthError(x);
         })); // here use an arrow function, otherwise you may get "Cannot read property 'navigate' of undefined" on angular 4.4.2/net core 2/webpack 2.70;
+    }
+
+    private printInstant(message: string) {
+        const date = new Date();
+        console.log(message + ': ' + date.getHours()
+            + ':' + date.getMinutes()
+            + ':' + date.getSeconds()
+            + '.' + date.getMilliseconds());
     }
 
     private handleAuthError(err: any): Observable<any> {

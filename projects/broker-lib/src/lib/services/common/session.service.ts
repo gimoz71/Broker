@@ -94,6 +94,9 @@ export class SessionService {
         this.userData = userData;
         if (userData != null) {
             this.storeService.setUserData(userData);
+            if (userData.cliente !== undefined && userData.cliente !== null) {
+                this.setCliente(userData.cliente);
+            }
         } else {
             return -1;
         }
