@@ -22,7 +22,7 @@ export class RaHttpInterceptor implements HttpInterceptor {
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        this.printInstant(request.url + '__ START _____ ');
+        this.printInstant(request.url + ' __ START _____ ');
         const tokenValue = 'Bearer ' + this.sessionService.getUserData().token_value;
         request = request.clone({
             headers: new HttpHeaders({
@@ -34,11 +34,12 @@ export class RaHttpInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(map((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
                 console.log('event--->>>', event);
+                this.printInstant(request.url + ' __ END _____ ');
             }
             // setTimeout(() => { this.hideLoader(); }, 3000); // <-- usare questa per testare il loader se la connessione è troppo veloce
             this.presentLoader = false;
             // this.hideLoader();
-            this.printInstant(request.url + '__ END _____ ');
+
             return event;
         }), catchError((x: HttpErrorResponse) => {
             this.presentLoader = false;

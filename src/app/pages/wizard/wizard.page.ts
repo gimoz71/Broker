@@ -5,6 +5,9 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+
+
 
 
 @Component({
@@ -15,6 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 export class WizardPage extends BaseComponent implements OnInit {
 
   private unsubscribe$ = new Subject<void>();
+
+  public selectControl = new FormControl();
 
   public immobile: ImmobileDettaglio;
 
@@ -143,6 +148,13 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.dataInizioMutuo = new Date();
       }
+      this.ddlComuniOptions = new Array<DdlItem>();
+      const ddlItem = new DdlItem();
+      ddlItem.codice = +this.immobile.istat_cod;
+      ddlItem.descrizione = this.immobile.citta;
+      this.ddlComuniOptions.push(ddlItem);
+      // seleziono l'oggetto nella ddl
+      this.selectControl.setValue(this.ddlComuniOptions[0]);
     } else {
       this.immobile = new ImmobileDettaglio();
     }
@@ -536,6 +548,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     const input = $event as string;
     if (input.length === 3) {
       // eseguo la ricerca
+      this.ddlComuniOptions = new Array<DdlItem>();
       this.dropdownService.getComuni(input).subscribe(r => {
         if (r.Success) {
           // this.ddlComuniOptions = new Array<DdlItem>();
@@ -558,6 +571,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if ($event[0] !== undefined) {
       const codiceComuneSelezionato = $event[0].value;
       console.log('codice comune selezionato ' + codiceComuneSelezionato);
+      this.immobile.citta = $event[0].text;
       this.immobile.istat_cod = codiceComuneSelezionato;
       this.caricaOmi();
     }
