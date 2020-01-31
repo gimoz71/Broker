@@ -163,13 +163,6 @@ export class WizardPage extends BaseComponent implements OnInit {
       ddlItem.descrizione = this.immobile.citta;
       this.ddlComuniOptions.push(ddlItem);
 
-      // seleziono l'oggetto nella ddl
-      this.selectControl.setValue(this.ddlComuniOptions[0]);
-      const ddlItemcategCatast = new DdlItem();
-      ddlItemcategCatast.codice = this.immobile.tipologie_catastali_id;
-      ddlItemcategCatast.descrizione = this.immobile.descrizione_tipologia;
-
-      this.selectedCategoriaCatastale = ddlItemcategCatast;
       this.loadDdlTipologieCatastali();
 
       // carico gli omi relativi al codice istat
@@ -177,6 +170,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     } else {
       this.immobile = new ImmobileDettaglio();
+      this.loadDdlTipologieCatastali();
     }
     this.immobile.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
     this.normalizzaImmobile();
@@ -415,7 +409,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (val.selectedOptions[0].value === 0) {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
     } else {
-      this.immobile.catastale_cod = val.selectedOptions[0].value;
+      this.immobile.tipologie_catastali_id = val.selectedOptions[0].value;
     }
   }
 
@@ -505,7 +499,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public caricaOmi(): void {
-    this.dropdownService.getTipiOmi(this.immobile.istat_cod).pipe(
+    this.dropdownService.getTipiOmi(this.immobile.catastale_cod).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
@@ -604,7 +598,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       const codiceComuneSelezionato = $event[0].value;
       console.log('codice comune selezionato ' + codiceComuneSelezionato);
       this.immobile.citta = $event[0].text;
-      this.immobile.istat_cod = codiceComuneSelezionato;
+      this.immobile.catastale_cod = codiceComuneSelezionato;
       this.caricaOmi();
     }
   }
