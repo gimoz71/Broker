@@ -34,14 +34,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public alertController: AlertController
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService);
-        this.immobile_id = '';
-        this.immobile = new ImmobileDettaglio();
-        this.immobile.mutuo_dettaglio = new MutuoDettaglio();
-        this.immobile.affitto_dettaglio = new AffittoDettaglio();
-        this.immobile.cointestatari = new Array<CointestatarioDettaglio>();
-        this.immobile.tasse = new Array<TassaDettaglio>();
-        this.immobile.spese = new Array<SpesaDettaglio>();
-        this.immobile.dati_catastali = new DatiCatastaliDettaglio();
+        this.resetImmobile();
     }
 
     ngOnInit() {
@@ -52,6 +45,17 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         this.initializeApp();
         super.ngOnInit();
 
+    }
+
+    private resetImmobile(): void {
+        this.immobile_id = '';
+        this.immobile = new ImmobileDettaglio();
+        this.immobile.mutuo_dettaglio = new MutuoDettaglio();
+        this.immobile.affitto_dettaglio = new AffittoDettaglio();
+        this.immobile.cointestatari = new Array<CointestatarioDettaglio>();
+        this.immobile.tasse = new Array<TassaDettaglio>();
+        this.immobile.spese = new Array<SpesaDettaglio>();
+        this.immobile.dati_catastali = new DatiCatastaliDettaglio();
     }
 
     private initializeApp() {
@@ -74,14 +78,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                     ).subscribe(params => {
 
                         this.immobile_id = params.immobile_id;
-                        this.immobiliService.getImmobile(this.immobile_id).pipe(
-                            takeUntil(this.unsubscribe$)
-                        ).subscribe(s => {
-                            if (s.Success) {
-                                this.immobile = s.Data;
-                                this.sessionService.setImmobileDettaglio(this.immobile);
-                            }
-                        });
+                        this.loadImmobile(this.immobile_id);
                     });
                 }
                 const client_id = this.sessionService.getCliente().cliente_id;
@@ -96,6 +93,17 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
             }
         });
         this.sessionService.loadUserData();
+    }
+
+    private loadImmobile(id: string): void {
+        this.immobiliService.getImmobile(id).pipe(
+            takeUntil(this.unsubscribe$)
+        ).subscribe(s => {
+            if (s.Success) {
+                this.immobile = s.Data;
+                this.sessionService.setImmobileDettaglio(this.immobile);
+            }
+        });
     }
 
     public getCointestatari(): Array<CointestatarioDettaglio> {
@@ -118,8 +126,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     public getTotaleTasse(immobile: ImmobileDettaglio): number {
         let tasse = 0;
-        for (const tassa of immobile.tasse) {
-            tasse = tasse + tassa.importo_annuale;
+        if (immobile && immobile.tasse) {
+            for (const tassa of immobile.tasse) {
+                tasse = tasse + tassa.importo_annuale;
+            }
         }
         return tasse;
     }
@@ -181,5 +191,6 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
     ionViewDidLeave() {
         this.unsubscribe$.next();
         this.unsubscribe$.complete();
+        this.resetImmobile();
     }
 }

@@ -24,6 +24,8 @@ export class HomePage extends BaseComponent implements OnInit {
     public searchName: string;
     public searchCF: string;
 
+    private caricaClienti: boolean;
+
     constructor(
         private clientiService: ClientiService,
         public sessionService: SessionService,
@@ -45,6 +47,7 @@ export class HomePage extends BaseComponent implements OnInit {
     }
 
     ionViewDidEnter() {
+        this.caricaClienti = true;
         this.initializeApp();
     }
 
@@ -53,16 +56,19 @@ export class HomePage extends BaseComponent implements OnInit {
         this.sessionService.userDataObservable.subscribe(present => {
             if (present) {
                 this.wsToken = this.sessionService.getUserData();
-                this.clientiService.getClienti().pipe(
-                    takeUntil(this.unsubscribe$)
-                ).subscribe(t => {
-                    if (t.Success) {
-                        console.log('RICEVUTO: ' + t.Data);
-                        this.clienti = t.Data.elenco_clienti;
-                    } else {
-                        this.manageError(t);
-                    }
-                });
+                if (this.caricaClienti) {
+                    this.caricaClienti = false;
+                    this.clientiService.getClienti().pipe(
+                        takeUntil(this.unsubscribe$)
+                    ).subscribe(t => {
+                        if (t.Success) {
+                            console.log('RICEVUTO: ' + t.Data);
+                            this.clienti = t.Data.elenco_clienti;
+                        } else {
+                            this.manageError(t);
+                        }
+                    });
+                }
             } else {
                 this.goToPage('login');
             }
@@ -73,6 +79,7 @@ export class HomePage extends BaseComponent implements OnInit {
 
     public caricaCliente(cliente: Cliente) {
         this.sessionService.setCliente(cliente);
+        this.sessionService.setImmobileDettaglio(null);
     }
 
     public apriSchedaImmobile(immobile: number) {

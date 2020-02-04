@@ -5,6 +5,9 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { RaDatePipe } from 'src/app/pipes/date.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+
+
 
 
 @Component({
@@ -15,6 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 export class WizardPage extends BaseComponent implements OnInit {
 
   private unsubscribe$ = new Subject<void>();
+
+  public selectControl = new FormControl();
 
   public immobile: ImmobileDettaglio;
 
@@ -62,6 +67,8 @@ export class WizardPage extends BaseComponent implements OnInit {
   public ddlComuniOptions: Array<DdlItem>;
   public ddlComuneSelected: DdlItem;
 
+  public selectedCategoriaCatastale: DdlItem;
+
   constructor(
     private immobiliService: ImmobiliService,
     public router: Router,
@@ -100,6 +107,13 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     this.ddlComuniOptions = new Array<DdlItem>();
     this.ddlComuneSelected = new DdlItem();
+
+    this.categorieCatastali = new Array<DdlItem>();
+    this.tipologieTasse = new Array<DdlItem>();
+    this.euribor = new Array<DdlItem>();
+    this.tipiAffittuario = new Array<DdlItem>();
+
+    this.selectedCategoriaCatastale = new DdlItem();
   }
 
   ngOnInit() {
@@ -143,18 +157,40 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.dataInizioMutuo = new Date();
       }
+      this.ddlComuniOptions = new Array<DdlItem>();
+      const ddlItem = new DdlItem();
+      ddlItem.codice = +this.immobile.istat_cod;
+      ddlItem.descrizione = this.immobile.citta;
+      this.ddlComuniOptions.push(ddlItem);
+
+      this.loadDdlTipologieCatastali();
+
+      // carico gli omi relativi al codice istat
+      this.caricaOmi();
+
     } else {
       this.immobile = new ImmobileDettaglio();
+      this.loadDdlTipologieCatastali();
     }
     this.immobile.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
     this.normalizzaImmobile();
 
     // GESTIONE CENTRALIZZATA DEI DROPDOWN
+    this.loadDdlEuribor();
+    this.loadDdlTipiAffittuari();
+    this.loadDdlTipologieTasse();
+
+    this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
+    this.cointestatarioSelezionato.quota = 100;
+    this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+  }
+
+  private loadDdlTipologieTasse() {
     this.dropdownService.getTipologieTasse(false, false, false).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipologieTasse = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -164,12 +200,14 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
 
+  private loadDdlEuribor() {
     this.dropdownService.getEuribor().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.euribor = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -179,12 +217,14 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
 
+  private loadDdlTipiAffittuari() {
     this.dropdownService.getTipiAffittuari().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.tipiAffittuario = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -194,12 +234,14 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
+  }
 
+  private loadDdlTipologieCatastali() {
     this.dropdownService.getTipologieCatastali().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
-        this.categorieCatastali = new Array<DdlItem>();
+
         const emptyItem = new DdlItem();
         emptyItem.codice = 0;
         emptyItem.descrizione = '';
@@ -209,10 +251,6 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.manageError(r);
       }
     });
-
-    this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
-    this.cointestatarioSelezionato.quota = 100;
-    this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
   }
 
   public goToDestinazione(): void {
@@ -371,7 +409,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (val.selectedOptions[0].value === 0) {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
     } else {
-      this.immobile.catastale_cod = val.selectedOptions[0].value;
+      this.immobile.tipologie_catastali_id = val.selectedOptions[0].value;
     }
   }
 
@@ -461,7 +499,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public caricaOmi(): void {
-    this.dropdownService.getTipiOmi(this.immobile.istat_cod).pipe(
+    this.dropdownService.getTipiOmi(this.immobile.catastale_cod).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
       if (r.Success) {
@@ -526,7 +564,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       !(this.immobile.citta === undefined || this.immobile.citta === '') &&
       !(this.immobile.cap === undefined || this.immobile.cap === '') &&
       !(this.immobile.catastale_cod === undefined || this.immobile.catastale_cod === '' || this.immobile.catastale_cod === '0') &&
-      !(this.immobile.istat_cod === undefined || this.immobile.istat_cod === '');
+      !(this.immobile.tipologie_catastali_id === undefined || this.immobile.tipologie_catastali_id === 0);
     // !(this.immobile.comune_zone_cod === undefined || this.immobile.comune_zone_cod === '' || this.immobile.comune_zone_cod === '0');
 
     return goOn;
@@ -536,6 +574,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     const input = $event as string;
     if (input.length === 3) {
       // eseguo la ricerca
+      this.ddlComuniOptions = new Array<DdlItem>();
       this.dropdownService.getComuni(input).subscribe(r => {
         if (r.Success) {
           // this.ddlComuniOptions = new Array<DdlItem>();
@@ -558,7 +597,8 @@ export class WizardPage extends BaseComponent implements OnInit {
     if ($event[0] !== undefined) {
       const codiceComuneSelezionato = $event[0].value;
       console.log('codice comune selezionato ' + codiceComuneSelezionato);
-      this.immobile.istat_cod = codiceComuneSelezionato;
+      this.immobile.citta = $event[0].text;
+      this.immobile.catastale_cod = codiceComuneSelezionato;
       this.caricaOmi();
     }
   }

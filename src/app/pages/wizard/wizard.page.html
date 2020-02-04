@@ -49,48 +49,37 @@
                                             <label>Civico</label>
                                             <input type="text" placeholder="" value="" [(ngModel)]="immobile.civico">
                                         </div>
-                                        <div class="form-item left" style="width: 35%;">
-                                            <label>Citt&agrave;</label>
-                                            <input type="text" placeholder="" [(ngModel)]="immobile.citta">
+                                        <div class="form-item left " style="width: 40%;">
+                                            <label>Comune</label>
+                                            <ngx-select [items]="ddlComuniOptions" optionValueField="codice"
+                                                optionTextField="descrizione" (typed)="comuneSearchChange($event)"
+                                                (selectionChanges)="comuneSelected($event)"
+                                                [formControl]="selectControl">
+                                            </ngx-select>
                                         </div>
-                                        <div class="form-item left" style="width: 15%;">
+                                        <div class="form-item left" style="width: 20%;">
                                             <label>Cap</label>
                                             <input type="text" placeholder="" [(ngModel)]="immobile.cap">
                                         </div>
-                                        <div class="form-item left " style="width: 35%;">
+                                        <div class="form-item left " style="width: 40%;">
                                             <label>Provincia</label>
                                             <input type="text" placeholder="" value="" [(ngModel)]="immobile.provincia">
                                         </div>
-                                        <div class="form-item right" style="width: 15%;">
-                                            <label>Cat. Cat.</label>
+                                        <div class="form-item left clearfix" style="width: 50%; clear: both">
+                                            <label>Categ. Catastale</label>
                                             <select class="select-css"
                                                 (change)="selezionaCategoriaCatastale($event.target)">
-                                                <option *ngFor="let cat of categorieCatastali" value="{{cat.codice}}"
-                                                    selected="{{cat.codice+'' === immobile.catastale_cod ? 'selected' : ''}}">
+                                                <option *ngFor="let cat of categorieCatastali" [ngValue]="cat.codice"
+                                                    [attr.selected]="cat.codice+'' === immobile.tipologie_catastali_id+'' ? 'selected' : null">
                                                     {{cat.descrizione}}
                                                 </option>
                                             </select>
                                         </div>
-                                        <div class="form-item left " style="width: 35%;">
-                                            <label>Comune</label>
-                                            <ngx-select [items]="ddlComuniOptions" optionValueField="codice"
-                                                optionTextField="descrizione" (typed)="comuneSearchChange($event)"
-                                                (selectionChanges)="comuneSelected($event)">
-                                            </ngx-select>
-                                            <!-- <ngx-select-dropdown (searchChange)="comuneSearchChange($event)"
-                                                [options]="ddlComuniOptions" [config]="ddlConfig"
-                                                [(ngModel)]="ddlComuneSelected">
-                                            </ngx-select-dropdown> -->
-                                        </div>
-                                        <!-- <div class="form-item left " style="width: 15%;">
-                                            <label style="width: 100%">&nbsp;</label>
-                                            <button (click)="caricaOmi()" class="button no-icon">cerca</button>
-                                        </div> -->
-                                        <div class="form-item left " style="width: 35%;">
+                                        <div class="form-item left " style="width: 50%;">
                                             <label>Zone OMI</label>
                                             <select class="select-css" (change)="selezionaOmi($event.target)">
-                                                <option *ngFor="let omi of tipiOmi" value="{{omi.codice}}"
-                                                    selected="{{omi.codice+'' === immobile.comune_zone_cod ? 'selected' : ''}}">
+                                                <option *ngFor="let omi of tipiOmi" [ngValue]="omi.codice"
+                                                    [attr.selected]="omi.codice+'' === immobile.comune_zone_cod+'' ? 'selected' : null">
                                                     {{omi.descrizione}}
                                                 </option>
                                             </select>
