@@ -6,7 +6,8 @@ import { Observable } from "rxjs";
 import { Http } from "../../models/common/http.namespace";
 
 import { ConstantsService } from "./constants.service";
-import { SessionService } from './session.service';
+
+import { timeout } from "rxjs/operators";
 
 
 @Injectable()
@@ -22,21 +23,29 @@ export class BrokerHttpService {
     }
 
     public get(path: string): Observable<Http.HttpResponse> {
-        return this.http.get<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path);
+        return this.http.get<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path).pipe(
+            timeout(this.constants.httpTimeout)
+        );
     }
 
     public getNoToken(path: string): Observable<Http.HttpResponse> {
         console.log("HttpService get " + path);
-        return this.httpClientLogin.get<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path);
+        return this.httpClientLogin.get<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path).pipe(
+            timeout(this.constants.httpTimeout)
+        );
     }
 
     public post(path: string, body: any): Observable<Http.HttpResponse> {
-        return this.http.post<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path, body);
+        return this.http.post<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path, body).pipe(
+            timeout(this.constants.httpTimeout)
+        );
     }
 
     public postNoToken(path: string, body: any): Observable<Http.HttpResponse> {
         console.log("HttpService post " + path);
-        return this.httpClientLogin.post<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path, body);
+        return this.httpClientLogin.post<Http.HttpResponse>(this.constants.baseAppUrl + "/" + path, body).pipe(
+            timeout(this.constants.httpTimeout)
+        );
     }
 
 }

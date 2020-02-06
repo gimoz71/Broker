@@ -75,7 +75,10 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
             } else {
               this.manageError(r);
             }
-          });
+          },
+            (error) => {
+              this.manageHttpError(error);
+            });
 
           const cliente_id = this.sessionService.getCliente().cliente_id;
           if (cliente_id === 0 || cliente_id === undefined) {

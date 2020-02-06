@@ -85,7 +85,10 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   public abilitaApp(): void {
@@ -99,7 +102,10 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   ionViewDidLeave() {

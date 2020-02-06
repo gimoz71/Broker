@@ -54,7 +54,10 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   public validaPassword(): boolean {

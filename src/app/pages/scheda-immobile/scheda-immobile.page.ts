@@ -103,7 +103,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                 this.immobile = s.Data;
                 this.sessionService.setImmobileDettaglio(this.immobile);
             }
-        });
+        },
+            (error) => {
+                this.manageHttpError(error);
+            });
     }
 
     public getCointestatari(): Array<CointestatarioDettaglio> {
@@ -178,7 +181,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                             } else {
                                 this.manageError(r);
                             }
-                        });
+                        },
+                            (error) => {
+                                this.manageHttpError(error);
+                            });
                     }
                 }
             ]

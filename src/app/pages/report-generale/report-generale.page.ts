@@ -24,7 +24,8 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   public attiviSelezionato: boolean;
 
-  constructor(public sessionService: SessionService,
+  constructor(
+    public sessionService: SessionService,
     public storeService: StoreService,
     public router: Router,
     public logErroriService: LogErroriService,
@@ -73,7 +74,10 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
           } else {
             this.manageError(r);
           }
-        });
+        },
+          (error) => {
+            this.manageHttpError(error);
+          });
       } else {
         this.goToPage('login');
       }
@@ -237,7 +241,10 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   ionViewDidLeave() {

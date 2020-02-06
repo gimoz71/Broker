@@ -94,7 +94,10 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
           } else {
             this.manageError(r);
           }
-        });
+        },
+          (error) => {
+            this.manageHttpError(error);
+          });
 
       } else {
         this.goToPage('login');
