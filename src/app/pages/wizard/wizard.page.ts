@@ -199,7 +199,10 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   private loadDdlEuribor() {
@@ -216,7 +219,10 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   private loadDdlTipiAffittuari() {
@@ -233,7 +239,10 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   private loadDdlTipologieCatastali() {
@@ -250,7 +259,10 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   public goToDestinazione(): void {
@@ -374,7 +386,10 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.logError(1, ""); // mettere i dati corretti per l'errore
         this.presentErrorAlert("Si è verificato un errore nel salvataggio dell'immobile: " + r.ErrorMessage.msg_testo);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   public setTasso(tasso: string): void {
@@ -512,7 +527,10 @@ export class WizardPage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
     // this.tipiOmi = this.dropdownService.getTipiOmi("");
   }
 
@@ -587,7 +605,10 @@ export class WizardPage extends BaseComponent implements OnInit {
         } else {
           this.manageError(r);
         }
-      });
+      },
+        (error) => {
+          this.manageHttpError(error);
+        });
     }
     return $event;
   }

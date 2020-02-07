@@ -67,6 +67,8 @@ export class HomePage extends BaseComponent implements OnInit {
                         } else {
                             this.manageError(t);
                         }
+                    }, (error) => {
+                        this.manageHttpError(error);
                     });
                 }
             } else {
@@ -78,12 +80,14 @@ export class HomePage extends BaseComponent implements OnInit {
     }
 
     public caricaCliente(cliente: Cliente) {
+        this.sessionService.clearCliente();
         this.sessionService.setCliente(cliente);
         this.sessionService.setImmobileDettaglio(null);
     }
 
     public apriSchedaImmobile(immobile: number) {
         // this.router.navigate(['scheda-immobile'], { queryParams: { immobile_id: immobile } });
+        this.sessionService.clearImmobileDettaglio();
         this.goToPageParams('scheda-immobile', { queryParams: { immobile_id: immobile } });
     }
 

@@ -222,6 +222,16 @@
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>
+                                            <div class="form-item single"
+                                                *ngIf="immobile.mutuo_dettaglio.tipo_tasso == 'F'">
+                                                <label>Tasso</label>
+                                                <div class="type">
+                                                    <input type="text" digitsonly numericType="decimal" maxlength="6"
+                                                        placeholder=""
+                                                        [(ngModel)]="immobile.mutuo_dettaglio.tasso_fisso"
+                                                        [disabled]="!immobile.mutuo"><span>%</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

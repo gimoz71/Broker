@@ -81,7 +81,10 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
           } else {
             this.manageError(r);
           }
-        });
+        },
+          (error) => {
+            this.manageHttpError(error);
+          });
       } else {
         this.goToPage('login');
       }
@@ -425,7 +428,10 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
       } else {
         this.manageError(r);
       }
-    });
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
   }
 
   ionViewDidLeave() {

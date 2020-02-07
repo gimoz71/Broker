@@ -11,4 +11,5 @@ export class MutuoDettaglio {
     public durata: number = 0;
     public data_inizio: number = 0;
     public importo_iniziale: number = 0;
+    public tasso_fisso: number = 0;
 }

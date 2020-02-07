@@ -69,4 +69,7 @@ export class ConstantsService {
     public readonly getDdlTipologiaCatastale: string = 'get_ddl_tipologia_catastale';
     public readonly getDdlComuni: string = 'get_ddl_comuni';
 
+    // vari
+    public readonly httpTimeout: number = 5000; // per il momento il timeout è impostato a 5 secondi per le chiamate get e post
+
 }

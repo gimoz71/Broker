@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { WsToken, LogErroriService, ErrorMessage, Cliente, AlertService, IconeService } from 'broker-lib';
 import { StoreService, SessionService } from 'broker-lib';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, TimeoutError } from 'rxjs';
 import { LoadingController } from '@ionic/angular';
 import { AlertController } from 'ionic-angular';
 
@@ -141,5 +141,15 @@ export class BaseComponent implements OnInit {
 
     public goToProfiloUtente(): void {
         this.goToPage('profilo-utente');
+    }
+
+    public manageHttpError(error: any) {
+        console.log("Si è verificato un errore di comunicazione:");
+        console.log(error);
+        if (error instanceof TimeoutError) {
+            this.alertService.presentErrorAlert("Timeout scaduto");
+        } else {
+            this.alertService.presentErrorAlert(error);
+        }
     }
 }
