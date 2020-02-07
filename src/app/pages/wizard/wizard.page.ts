@@ -406,7 +406,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public selezionaTipoAffittuario(val: any): void {
     if (val.selectedOptions[0].value === 0) {
-      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina dei tipi affittuario');
     } else {
       this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
     }
@@ -414,23 +414,23 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public selezionaOmi(val: any): void {
     if (val.selectedOptions[0].value === 0) {
-      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina degli OMI');
     } else {
       this.immobile.comune_zone_cod = val.selectedOptions[0].value;
     }
   }
 
   public selezionaCategoriaCatastale(val: any): void {
-    if (val.selectedOptions[0].value === 0) {
-      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    if (val.selectedOptions[0].value === "0" || val.selectedOptions[0].value === "") {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina delle categorie catastali');
     } else {
       this.immobile.tipologie_catastali_id = val.selectedOptions[0].value;
     }
   }
 
   public selezionaTassa(val: any): void {
-    if (val.selectedOptions[0].value === 0) {
-      this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
+    if (val.selectedOptions[0].value === "0" || val.selectedOptions[0].value === "") {
+      this.alertService.presentAlert('Scegliere un valore dal menu a tendina delle tasse');
     } else {
       this.tassaSelezionata.tassa_id = val.selectedOptions[0].value;
       this.tassaSelezionata.descrizione_tassa = val.selectedOptions[0].innerText.trim();
