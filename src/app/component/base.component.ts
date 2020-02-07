@@ -149,7 +149,7 @@ export class BaseComponent implements OnInit {
         if (error instanceof TimeoutError) {
             this.alertService.presentErrorAlert("Timeout scaduto");
         } else {
-            this.alertService.presentErrorAlert(error);
+            this.alertService.presentErrorAlert(error.message);
         }
     }
 }
