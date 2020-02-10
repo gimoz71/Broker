@@ -177,6 +177,9 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                         ).subscribe(r => {
                             if (r.Success) {
                                 this.alertService.presentAlert('Immobile cancellato con successo');
+                                // dobbiamo ricaricare la lista degli immobili
+                                this.sessionService.caricaImmobili(this.sessionService.getCliente().cliente_id + '');
+
                                 this.goToHome();
                             } else {
                                 this.manageError(r);

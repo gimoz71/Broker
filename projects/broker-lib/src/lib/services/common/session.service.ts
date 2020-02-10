@@ -75,7 +75,11 @@ export class SessionService {
 
     public setCliente(cliente: Cliente): void {
         this.cliente = cliente;
-        this.immobiliService.getImmobili(this.cliente.cliente_id + '').subscribe(r => {
+        this.caricaImmobili(this.cliente.cliente_id + '');
+    }
+
+    public caricaImmobili(idCliente: string): void {
+        this.immobiliService.getImmobili(idCliente).subscribe(r => {
             if (r.Success) {
                 this.immobiliCliente = r.Data.elenco_immobili;
                 console.log('caricati gli immobili del cliente: ' + this.immobiliCliente.length);
