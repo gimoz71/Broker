@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CambioPasswordRequest, SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, IconeService } from 'broker-lib';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Router } from '@angular/router';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profilo-utente',
@@ -9,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./profilo-utente.page.scss'],
 })
 export class ProfiloUtentePage extends BaseComponent implements OnInit {
+
+  private unsubscribe$ = new Subject<void>();
 
   public cambioPasswordRequest: CambioPasswordRequest;
 
@@ -20,9 +25,11 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
     public alertService: AlertService,
     public clientiService: ClientiService,
     public loginService: LoginService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    public ngZone: NgZone,
+    public logoutComm: LogoutCommunicationService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
     this.cambioPasswordRequest = new CambioPasswordRequest();
     this.cambioPasswordRequest.nuova_password = '';
     this.cambioPasswordRequest.vecchia_password = '';
@@ -31,6 +38,12 @@ export class ProfiloUtentePage extends BaseComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
+
+    this.logoutComm.logoutObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.ngZone.run(() => this.router.navigate(['login'])).then();
+    });
   }
 
   public salvaNuovaPassword(): void {

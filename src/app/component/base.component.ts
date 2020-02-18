@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { WsToken, LogErroriService, ErrorMessage, Cliente, AlertService, IconeService } from 'broker-lib';
 import { StoreService, SessionService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { Subject, TimeoutError } from 'rxjs';
-import { LoadingController } from '@ionic/angular';
-import { AlertController } from 'ionic-angular';
 
 @Component({
     selector: 'app-base',
@@ -18,13 +16,17 @@ export class BaseComponent implements OnInit {
     private wsTokenSubject: Subject<boolean> = new Subject<boolean>();
     public wsTokenObservable = this.wsTokenSubject.asObservable();
 
+    private logoutSubject: Subject<boolean> = new Subject<boolean>();
+    public logoutObservable = this.logoutSubject.asObservable();
+
     constructor(
         public sessionService: SessionService,
         public storeService: StoreService,
         public router: Router,
         public logErroriService: LogErroriService,
         public alertService: AlertService,
-        public iconeService: IconeService) { }
+        public iconeService: IconeService,
+        public ngZone: NgZone) { }
 
     ngOnInit(): void {
     }
@@ -67,11 +69,12 @@ export class BaseComponent implements OnInit {
     }
 
     public goToPage(pageName: string): void {
-        this.router.navigate([pageName]);
+        this.ngZone.run(() => this.router.navigate([pageName])).then();
     }
 
     public goToPageParams(pageName: string, params: any): void {
-        this.router.navigate([pageName], params);
+        this.ngZone.run(() => this.router.navigate([pageName], params)).then();
+        // this.router.navigate([pageName], params);
     }
 
     public logError(code: number, text: string): void {

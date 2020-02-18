@@ -9,12 +9,14 @@ export class OnlyDigitsDirective {
 
     private regex = {
         number: new RegExp(/^\d+$/),
-        decimal: new RegExp(/^[0-9]+(\.[0-9]*){0,1}$/g)
+        decimal: new RegExp(/^[0-9]+(\.[0-9]*){0,1}$/g),
+        decimalIta: new RegExp(/^[0-9]+(\,[0-9]*){0,1}$/g)
     };
 
     private specialKeys = {
         number: ['Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight'],
         decimal: ['Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight'],
+        decimalIta: ['Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight']
     };
 
     constructor(private el: ElementRef) {

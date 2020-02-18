@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, ReportGenerale, ReportGeneraleOggettoColonna, IconeService, ReportGeneralePassivo } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AlertController } from 'ionic-angular';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
   selector: 'app-report-generale',
@@ -33,9 +33,11 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     public clientiService: ClientiService,
     public loginService: LoginService,
     public reportService: ReportService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    public ngZone: NgZone,
+    public logoutComm: LogoutCommunicationService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
     this.situazioneImmobili = new Array<ReportGenerale>();
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
     this.etichettaColonna = '';
@@ -52,6 +54,13 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
   }
 
   private initializeApp() {
+
+    this.logoutComm.logoutObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.ngZone.run(() => this.router.navigate(['login'])).then();
+    });
+
     // ottengo il token
     this.sessionService.userDataObservable.pipe(
       takeUntil(this.unsubscribe$)

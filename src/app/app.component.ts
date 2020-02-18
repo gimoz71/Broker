@@ -11,6 +11,7 @@ import { BaseComponent } from './component/base.component';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LogoutCommunicationService } from './services/logoutCommunication/logoutcommunication.service';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private router: Router,
     private alertService: AlertService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private logoutComm: LogoutCommunicationService
   ) {
   }
 
@@ -78,7 +80,8 @@ export class AppComponent implements OnInit, OnDestroy {
           text: 'Si',
           handler: () => {
             this.sessionService.clearUserData();
-            this.router.navigate(['login']);
+            this.logoutComm.comunicateLogout();
+            // this.router.navigate(['login']);
           }
         }
       ]

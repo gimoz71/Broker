@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, BookValue, Immobile, IconeService } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, BookValue, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
-import { Cliente } from 'projects/broker-lib/src/public-api';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
   selector: 'app-patrimonio',
@@ -23,16 +23,19 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
   public totalePatrimoniC: number;
   public totalePatrimoniT: number;
 
-  constructor(public sessionService: SessionService,
+  constructor(
+    public sessionService: SessionService,
     public storeService: StoreService,
     public router: Router,
     public logErroriService: LogErroriService,
     public alertService: AlertService,
     public clientiService: ClientiService,
     public loginService: LoginService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    public ngZone: NgZone,
+    public logoutComm: LogoutCommunicationService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
     this.patrimoniA = new Array<BookValue>();
     this.patrimoniC = new Array<BookValue>();
     this.patrimoniT = new Array<BookValue>();
@@ -61,6 +64,12 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
   }
 
   private initializeApp() {
+
+    this.logoutComm.logoutObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.ngZone.run(() => this.router.navigate(['login'])).then();
+    });
     // ottengo il token
     this.sessionService.userDataObservable.pipe(
       takeUntil(this.unsubscribe$)

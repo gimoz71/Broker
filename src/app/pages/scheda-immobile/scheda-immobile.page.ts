@@ -2,12 +2,13 @@
 import { ImmobileDettaglio, LogErroriService, StoreService, AlertService, CointestatarioDettaglio, Immobile, IconeService, MutuoDettaglio, AffittoDettaglio, TassaDettaglio, SpesaDettaglio, DatiCatastaliDettaglio, CancellazioneImmobileRequest } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
     selector: 'app-scheda-immobile',
@@ -31,9 +32,11 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public alertService: AlertService,
         public modalService: ModalService,
         public iconeService: IconeService,
-        public alertController: AlertController
+        public ngZone: NgZone,
+        public alertController: AlertController,
+        public logoutComm: LogoutCommunicationService
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+        super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
         this.resetImmobile();
     }
 
@@ -59,6 +62,13 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
     }
 
     private initializeApp() {
+
+        this.logoutComm.logoutObservable.pipe(
+            takeUntil(this.unsubscribe$)
+        ).subscribe(r => {
+            this.ngZone.run(() => this.router.navigate(['login'])).then();
+        });
+
         // ottengo il token
         this.sessionService.userDataObservable.pipe(
             takeUntil(this.unsubscribe$)

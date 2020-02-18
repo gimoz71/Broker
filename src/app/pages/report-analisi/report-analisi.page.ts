@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { Chart } from 'chart.js';
-import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, Cliente, IconeService } from 'broker-lib';
+import { SessionService, StoreService, LogErroriService, AlertService, ClientiService, LoginService, ReportService, IconeService } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
   selector: 'app-report-analisi',
@@ -27,7 +28,14 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
   public tipologiaChart: any;
   public affittuariChart: any;
 
-  constructor(public sessionService: SessionService,
+  public showAndamento = true;
+  public showIndicatori = true;
+  public showConcentrazione = true;
+  public showTipologia = true;
+  public showAffittuari = true;
+
+  constructor(
+    public sessionService: SessionService,
     public storeService: StoreService,
     public router: Router,
     public logErroriService: LogErroriService,
@@ -35,9 +43,11 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     public clientiService: ClientiService,
     public loginService: LoginService,
     public reportService: ReportService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    public ngZone: NgZone,
+    public logoutComm: LogoutCommunicationService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
   }
 
   ngOnInit() {
@@ -50,6 +60,13 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
   }
 
   private initializeApp() {
+
+    this.logoutComm.logoutObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.ngZone.run(() => this.router.navigate(['login'])).then();
+    });
+
     // ottengo il token
     this.sessionService.userDataObservable.pipe(
       takeUntil(this.unsubscribe$)
@@ -69,14 +86,23 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
         ).subscribe(r => {
           if (r.Success) {
             const datiGraficiAndamentoAnnuale = r.Data.andamento_annuale;
+            this.showAndamento = !(datiGraficiAndamentoAnnuale.length === 0);
             this.createLinesChart(datiGraficiAndamentoAnnuale);
+
             const datiGraficiIndicatori = r.Data.indicatori;
+            this.showIndicatori = !(datiGraficiIndicatori.length === 0);
             this.createIndicatoriChart(datiGraficiIndicatori);
+
             const datiGraficiConcentrazione = r.Data.concentrazione;
+            this.showConcentrazione = !(datiGraficiConcentrazione.length === 0);
             this.createConcentrazioneChart(datiGraficiConcentrazione);
+
             const datiGraficiTipologia = r.Data.tipologia;
+            this.showTipologia = !(datiGraficiTipologia.length === 0);
             this.createTipologiaChart(datiGraficiTipologia);
+
             const datiGraficiAffittuari = r.Data.affittuari;
+            this.showAffittuari = !(datiGraficiAffittuari.length === 0);
             this.createAffittuariChart(datiGraficiAffittuari);
           } else {
             this.manageError(r);

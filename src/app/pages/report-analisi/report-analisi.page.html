@@ -27,7 +27,7 @@
                     <ion-grid>
                         <ion-row>
                             <ion-col size="12" size-md>
-                                <div>
+                                <div *ngIf="showAndamento">
                                     <h3>Andamento</h3>
                                     <canvas id="canvasAndamento" #linesCanvas aspectRatio=3>{{linesChart}}</canvas>
                                 </div>
@@ -35,26 +35,26 @@
                         </ion-row>
                         <ion-row>
                             <ion-col size-lg="3" size-md="6" size-sm="12">
-                                <div>
+                                <div *ngIf="showIndicatori">
                                     <h3>Indicatori</h3>
                                     <canvas id="canvasIndicatori" #indicatoriCanvas>{{indicatoriChart}}</canvas>
                                 </div>
                             </ion-col>
                             <ion-col size-lg="3" size-md="6" size-sm="12">
-                                <div>
+                                <div *ngIf="showConcentrazione">
                                     <h3>Concentrazione</h3>
                                     <canvas id="canvasConcentrazione"
                                         #concentrazioneCanvas>{{concentrazioneChart}}</canvas>
                                 </div>
                             </ion-col>
                             <ion-col size-lg="3" size-md="6" size-sm="12">
-                                <div>
+                                <div *ngIf="showTipologia">
                                     <h3>Tipologia</h3>
                                     <canvas id="canvasTipologia" #tipologiaCanvas>{{tipologiaChart}}</canvas>
                                 </div>
                             </ion-col>
                             <ion-col size-lg="3" size-md="6" size-sm="12">
-                                <div>
+                                <div *ngIf="showAffittuari">
                                     <h3>Affittuari</h3>
                                     <canvas id="canvasAffittuari" #affittuariCanvas>{{affittuariChart}}</canvas>
                                 </div>

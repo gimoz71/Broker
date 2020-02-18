@@ -1,11 +1,12 @@
 import { ImmobileDettaglio, PianoAmmortamento, AnnoPianoAmmortamento, LogErroriService, StoreService, AlertService, IconeService, Immobile } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { BaseComponent } from 'src/app/component/base.component';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
   selector: 'app-ammortamento',
@@ -32,9 +33,11 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
     public storeService: StoreService,
     public alertService: AlertService,
     public modalService: ModalService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    public ngZone: NgZone,
+    public logoutComm: LogoutCommunicationService
   ) {
-    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
     this.pianoAmmortamento = new Array<PianoAmmortamento>();
     this.anniPianoAmmortamento = new Array<AnnoPianoAmmortamento>();
     this.immobile = new ImmobileDettaglio();
@@ -50,6 +53,12 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
   }
 
   private initializeApp() {
+
+    this.logoutComm.logoutObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.ngZone.run(() => this.router.navigate(['login'])).then();
+    });
     // ottengo il token
     this.sessionService.userDataObservable.pipe(
       takeUntil(this.unsubscribe$)

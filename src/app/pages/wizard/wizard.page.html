@@ -234,7 +234,7 @@
                                                 *ngIf="immobile.mutuo_dettaglio.tipo_tasso == 'F'">
                                                 <label>Tasso</label>
                                                 <div class="type">
-                                                    <input type="text" digitsonly numericType="decimal" maxlength="6"
+                                                    <input type="text" digitsonly numericType="decimalIta" maxlength="6"
                                                         placeholder="" [(ngModel)]="tassoFissoString"
                                                         [disabled]="!immobile.mutuo"><span>%</span>
                                                 </div>
@@ -260,8 +260,8 @@
                                             <div class="form-item right">
                                                 <label>Spread</label>
                                                 <div class="type">
-                                                    <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                        [(ngModel)]="spreadString"
+                                                    <input type="text" placeholder="" digitsonly
+                                                        numericType="decimalIta" [(ngModel)]="spreadString"
                                                         [disabled]="!immobile.mutuo"><span>%</span>
                                                 </div>
                                             </div>

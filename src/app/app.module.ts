@@ -36,6 +36,7 @@ import { CatastaliPageModule } from './pages/catastali/catastali.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgxSelectModule } from 'ngx-select-ex';
+import { LogoutCommunicationService } from './services/logoutCommunication/logoutcommunication.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -75,6 +76,7 @@ import { NgxSelectModule } from 'ngx-select-ex';
     StatusBar,
     ReportService,
     SplashScreen,
+    LogoutCommunicationService,
     HTTP,
     {
       provide: HTTP_INTERCEPTORS,

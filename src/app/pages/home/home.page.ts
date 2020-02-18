@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { ClientiService, SessionService, LogErroriService, StoreService, AlertService, IconeService } from 'broker-lib';
 
 import { Cliente, Immobile, WsToken } from 'broker-lib';
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-/// import { Cliente, Immobile, WsToken } from 'projects/broker-lib/src/public-api';
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
     selector: 'app-home',
@@ -33,9 +33,11 @@ export class HomePage extends BaseComponent implements OnInit {
         public router: Router,
         public logErroriService: LogErroriService,
         public alertService: AlertService,
-        public iconeService: IconeService
+        public iconeService: IconeService,
+        public ngZone: NgZone,
+        public logoutComm: LogoutCommunicationService
     ) {
-        super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+        super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
         this.clienti = new Array<Cliente>();
         this.searchName = '';
         this.searchCF = '';
@@ -52,6 +54,12 @@ export class HomePage extends BaseComponent implements OnInit {
     }
 
     private initializeApp() {
+
+        this.logoutComm.logoutObservable.pipe(
+            takeUntil(this.unsubscribe$)
+        ).subscribe(r => {
+            this.ngZone.run(() => this.router.navigate(['login'])).then();
+        });
 
         this.sessionService.userDataObservable.subscribe(present => {
             if (present) {

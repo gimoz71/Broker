@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService, DdlItemSearch } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-
-
-
+import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 
 @Component({
   selector: 'app-wizard',
@@ -83,9 +81,11 @@ export class WizardPage extends BaseComponent implements OnInit {
     public storeService: StoreService,
     public iconeService: IconeService,
     private fb: FormBuilder,
+    public ngZone: NgZone,
+    public logoutComm: LogoutCommunicationService
   ) {
 
-    super(sessionService, storeService, router, logErroriService, alertService, iconeService);
+    super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
 
     this.immobileTassoFisso = true;
     this.immobileTassoVariabile = true;
@@ -135,6 +135,13 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   private initializeApp() {
+
+    this.logoutComm.logoutObservable.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      this.ngZone.run(() => this.router.navigate(['login'])).then();
+    });
+
     this.ddlComuniOptions = new Array<DdlItem>();
 
     // RECUPERO IL CLIENTE DALLA SESSIONE
@@ -178,6 +185,7 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.select.setValue(this.ddlComuniOptions[0].codice);
         console.log("SELECTED: " + this.select.value);
       }
+      this.gestisciStatiDestinazione(this.immobile.prima_casa, this.immobile.destinazione_uso_id === 1, this.immobile.affitto); // sulla residenza non ho il dato nell'immobile
 
       this.loadDdlTipologieCatastali();
 
@@ -185,7 +193,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.caricaOmi();
 
     } else {
-      this.immobile = new ImmobileDettaglio();
+      this.pulisciImmobile();
       this.loadDdlTipologieCatastali();
     }
     this.immobile.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
@@ -201,7 +209,15 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
   }
 
+  private pulisciImmobile() {
+    this.immobile = new ImmobileDettaglio();
+    this.tassoFissoString = "";
+    this.spreadString = "";
+    this.dataInizioMutuo = new Date();
+  }
+
   private loadDdlTipologieTasse() {
+    this.tipologieTasse = new Array<DdlItem>();
     this.dropdownService.getTipologieTasse(false, false, false).pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
@@ -222,6 +238,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   private loadDdlEuribor() {
+    this.euribor = new Array<DdlItem>();
     this.dropdownService.getEuribor().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
@@ -242,6 +259,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   private loadDdlTipiAffittuari() {
+    this.tipiAffittuario = new Array<DdlItem>();
     this.dropdownService.getTipiAffittuari().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
@@ -262,6 +280,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   private loadDdlTipologieCatastali() {
+    this.categorieCatastali = new Array<DdlItem>();
     this.dropdownService.getTipologieCatastali().pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
@@ -388,10 +407,11 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (this.immobile.spese && this.immobile.spese.length === 0) {
       delete this.immobile.spese;
     }
-    console.log(JSON.stringify(this.immobile));
 
-    this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.tassoFissoString);
-    this.immobile.mutuo_dettaglio.spread = parseFloat(this.spreadString);
+    this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.tassoFissoString.replace(',', '.'));
+    this.immobile.mutuo_dettaglio.spread = parseFloat(this.spreadString.replace(',', '.'));
+
+    console.log(JSON.stringify(this.immobile));
 
     // eseguo la chiamata
     this.immobiliService.putImmobile(this.immobile).pipe(
@@ -521,6 +541,11 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public scegliDestinazione(primacasa: boolean, residente: boolean, affittata: boolean): void {
+    this.gestisciStatiDestinazione(primacasa, residente, affittata);
+    this.goToDatiDestinazione();
+  }
+
+  public gestisciStatiDestinazione(primacasa: boolean, residente: boolean, affittata: boolean) {
     this.immobile.prima_casa = primacasa;
     this.immobile.affitto = affittata;
     this.primacasa = primacasa;
@@ -529,7 +554,6 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.headP1 = (this.primacasa ? "Prima casa" : "Seconda casa");
     this.headP2 = (this.residente ? "Residente" : "Non residente");
     this.isNewImmobile = false;
-    this.goToDatiDestinazione();
   }
 
   public caricaOmi(): void {

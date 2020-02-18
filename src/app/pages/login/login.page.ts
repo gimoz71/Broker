@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LoginService, SessionService, AlertService } from 'broker-lib';
 
 import { LoginRequest, WsToken } from 'broker-lib';
@@ -15,6 +15,8 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class LoginPage implements OnInit {
 
+  // @ViewChild('usernameInput', { static: false }) myInput;
+
   private unsubscribe$ = new Subject<void>();
 
   public username: string;
@@ -26,7 +28,9 @@ export class LoginPage implements OnInit {
     private alertService: AlertService,
     private sessionService: SessionService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // this.myInput.setFocus();
+  }
 
   public submit(): void {
     const loginRequest: LoginRequest = new LoginRequest();
