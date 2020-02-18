@@ -49,12 +49,13 @@
                                             <label>Civico</label>
                                             <input type="text" placeholder="" value="" [(ngModel)]="immobile.civico">
                                         </div>
-                                        <div class="form-item left " style="width: 40%;">
+                                        <div class="form-item left " style="width: 40%;" [formGroup]="form"
+                                            novalidate="">
                                             <label>Comune</label>
                                             <ngx-select [items]="ddlComuniOptions" optionValueField="codice"
                                                 optionTextField="descrizione" (typed)="comuneSearchChange($event)"
                                                 (selectionChanges)="comuneSelected($event)"
-                                                [formControl]="selectControl">
+                                                [formControl]="selectControl" formControlName="select">
                                             </ngx-select>
                                         </div>
                                         <div class="form-item left" style="width: 20%;">
@@ -85,6 +86,11 @@
                                                     {{omi.descrizione}}
                                                 </option>
                                             </select>
+                                        </div>
+                                        <div class="form-item left " style="width: 40%;">
+                                            <label>Valore Immobile</label>
+                                            <input type="text" placeholder="" value=""
+                                                [(ngModel)]="immobile.valore_acquisto">
                                         </div>
                                     </div>
                                 </div>
@@ -229,8 +235,7 @@
                                                 <label>Tasso</label>
                                                 <div class="type">
                                                     <input type="text" digitsonly numericType="decimal" maxlength="6"
-                                                        placeholder=""
-                                                        [(ngModel)]="immobile.mutuo_dettaglio.tasso_fisso"
+                                                        placeholder="" [(ngModel)]="tassoFissoString"
                                                         [disabled]="!immobile.mutuo"><span>%</span>
                                                 </div>
                                             </div>
@@ -246,7 +251,7 @@
                                                     <select class="select-css"
                                                         (change)="selezionaEuribor($event.target)">
                                                         <option *ngFor="let eur of euribor" value="{{eur.codice}}"
-                                                            selected="{{eur.codice === immobile.mutuo_dettaglio.euribor_id ? 'selected' : ''}}">
+                                                            selected="{{eur.codice === immobile.mutuo_dettaglio.euribor_id+'' ? 'selected' : ''}}">
                                                             {{eur.descrizione}}
                                                         </option>
                                                     </select>
@@ -256,7 +261,7 @@
                                                 <label>Spread</label>
                                                 <div class="type">
                                                     <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                        [(ngModel)]="immobile.mutuo_dettaglio.spread"
+                                                        [(ngModel)]="spreadString"
                                                         [disabled]="!immobile.mutuo"><span>%</span>
                                                 </div>
                                             </div>
@@ -266,7 +271,8 @@
                                                     <input type="text" digitsonly numericType="number" maxlength="4"
                                                         placeholder="" value="24"
                                                         [(ngModel)]="immobile.mutuo_dettaglio.durata"
-                                                        [disabled]="!immobile.mutuo"><span>mesi</span>
+                                                        [disabled]="!immobile.mutuo"
+                                                        name="durataMutuo"><span>mesi</span>
                                                 </div>
                                             </div>
                                             <div class="form-item single">
@@ -486,14 +492,14 @@
                                             </div>
                                         </div>
                                         <div class="form-item left">
-                                            <label>Sup. catastale</label>
+                                            <label>S.catastale tot.</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.dati_catastali.superficie_totale"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                         <div class="form-item right">
-                                            <label>&nbsp;</label>
+                                            <label>S. cat.tot. esc.a.s.</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
                                                     [(ngModel)]="immobile.dati_catastali.superficie_interni"><span>m<sup>2</sup></span>
@@ -621,7 +627,7 @@
                                             <select class="select-css" (change)="selezionaTassa($event.target)">
                                                 <option *ngFor="let tipologia of tipologieTasse"
                                                     value="{{tipologia.codice}}"
-                                                    selected="{{tipologia.codice === tassaSelezionata.tassa_id ? 'selected' : ''}}">
+                                                    selected="{{tipologia.codice === tassaSelezionata.tassa_id+'' ? 'selected' : ''}}">
                                                     {{tipologia.descrizione}}
                                                 </option>
                                             </select>

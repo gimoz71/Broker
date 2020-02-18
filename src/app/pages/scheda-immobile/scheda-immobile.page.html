@@ -56,7 +56,8 @@
                                     </li>
 
                                     <li><span>Durata</span><span>{{immobile.mutuo_dettaglio.durata}}</span></li>
-                                    <li><span>Tasso</span><span>{{immobile.mutuo_dettaglio.tipo_tasso}}</span></li>
+                                    <li><span>Tasso</span><span>{{immobile.mutuo_dettaglio.tipo_tasso == 'F' ? 'Fisso' : 'Variabile'}}</span>
+                                    </li>
                                 </ul>
                                 <div *ngIf="!immobile.mutuo">
                                     <span>Mutuo Assente</span>

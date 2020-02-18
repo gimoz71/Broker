@@ -9,7 +9,7 @@ export class OnlyDigitsDirective {
 
     private regex = {
         number: new RegExp(/^\d+$/),
-        decimal: new RegExp(/^[0-9]+(\,[0-9]*){0,1}$/g)
+        decimal: new RegExp(/^[0-9]+(\.[0-9]*){0,1}$/g)
     };
 
     private specialKeys = {

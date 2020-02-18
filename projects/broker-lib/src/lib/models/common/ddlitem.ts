@@ -1,4 +1,4 @@
 export class DdlItem {
-    public codice: number;
+    public codice: string;
     public descrizione: string;
 }

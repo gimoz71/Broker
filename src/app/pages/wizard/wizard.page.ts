@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService, DdlItemSearch } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
-import { RaDatePipe } from 'src/app/pipes/date.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 
 
@@ -55,6 +54,11 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public isNewImmobile: boolean;
 
+  public spreadString = '0';
+  public tassoFissoString = '0';
+
+  public form: FormGroup;
+
   public ddlConfig = {
     search: true,
     searchOnKey: 'descrizione',
@@ -77,7 +81,8 @@ export class WizardPage extends BaseComponent implements OnInit {
     public sessionService: SessionService,
     private dropdownService: DropdownService,
     public storeService: StoreService,
-    public iconeService: IconeService
+    public iconeService: IconeService,
+    private fb: FormBuilder,
   ) {
 
     super(sessionService, storeService, router, logErroriService, alertService, iconeService);
@@ -118,6 +123,9 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   ngOnInit() {
     super.ngOnInit();
+    this.form = this.fb.group({
+      select: new FormControl(null),
+    });
     this.immobile = new ImmobileDettaglio();
     this.normalizzaImmobile();
   }
@@ -127,6 +135,8 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   private initializeApp() {
+    this.ddlComuniOptions = new Array<DdlItem>();
+
     // RECUPERO IL CLIENTE DALLA SESSIONE
     this.sessionService.userDataObservable.pipe(
       takeUntil(this.unsubscribe$)
@@ -154,14 +164,20 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.immobile = immobileInSessione;
       if (this.immobile.mutuo_dettaglio !== undefined) {
         this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
+        this.tassoFissoString = this.immobile.mutuo_dettaglio.tasso_fisso + '';
+        this.spreadString = this.immobile.mutuo_dettaglio.spread + '';
       } else {
         this.dataInizioMutuo = new Date();
       }
-      this.ddlComuniOptions = new Array<DdlItem>();
-      const ddlItem = new DdlItem();
-      ddlItem.codice = +this.immobile.istat_cod;
-      ddlItem.descrizione = this.immobile.citta;
-      this.ddlComuniOptions.push(ddlItem);
+
+      if (this.immobile.citta !== '') {
+        const ddlItem = new DdlItem();
+        ddlItem.codice = this.immobile.catastale_cod;
+        ddlItem.descrizione = this.immobile.citta;
+        this.ddlComuniOptions.push(ddlItem);
+        this.select.setValue(this.ddlComuniOptions[0].codice);
+        console.log("SELECTED: " + this.select.value);
+      }
 
       this.loadDdlTipologieCatastali();
 
@@ -192,7 +208,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       if (r.Success) {
 
         const emptyItem = new DdlItem();
-        emptyItem.codice = 0;
+        emptyItem.codice = '';
         emptyItem.descrizione = '';
         this.tipologieTasse.push(emptyItem);
         this.tipologieTasse = this.tipologieTasse.concat(r.Data.elenco_filtrato);
@@ -212,7 +228,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       if (r.Success) {
 
         const emptyItem = new DdlItem();
-        emptyItem.codice = 0;
+        emptyItem.codice = '';
         emptyItem.descrizione = '';
         this.euribor.push(emptyItem);
         this.euribor = this.euribor.concat(r.Data.elenco_filtrato);
@@ -232,7 +248,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       if (r.Success) {
 
         const emptyItem = new DdlItem();
-        emptyItem.codice = 0;
+        emptyItem.codice = '';
         emptyItem.descrizione = '';
         this.tipiAffittuario.push(emptyItem);
         this.tipiAffittuario = this.tipiAffittuario.concat(r.Data.elenco_filtrato);
@@ -252,7 +268,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       if (r.Success) {
 
         const emptyItem = new DdlItem();
-        emptyItem.codice = 0;
+        emptyItem.codice = '';
         emptyItem.descrizione = '';
         this.categorieCatastali.push(emptyItem);
         this.categorieCatastali = this.categorieCatastali.concat(r.Data.elenco_filtrato);
@@ -373,6 +389,9 @@ export class WizardPage extends BaseComponent implements OnInit {
       delete this.immobile.spese;
     }
     console.log(JSON.stringify(this.immobile));
+
+    this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.tassoFissoString);
+    this.immobile.mutuo_dettaglio.spread = parseFloat(this.spreadString);
 
     // eseguo la chiamata
     this.immobiliService.putImmobile(this.immobile).pipe(
@@ -520,7 +539,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       if (r.Success) {
         this.tipiOmi = new Array<DdlItem>();
         const emptyItem = new DdlItem();
-        emptyItem.codice = 0;
+        emptyItem.codice = '';
         emptyItem.descrizione = '';
         this.tipiOmi.push(emptyItem);
         this.tipiOmi = this.tipiOmi.concat(r.Data.elenco_filtrato);
@@ -631,5 +650,9 @@ export class WizardPage extends BaseComponent implements OnInit {
   ionViewDidLeave() {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  get select() {
+    return this.form.get('select') as FormControl;
   }
 }
