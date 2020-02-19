@@ -39,6 +39,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   public categorieCatastali: Array<DdlItem>;
 
   public tassaSelezionata: TassaDettaglio;
+  public importoTassaSelezionataString = '0';
   public cointestatarioSelezionato: CointestatarioDettaglio;
 
   public primacasa: boolean;
@@ -52,8 +53,13 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public isNewImmobile: boolean;
 
+  // queste sono le variabili relative ai campi input che devono contenere la virgola in
+  // interfaccia ma che devono essere inviati come float e con il punto come separatore
   public spreadString = '0';
   public tassoFissoString = '0';
+  public importoAffittoSpeseCondominialiString = '0';
+  public importoAffittoMensileString = '0';
+  public importoAffittoAliquotaCedolare = '0';
 
   public form: FormGroup;
 
@@ -169,13 +175,8 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (immobileInSessione !== undefined && immobileInSessione !== null) {
       this.isNewImmobile = false;
       this.immobile = immobileInSessione;
-      if (this.immobile.mutuo_dettaglio !== undefined) {
-        this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
-        this.tassoFissoString = this.immobile.mutuo_dettaglio.tasso_fisso + '';
-        this.spreadString = this.immobile.mutuo_dettaglio.spread + '';
-      } else {
-        this.dataInizioMutuo = new Date();
-      }
+
+      this.inizializzaCampiStringa();
 
       if (this.immobile.citta !== '') {
         const ddlItem = new DdlItem();
@@ -207,6 +208,33 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     this.cointestatarioSelezionato.quota = 100;
     this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+  }
+
+  private inizializzaCampiStringa() {
+    if (this.immobile.mutuo_dettaglio !== undefined) {
+      this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
+      this.tassoFissoString = (this.immobile.mutuo_dettaglio.tasso_fisso + '').replace('.', ',');
+      this.spreadString = (this.immobile.mutuo_dettaglio.spread + '').replace('.', ',');
+    } else {
+      this.dataInizioMutuo = new Date();
+    }
+    if (this.immobile.affitto_dettaglio !== undefined) {
+      this.importoAffittoSpeseCondominialiString = (this.immobile.affitto_dettaglio.importo_spese_condominiali + '').replace('.', ',');
+      this.importoAffittoMensileString = (this.immobile.affitto_dettaglio.importo_mensile + '').replace('.', ',');
+      this.importoAffittoAliquotaCedolare = (this.immobile.affitto_dettaglio.aliquota_cedolare + '').replace('.', ',');
+    }
+  }
+
+  private normalizzaCampiStringa() {
+    if (this.immobile.mutuo_dettaglio !== undefined) {
+      this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.tassoFissoString.replace(',', '.'));
+      this.immobile.mutuo_dettaglio.spread = parseFloat(this.spreadString.replace(',', '.'));
+    }
+    if (this.immobile.affitto_dettaglio !== undefined) {
+      this.immobile.affitto_dettaglio.importo_spese_condominiali = parseFloat(this.importoAffittoSpeseCondominialiString.replace(',', '.'));
+      this.immobile.affitto_dettaglio.importo_mensile = parseFloat(this.importoAffittoMensileString.replace(',', '.'));
+      this.immobile.affitto_dettaglio.aliquota_cedolare = parseFloat(this.importoAffittoAliquotaCedolare.replace(',', '.'));
+    }
   }
 
   private pulisciImmobile() {
@@ -408,8 +436,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       delete this.immobile.spese;
     }
 
-    this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.tassoFissoString.replace(',', '.'));
-    this.immobile.mutuo_dettaglio.spread = parseFloat(this.spreadString.replace(',', '.'));
+    this.normalizzaCampiStringa();
 
     console.log(JSON.stringify(this.immobile));
 
@@ -484,7 +511,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
       const tassaDaAggiungere: TassaDettaglio = new TassaDettaglio();
       tassaDaAggiungere.descrizione_tassa = this.tassaSelezionata.descrizione_tassa;
-      tassaDaAggiungere.importo_annuale = this.tassaSelezionata.importo_annuale;
+      tassaDaAggiungere.importo_annuale = parseFloat(this.importoTassaSelezionataString.replace(',', '.'));
       tassaDaAggiungere.proprieta_tasse_id = this.tassaSelezionata.proprieta_tasse_id;
       tassaDaAggiungere.tassa_id = this.tassaSelezionata.tassa_id;
 

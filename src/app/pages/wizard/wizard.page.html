@@ -357,7 +357,7 @@
                                             <div class="type">
                                                 <input type="text" name="importo_mensile" ngDefaultControl
                                                     placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.affitto_dettaglio.importo_mensile"><span>&euro;</span>
+                                                    [(ngModel)]="importoAffittoMensileString"><span>&euro;</span>
                                             </div>
                                         </div>
                                     </div>
@@ -377,7 +377,7 @@
                                             <label>Importo annuo</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.affitto_dettaglio.importo_spese_condominiali"><span>&euro;</span>
+                                                    [(ngModel)]="importoAffittoSpeseCondominialiString"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item ">
@@ -392,7 +392,7 @@
                                             <label>Aliquota</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
-                                                    [(ngModel)]="immobile.affitto_dettaglio.aliquota_cedolare"><span>mesi</span>
+                                                    [(ngModel)]="importoAffittoAliquotaCedolare"><span>%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -482,7 +482,7 @@
                                         </div>
                                         <div class="form-item left">
                                             <label>Consistenza</label>
-                                            <input type="text" placeholder="???">
+                                            <input type="text" placeholder="">
                                         </div>
                                         <div class="form-item right">
                                             <label>Rendita</label>
@@ -636,8 +636,8 @@
                                             <label>Importo annuale</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" value="24" digitsonly
-                                                    numericType="decimal"
-                                                    [(ngModel)]="tassaSelezionata.importo_annuale"><span>&euro;</span>
+                                                    numericType="decimalIta"
+                                                    [(ngModel)]="importoTassaSelezionataString"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
@@ -649,7 +649,7 @@
                                     <ul class="item-list form">
                                         <li><span>Tipologia tassa</span><span>Importo annuale</span></li>
                                         <li *ngFor="let tassa of immobile.tasse">
-                                            <span>{{tassa.descrizione_tassa}}</span><span>{{tassa.importo_annuale}}
+                                            <span>{{tassa.descrizione_tassa}}</span><span>{{(tassa.importo_annuale+'').replace('.',',')}}
                                                 &euro;
                                                 <button class="button small"
                                                     (click)="rimuoviTassa(tassa)">x</button></span></li>
