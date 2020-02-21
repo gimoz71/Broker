@@ -91,6 +91,7 @@ export class SessionService {
 
     public clearUserData(): void {
         this.storeService.clearUserData();
+        this.cliente = new Cliente();
         this.userData = new WsToken();
     }
 

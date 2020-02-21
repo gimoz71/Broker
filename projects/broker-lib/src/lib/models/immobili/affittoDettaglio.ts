@@ -7,6 +7,6 @@ export class AffittoDettaglio {
     public cedolare_secca: boolean = false;
     public aliquota_cedolare: number = 0;
     public prima_scadenza_anni: number = 0;
-    public data_inizio: string = '';
+    public data_inizio: number = 0;
     public importo_mensile: number = 0;
 }

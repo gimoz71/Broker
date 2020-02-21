@@ -41,6 +41,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   public tassaSelezionata: TassaDettaglio;
   public importoTassaSelezionataString = '0';
   public cointestatarioSelezionato: CointestatarioDettaglio;
+  public importoQuotaCointestatarioSelezionataString = '0';
 
   public primacasa: boolean;
   public residente: boolean;
@@ -50,16 +51,30 @@ export class WizardPage extends BaseComponent implements OnInit {
   public headP2: string;
 
   public dataInizioMutuo: Date = new Date();
+  public dataInizioAffitto: Date = new Date();
 
   public isNewImmobile: boolean;
 
   // queste sono le variabili relative ai campi input che devono contenere la virgola in
   // interfaccia ma che devono essere inviati come float e con il punto come separatore
-  public spreadString = '0';
-  public tassoFissoString = '0';
-  public importoAffittoSpeseCondominialiString = '0';
-  public importoAffittoMensileString = '0';
-  public importoAffittoAliquotaCedolare = '0';
+  public ValoreAcquistoString = '0';
+
+  public MutuoDettaglioSpreadString = '0';
+  public MutuoDettaglioTassoFissoString = '0';
+  public MutuoDettaglioEuriborId = '0';
+  public MutuoDettaglioDurata = '0';
+  public MutuoDettaglioImportoIniziale = '0';
+
+  public AffittoDettaglioSpeseCondominialiString = '0';
+  public AffittoDettaglioMensileString = '0';
+  public AffittoDettaglioAliquotaCedolareString = '0';
+  public AffittoDettaglioTipoAffittuarioIdString = '0';
+  public AffittoDettaglioPrimaScadenzaAnniString = '0';
+  public AffittoDettaglioImportoMensileString = '0';
+
+  public DatiCatastaliRenditaString = '0';
+  public DatiCatastaliSuperficieInterniString = '0';
+  public DatiCatastaliSuperficieTotaleString = '0';
 
   public form: FormGroup;
 
@@ -205,43 +220,73 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.loadDdlTipiAffittuari();
     this.loadDdlTipologieTasse();
 
-    this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
-    this.cointestatarioSelezionato.quota = 100;
-    this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+    // this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
+    // this.cointestatarioSelezionato.quota = 100;
+    // this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
   }
 
   private inizializzaCampiStringa() {
+    this.ValoreAcquistoString = (this.immobile.valore_acquisto + '').replace('.', ',');
+
     if (this.immobile.mutuo_dettaglio !== undefined) {
       this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
-      this.tassoFissoString = (this.immobile.mutuo_dettaglio.tasso_fisso + '').replace('.', ',');
-      this.spreadString = (this.immobile.mutuo_dettaglio.spread + '').replace('.', ',');
+      this.MutuoDettaglioTassoFissoString = (this.immobile.mutuo_dettaglio.tasso_fisso + '').replace('.', ',');
+      this.MutuoDettaglioSpreadString = (this.immobile.mutuo_dettaglio.spread + '').replace('.', ',');
+      this.MutuoDettaglioEuriborId = (this.immobile.mutuo_dettaglio.euribor_id + '').replace('.', ',');
+      this.MutuoDettaglioDurata = (this.immobile.mutuo_dettaglio.durata + '').replace('.', ',');
+      this.MutuoDettaglioImportoIniziale = (this.immobile.mutuo_dettaglio.importo_iniziale + '').replace('.', ',');
     } else {
       this.dataInizioMutuo = new Date();
     }
+
     if (this.immobile.affitto_dettaglio !== undefined) {
-      this.importoAffittoSpeseCondominialiString = (this.immobile.affitto_dettaglio.importo_spese_condominiali + '').replace('.', ',');
-      this.importoAffittoMensileString = (this.immobile.affitto_dettaglio.importo_mensile + '').replace('.', ',');
-      this.importoAffittoAliquotaCedolare = (this.immobile.affitto_dettaglio.aliquota_cedolare + '').replace('.', ',');
+      this.dataInizioAffitto = new Date(+this.immobile.affitto_dettaglio.data_inizio);
+      this.AffittoDettaglioSpeseCondominialiString = (this.immobile.affitto_dettaglio.importo_spese_condominiali + '').replace('.', ',');
+      this.AffittoDettaglioMensileString = (this.immobile.affitto_dettaglio.importo_mensile + '').replace('.', ',');
+      this.AffittoDettaglioAliquotaCedolareString = (this.immobile.affitto_dettaglio.aliquota_cedolare + '').replace('.', ',');
+      this.AffittoDettaglioTipoAffittuarioIdString = (this.immobile.affitto_dettaglio.tipo_affittuario_id + '').replace('.', ',');
+      this.AffittoDettaglioPrimaScadenzaAnniString = (this.immobile.affitto_dettaglio.prima_scadenza_anni + '').replace('.', ',');
+    } else {
+      this.dataInizioAffitto = new Date();
+    }
+
+    if (this.immobile.dati_catastali !== undefined) {
+      this.DatiCatastaliRenditaString = (this.immobile.dati_catastali.rendita + '').replace('.', ',');
+      this.DatiCatastaliSuperficieInterniString = (this.immobile.dati_catastali.superficie_interni + '').replace('.', ',');
+      this.DatiCatastaliSuperficieTotaleString = (this.immobile.dati_catastali.superficie_totale + '').replace('.', ',');
     }
   }
 
   private normalizzaCampiStringa() {
+    this.immobile.valore_acquisto = parseFloat(this.ValoreAcquistoString.replace(',', '.'));
+
     if (this.immobile.mutuo_dettaglio !== undefined) {
-      this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.tassoFissoString.replace(',', '.'));
-      this.immobile.mutuo_dettaglio.spread = parseFloat(this.spreadString.replace(',', '.'));
+      this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.MutuoDettaglioTassoFissoString.replace(',', '.'));
+      this.immobile.mutuo_dettaglio.spread = parseFloat(this.MutuoDettaglioSpreadString.replace(',', '.'));
+      this.immobile.mutuo_dettaglio.euribor_id = parseFloat(this.MutuoDettaglioEuriborId.replace(',', '.'));
+      this.immobile.mutuo_dettaglio.durata = parseFloat(this.MutuoDettaglioDurata.replace(',', '.'));
+      this.immobile.mutuo_dettaglio.importo_iniziale = parseFloat(this.MutuoDettaglioImportoIniziale.replace(',', '.'));
     }
     if (this.immobile.affitto_dettaglio !== undefined) {
-      this.immobile.affitto_dettaglio.importo_spese_condominiali = parseFloat(this.importoAffittoSpeseCondominialiString.replace(',', '.'));
-      this.immobile.affitto_dettaglio.importo_mensile = parseFloat(this.importoAffittoMensileString.replace(',', '.'));
-      this.immobile.affitto_dettaglio.aliquota_cedolare = parseFloat(this.importoAffittoAliquotaCedolare.replace(',', '.'));
+      this.immobile.affitto_dettaglio.importo_spese_condominiali = parseFloat(this.AffittoDettaglioSpeseCondominialiString.replace(',', '.'));
+      this.immobile.affitto_dettaglio.importo_mensile = parseFloat(this.AffittoDettaglioMensileString.replace(',', '.'));
+      this.immobile.affitto_dettaglio.aliquota_cedolare = parseFloat(this.AffittoDettaglioAliquotaCedolareString.replace(',', '.'));
+      this.immobile.affitto_dettaglio.tipo_affittuario_id = parseFloat(this.AffittoDettaglioTipoAffittuarioIdString.replace(',', '.'));
+      this.immobile.affitto_dettaglio.prima_scadenza_anni = parseFloat(this.AffittoDettaglioPrimaScadenzaAnniString.replace(',', '.'));
+    }
+    if (this.immobile.dati_catastali !== undefined) {
+      this.immobile.dati_catastali.rendita = parseFloat(this.DatiCatastaliRenditaString.replace(',', '.'));
+      this.immobile.dati_catastali.superficie_interni = parseFloat(this.DatiCatastaliSuperficieInterniString.replace(',', '.'));
+      this.immobile.dati_catastali.superficie_totale = parseFloat(this.DatiCatastaliSuperficieTotaleString.replace(',', '.'));
     }
   }
 
   private pulisciImmobile() {
     this.immobile = new ImmobileDettaglio();
-    this.tassoFissoString = "";
-    this.spreadString = "";
+    this.MutuoDettaglioTassoFissoString = "";
+    this.MutuoDettaglioSpreadString = "";
     this.dataInizioMutuo = new Date();
+    this.dataInizioAffitto = new Date();
   }
 
   private loadDdlTipologieTasse() {
@@ -420,6 +465,8 @@ export class WizardPage extends BaseComponent implements OnInit {
     // tolgo quello che non serve
     if (!this.immobile.affitto) {
       delete this.immobile.affitto_dettaglio;
+    } else {
+      this.immobile.affitto_dettaglio.data_inizio = this.dataInizioAffitto.getTime();
     }
     if (!this.immobile.mutuo) {
       delete this.immobile.mutuo_dettaglio;
@@ -466,7 +513,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (val.selectedOptions[0].value === 0) {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
     } else {
-      this.immobile.mutuo_dettaglio.euribor_id = val.selectedOptions[0].value;
+      this.immobile.mutuo_dettaglio.euribor_id = parseInt(val.selectedOptions[0].value, 10);
     }
   }
 
@@ -474,7 +521,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (val.selectedOptions[0].value === 0) {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina dei tipi affittuario');
     } else {
-      this.immobile.affitto_dettaglio.tipo_affittuario_id = val.selectedOptions[0].value;
+      this.immobile.affitto_dettaglio.tipo_affittuario_id = parseInt(val.selectedOptions[0].value, 10);
     }
   }
 
@@ -490,7 +537,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (val.selectedOptions[0].value === "0" || val.selectedOptions[0].value === "") {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina delle categorie catastali');
     } else {
-      this.immobile.tipologie_catastali_id = val.selectedOptions[0].value;
+      this.immobile.tipologie_catastali_id = parseInt(val.selectedOptions[0].value, 10);
     }
   }
 
@@ -533,21 +580,30 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public aggiungiCointestatario(): void {
 
-    const cointestatarioDaAggiungere = new CointestatarioDettaglio();
-    cointestatarioDaAggiungere.nominativo = this.cointestatarioSelezionato.nominativo;
-    cointestatarioDaAggiungere.codice_fiscale = this.cointestatarioSelezionato.codice_fiscale;
-    cointestatarioDaAggiungere.quota = this.cointestatarioSelezionato.quota;
+    const pattern = /^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
 
-    if (this.cointestatarioSelezionato.quota > 100 || this.cointestatarioSelezionato.quota < 0) {
-      this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
-    } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
-      this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
+    if (this.cointestatarioSelezionato.codice_fiscale === '') {
+      this.alertService.presentAlert('il codice fiscale è obbligatorio');
+    } else if (this.cointestatarioSelezionato.codice_fiscale.search(pattern) === -1) {
+      this.alertService.presentAlert('il codice fiscale inserito non è valido');
     } else {
-      this.immobile.cointestatari.push(cointestatarioDaAggiungere);
+      const cointestatarioDaAggiungere = new CointestatarioDettaglio();
+      cointestatarioDaAggiungere.nominativo = this.cointestatarioSelezionato.nominativo;
+      cointestatarioDaAggiungere.codice_fiscale = this.cointestatarioSelezionato.codice_fiscale;
+      cointestatarioDaAggiungere.quota = parseFloat(this.importoQuotaCointestatarioSelezionataString.replace(',', '.'));
 
-      this.cointestatarioSelezionato.codice_fiscale = '';
-      this.cointestatarioSelezionato.nominativo = '';
-      this.cointestatarioSelezionato.quota = 0;
+
+      if (this.cointestatarioSelezionato.quota > 100 || this.cointestatarioSelezionato.quota < 0) {
+        this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
+      } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
+        this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
+      } else {
+        this.immobile.cointestatari.push(cointestatarioDaAggiungere);
+
+        this.cointestatarioSelezionato.codice_fiscale = '';
+        this.cointestatarioSelezionato.nominativo = '';
+        this.cointestatarioSelezionato.quota = 0;
+      }
     }
   }
 
@@ -698,7 +754,12 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.dataInizioMutuo = $event;
   }
 
+  public associaDataAffitto($event) {
+    this.dataInizioAffitto = $event;
+  }
+
   ionViewDidLeave() {
+    this.goToStart();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }

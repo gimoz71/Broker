@@ -155,7 +155,8 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
                 immobile_civico: this.immobile.civico,
                 immobile_citta: this.immobile.citta,
                 immobile_data_aggiornamento: this.immobile.data_aggiornamento,
-                immobile_codice_tipologia: this.immobile.codice_tipologia
+                immobile_codice_tipologia: this.immobile.codice_tipologia,
+                immobile_mutuo_id: this.immobile.mutuo_dettaglio.proprieta_mutuo_id
             }
         });
     }

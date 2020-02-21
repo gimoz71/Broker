@@ -69,12 +69,15 @@
                             </div>
                             <div class="item">
                                 <h3 class="item-title">Dati OMI</h3>
-                                <ul class="item-list full-height">
-                                    <li><span>Rent.</span><span>{{immobile.omi.valore_omi}}</span></li>
-                                    <li><span>Rent. Pot. EUR</span><span>{{immobile.omi.valore_pot}}</span></li>
-                                    <li><span>Inflation</span><span>???</span></li>
-                                    <li><span>Pr./Sqm EUR</span><span>???</span></li>
-                                    <li><span>Compr.Pr./Sqm EUR</span><span>???</span></li>
+                                <ul class="item-list full-height" *ngIf="immobile.omi != undefined">
+                                    <li><span>Valore Omi</span><span>{{immobile.omi.valore_omi}}</span></li>
+                                    <li><span>Valore Pot,</span><span>{{immobile.omi.valore_pot}}</span></li>
+                                    <li><span>Affitto Pot.</span><span>{{immobile.omi.affitto_pot}}</span></li>
+                                    <li><span>Ammortamento
+                                            decadenza</span><span>{{immobile.omi.ammortamento_decadenza}}</span></li>
+                                </ul>
+                                <ul class="item-list full-height" *ngIf="!immobile.omi != undefined">
+                                    <li><span>Sezione OMI assente</span></li>
                                 </ul>
                             </div>
                         </div>

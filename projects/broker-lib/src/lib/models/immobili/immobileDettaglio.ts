@@ -14,6 +14,8 @@ export class ImmobileDettaglio {
     public descrizione_tipologia: string = "";
     public data_aggiornamento: number = 0;
     public valore_acquisto: number = 0;
+    public valore_catastale: number = 0;
+    public valore_commerciale: number = 0;
     public quota: number = 0;
     public catastale_cod: string = "";
     public comune_zone_cod: string = "";

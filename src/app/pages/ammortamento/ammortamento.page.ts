@@ -1,4 +1,4 @@
-import { ImmobileDettaglio, PianoAmmortamento, AnnoPianoAmmortamento, LogErroriService, StoreService, AlertService, IconeService, Immobile } from 'broker-lib';
+import { ImmobileDettaglio, PianoAmmortamento, AnnoPianoAmmortamento, LogErroriService, StoreService, AlertService, IconeService, Immobile, MutuoDettaglio } from 'broker-lib';
 import { ImmobiliService, SessionService } from 'broker-lib';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, NgZone } from '@angular/core';
@@ -41,6 +41,7 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
     this.pianoAmmortamento = new Array<PianoAmmortamento>();
     this.anniPianoAmmortamento = new Array<AnnoPianoAmmortamento>();
     this.immobile = new ImmobileDettaglio();
+    this.immobile.mutuo_dettaglio = new MutuoDettaglio();
   }
 
   ngOnInit() {
@@ -74,8 +75,9 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
           this.immobile.data_aggiornamento = params.immobile_data_aggiornamento;
           this.immobile.proprieta_id = params.immobile_id;
           this.immobile.codice_tipologia = params.immobile_codice_tipologia;
+          this.immobile.mutuo_dettaglio.proprieta_mutuo_id = params.immobile_mutuo_id;
 
-          this.immobiliService.getPianoAmmortamentoImmobile(params.immobile_id).pipe(
+          this.immobiliService.getPianoAmmortamentoImmobile(params.immobile_mutuo_id).pipe(
             takeUntil(this.unsubscribe$)
           ).subscribe(r => {
             if (r.Success) {

@@ -90,7 +90,7 @@
                                         <div class="form-item left " style="width: 40%;">
                                             <label>Valore Immobile</label>
                                             <input type="text" placeholder="" value=""
-                                                [(ngModel)]="immobile.valore_acquisto">
+                                                [(ngModel)]="ValoreAcquistoString">
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +235,7 @@
                                                 <label>Tasso</label>
                                                 <div class="type">
                                                     <input type="text" digitsonly numericType="decimalIta" maxlength="6"
-                                                        placeholder="" [(ngModel)]="tassoFissoString"
+                                                        placeholder="" [(ngModel)]="MutuoDettaglioTassoFissoString"
                                                         [disabled]="!immobile.mutuo"><span>%</span>
                                                 </div>
                                             </div>
@@ -261,7 +261,8 @@
                                                 <label>Spread</label>
                                                 <div class="type">
                                                     <input type="text" placeholder="" digitsonly
-                                                        numericType="decimalIta" [(ngModel)]="spreadString"
+                                                        numericType="decimalIta"
+                                                        [(ngModel)]="MutuoDettaglioSpreadString"
                                                         [disabled]="!immobile.mutuo"><span>%</span>
                                                 </div>
                                             </div>
@@ -269,8 +270,7 @@
                                                 <label>Durata</label>
                                                 <div class="type">
                                                     <input type="text" digitsonly numericType="number" maxlength="4"
-                                                        placeholder="" value="24"
-                                                        [(ngModel)]="immobile.mutuo_dettaglio.durata"
+                                                        placeholder="" value="24" [(ngModel)]="MutuoDettaglioDurata"
                                                         [disabled]="!immobile.mutuo"
                                                         name="durataMutuo"><span>mesi</span>
                                                 </div>
@@ -286,7 +286,7 @@
                                                 <div class="type">
                                                     <input type="text" placeholder="" value="24" digitsonly
                                                         numericType="decimal"
-                                                        [(ngModel)]="immobile.mutuo_dettaglio.importo_iniziale"
+                                                        [(ngModel)]="MutuoDettaglioImportoIniziale"
                                                         [disabled]="!immobile.mutuo"><span>&euro;</span>
                                                 </div>
                                             </div>
@@ -344,20 +344,26 @@
                                             <label>Durata Contratto</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
-                                                    [(ngModel)]="immobile.affitto_dettaglio.prima_scadenza_anni"><span>anni</span>
+                                                    [(ngModel)]="AffittoDettaglioPrimaScadenzaAnniString"><span>anni</span>
                                             </div>
                                         </div>
-                                        <div class="form-item single">
+                                        <!-- <div class="form-item single">
                                             <label>Data inizio</label>
                                             <input type="text" placeholder=""
                                                 [(ngModel)]="immobile.affitto_dettaglio.data_inizio">
+                                        </div> -->
+                                        <div class="form-item single">
+                                            <label>Data inizio</label>
+                                            <ra-date-picker [inputDate]="dataInizioAffitto"
+                                                [(ngModel)]="dataInizioAffitto" (sendDate)="associaDataAffitto($event)">
+                                            </ra-date-picker>
                                         </div>
                                         <div class="form-item single">
                                             <label>Importo lordo mensile</label>
                                             <div class="type">
                                                 <input type="text" name="importo_mensile" ngDefaultControl
                                                     placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="importoAffittoMensileString"><span>&euro;</span>
+                                                    [(ngModel)]="AffittoDettaglioMensileString"><span>&euro;</span>
                                             </div>
                                         </div>
                                     </div>
@@ -368,18 +374,18 @@
                                             <label>Spese condominiali comprese</label><br>
                                             <label class="switch">
                                                 <input type="checkbox"
-                                                    [(ngModel)]="immobile.affitto_dettaglio.spese_condominiali">
+                                                    [(ngModel)]="AffittoDettaglioSpeseCondominialiString">
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
-                                        <div class="form-item single"
+                                        <!-- <div class="form-item single"
                                             *ngIf="immobile.affitto_dettaglio.spese_condominiali">
-                                            <label>Importo annuo</label>
+                                            <label>Importo mensile</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="importoAffittoSpeseCondominialiString"><span>&euro;</span>
+                                                    [(ngModel)]="AffittoDettaglioMensileString"><span>&euro;</span>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="form-item ">
                                             <label>Cedolare secca</label><br>
                                             <label class="switch">
@@ -392,7 +398,7 @@
                                             <label>Aliquota</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
-                                                    [(ngModel)]="importoAffittoAliquotaCedolare"><span>%</span>
+                                                    [(ngModel)]="AffittoDettaglioAliquotaCedolareString"><span>%</span>
                                             </div>
                                         </div>
                                     </div>
@@ -488,21 +494,21 @@
                                             <label>Rendita</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.dati_catastali.rendita"><span>&euro;</span>
+                                                    [(ngModel)]="DatiCatastaliRenditaString"><span>&euro;</span>
                                             </div>
                                         </div>
                                         <div class="form-item left">
                                             <label>S.catastale tot.</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.dati_catastali.superficie_totale"><span>m<sup>2</sup></span>
+                                                    [(ngModel)]="DatiCatastaliSuperficieTotaleString"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                         <div class="form-item right">
                                             <label>S. cat.tot. esc.a.s.</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="decimal"
-                                                    [(ngModel)]="immobile.dati_catastali.superficie_interni"><span>m<sup>2</sup></span>
+                                                    [(ngModel)]="DatiCatastaliSuperficieInterniString"><span>m<sup>2</sup></span>
                                             </div>
                                         </div>
                                     </div>
@@ -557,14 +563,16 @@
                                             <label>Codice Fiscale</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" value="24"
-                                                    [(ngModel)]="cointestatarioSelezionato.codice_fiscale">
+                                                    [(ngModel)]="cointestatarioSelezionato.codice_fiscale"
+                                                    pattern="^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$"
+                                                    required="required">
                                             </div>
                                         </div>
                                         <div class="form-item single">
                                             <label>Quota</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
-                                                    [(ngModel)]="cointestatarioSelezionato.quota"><span>%</span>
+                                                    [(ngModel)]="importoQuotaCointestatarioSelezionataString"><span>%</span>
                                             </div>
                                         </div>
                                         <div class="form-item single">
@@ -577,7 +585,7 @@
                                     <ul class="item-list form">
                                         <li><span>Nominativo</span><span>Quota</span></li>
                                         <li *ngFor="let cointestatario of immobile.cointestatari">
-                                            <span>{{cointestatario.nominativo}}</span><span>{{cointestatario.quota}}
+                                            <span>{{cointestatario.nominativo}}</span><span>{{(cointestatario.quota+'').replace('.',',')}}
                                                 %
                                                 <button class="button small"
                                                     (click)="rimuoviCointestatario(cointestatario)">x</button></span>

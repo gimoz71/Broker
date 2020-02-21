@@ -346,14 +346,15 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     return inputArray;
   }
   private shadeRGBAColor(color: string, percent: number) { // percentuale con numeri da 0 a 100
+    const normalizedPercent = percent * (3 / 4); // uso i 3/4 della scala per evitare che si parta dal bianco.
     const f = color.split(",");
     const t = 255;
     const R = parseInt(f[0].slice(5), 10);
     const G = parseInt(f[1], 10);
     const B = parseInt(f[2], 10);
-    return "rgba(" + (Math.round((t - R) * (percent / 100)) + R) + ","
-      + (Math.round((t - G) * (percent / 100)) + G) + ","
-      + (Math.round((t - B) * (percent / 100)) + B) + ",1)";
+    return "rgba(" + (Math.round((t - R) * (normalizedPercent / 100)) + R) + ","
+      + (Math.round((t - G) * (normalizedPercent / 100)) + G) + ","
+      + (Math.round((t - B) * (normalizedPercent / 100)) + B) + ",0.7)"; // lascio un pochino di trasparenza per far vedere anche le linee e le percentuali sullo sfondo
   }
 
   /*

@@ -152,7 +152,8 @@ export class BaseComponent implements OnInit {
         if (error instanceof TimeoutError) {
             this.alertService.presentErrorAlert("Timeout scaduto");
         } else {
-            this.alertService.presentErrorAlert(error.message);
+            console.log("Si è verificato un errore di comunicazione:");
+            console.log(error);
         }
     }
 }
