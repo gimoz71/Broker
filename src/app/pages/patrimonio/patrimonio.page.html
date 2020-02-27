@@ -33,11 +33,11 @@
                         <div class="scheda-row">
                             <div class="item">
                                 <h3 class="item-title">Abitazioni
-                                    <span>{{(totalePatrimoniA == 0 ? '--' : totalePatrimoniA + 'K')}}</span></h3>
+                                    <span>{{(totalePatrimoniA == 0 ? '--' : totalePatrimoniA + '')}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniA">
                                         <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
-                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value + 'K'}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value + ''}}</span>
                                     </li>
                                     <li *ngIf="patrimoniA.length == 0">--</li>
                                 </ul>

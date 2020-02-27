@@ -41,16 +41,16 @@
                             <div class="table-cell">{{imm.codice_tipologia}}</div>
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobile(imm) < 0, 'positive': getTotalePassiviImmobile(imm) > 0}">
-                                {{getTotalePassiviImmobile(imm)| k_money}} &euro; <img
+                                {{getTotalePassiviImmobile(imm)}} &euro; <img
                                     src="/assets/img/icon-view-mini@2x.png" (click)="caricaPassiviImmobile(imm)"></div>
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobile(imm) < 0, 'positive': getTotaleAttiviImmobile(imm) > 0}">
-                                {{getTotaleAttiviImmobile(imm)| k_money}} &euro; <img
+                                {{getTotaleAttiviImmobile(imm)}} &euro; <img
                                     *ngIf="getTotaleAttiviImmobile(imm) > 0" src="/assets/img/icon-view-mini@2x.png"
                                     (click)="caricaAttiviImmobile(imm)"></div>
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotaleImmobile(imm) < 0, 'positive': getTotaleImmobile(imm) > 0}">
-                                {{getTotaleImmobile(imm)| k_money}} &euro;</div>
+                                {{getTotaleImmobile(imm)}} &euro;</div>
                         </div>
                     </div>
                 </div>
@@ -62,15 +62,15 @@
                             <div class="table-cell">&nbsp;</div>
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobili() < 0, 'positive': getTotalePassiviImmobili() > 0}">
-                                {{getTotalePassiviImmobili() | k_money}} &euro; <img
+                                {{getTotalePassiviImmobili()}} &euro; <img
                                     src="/assets/img/icon-view-mini@2x.png" (click)="caricaTotalePassivi()">
                             </div>
                             <div
                                 [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobili() < 0, 'positive': getTotaleAttiviImmobili() > 0}">
-                                {{getTotaleAttiviImmobili()| k_money}} &euro;</div>
+                                {{getTotaleAttiviImmobili()}} &euro;</div>
                             <div [ngClass]="{'table-cell': true,
                                 'negative': getTotaleImmobili() < 0, 'positive': getTotaleImmobili() > 0}">
-                                {{getTotaleImmobili()| k_money}} &euro;</div>
+                                {{getTotaleImmobili()}} &euro;</div>
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
             <ul>
                 <li class="report-item" *ngFor="let oggetto of oggettiColonnaDestra">
                     <span class="item">{{oggetto.descrizione}}</span>
-                    <span class="item-value" *ngIf="!attiviSelezionato">{{oggetto.valore | k_money}} &euro;</span>
+                    <span class="item-value" *ngIf="!attiviSelezionato">{{oggetto.valore}} &euro;</span>
                     <span class="item-value" *ngIf="attiviSelezionato">{{oggetto.valore}}</span>
                 </li>
             </ul>
