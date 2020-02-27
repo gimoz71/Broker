@@ -77,14 +77,20 @@ export class HomePage extends BaseComponent implements OnInit {
                         }
                     }, (error) => {
                         this.manageHttpError(error);
+                        this.logout();
                     });
                 }
             } else {
-                this.goToPage('login');
+                this.logout();
             }
         });
         this.sessionService.loadUserData();
 
+    }
+
+    private logout(): void {
+        this.sessionService.clearUserData();
+        this.logoutComm.comunicateLogout();
     }
 
     public caricaCliente(cliente: Cliente) {

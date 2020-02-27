@@ -336,9 +336,16 @@
                                             <label>Tipo affittuario</label>
                                             <select class="select-css"
                                                 (change)="selezionaTipoAffittuario($event.target)">
-                                                <option *ngFor="let tipo of tipiAffittuario" value="{{tipo.codice}}">
+                                                <option *ngFor="let tipo of tipiAffittuario" [ngValue]="tipo.codice"
+                                                    value="{{tipo.codice}}"
+                                                    [attr.selected]="(immobile.affitto_dettaglio ? (tipo.codice+'' === immobile.affitto_dettaglio.tipo_affittuario_id + '' ? 'selected' : null) : '')">
                                                     {{tipo.descrizione}}</option>
                                             </select>
+                                            <!-- <select class="select-css"
+                                                (change)="selezionaTipoAffittuario($event.target)">
+                                                <option *ngFor="let tipo of tipiAffittuario" value="{{tipo.codice}}">
+                                                    {{tipo.descrizione}}</option>
+                                            </select> -->
                                         </div>
                                         <div class="form-item single">
                                             <label>Durata Contratto</label>

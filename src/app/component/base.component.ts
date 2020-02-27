@@ -104,12 +104,11 @@ export class BaseComponent implements OnInit {
         const techdata = response.ErrorMessage.msg_techdata;
 
         switch (code) {
-            case "005":
-                {
-                    this.alertService.presentErrorAlert("Token Scaduto, necessario Login");
-                    this.router.navigate(['login']);
-                    break;
-                }
+            case "005": {
+                this.alertService.presentErrorAlert("Token Scaduto, necessario Login");
+                this.router.navigate(['login']);
+                break;
+            }
         }
     }
 

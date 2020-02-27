@@ -65,7 +65,9 @@
                                 <div class="item anagrafica"><span class="nome">{{clienteLista.nome}}
                                         {{clienteLista.cognome}}</span><span
                                         class="cf">{{clienteLista.codice_fiscale}}</span></div>
-                                <div class="item date"><span class="date">20/06/2019</span></div>
+                                <div class="item date"><span
+                                        class="date">{{clienteLista.data_aggiornamento | raDateFormat_gg_mm_aaaa}}</span>
+                                </div>
                             </div>
                         </div>
                         <div [ngClass]="getClasseStatoCliente(clienteLista.stato_cliente)"></div>

@@ -69,9 +69,15 @@
                                                 </div>
                                                 <div class="table-row totale">
                                                     <div class="table-cell">Rimanente:</div>
-                                                    <div class="table-cell">&euro; {{getTotaleRate()}}</div>
-                                                    <div class="table-cell">&euro; {{getTotaleInteressi()}}</div>
-                                                    <div class="table-cell">&euro; {{getTotaleCapitale()}}</div>
+                                                    <div class="table-cell">&euro;
+                                                        {{getTotaleRate() | number : '1.2-2'}}
+                                                    </div>
+                                                    <div class="table-cell">&euro;
+                                                        {{getTotaleInteressi() | number : '1.2-2'}}
+                                                    </div>
+                                                    <div class="table-cell">&euro;
+                                                        {{getTotaleCapitale() | number : '1.2-2'}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </ul>

@@ -17,7 +17,8 @@
                 <div class="scheda-header">
                     <div class="scheda-table">
                         <div class="scheda-row">
-                            <div class="item immobili"><span class="badge">4</span></div>
+                            <div class="item immobili"><span
+                                    class="badge">{{sessionService.getCliente().numero_proprieta}}</span></div>
                             <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
                                     class="bv_value">{{sessionService.getCliente().book_value}}</span></div>
                             <div class="item anagrafica"><span

@@ -19,7 +19,7 @@
                 <div class="scheda-header">
                     <div class="scheda-table">
                         <div class="scheda-row">
-                            <div [ngClass]="getIconaClasseImmobileItem(immobile.codice_tipologia)">
+                            <div [ngClass]="getIconaClasseImmobileItem(immobile ? immobile.codice_tipologia : '')">
                             </div>
                             <div class="item indirizzo">
                                 {{immobile.indirizzo + ' ' + immobile.civico + ', ' + immobile.citta}}</div>
