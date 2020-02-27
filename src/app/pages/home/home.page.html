@@ -24,7 +24,7 @@
                                         class="badge">{{sessionService.getCliente().numero_proprieta}}</span>
                                 </div>
                                 <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
-                                        class="bv_value">{{sessionService.getCliente().book_value}}K</span><button
+                                        class="bv_value">{{sessionService.getCliente().book_value/1000}}K</span><button
                                         (click)="goToPatrimonio()" class="button view only-icon">&nbsp;</button></div>
                                 <div class="item anagrafica"><span class="nome">{{sessionService.getCliente().nome}}
                                         {{sessionService.getCliente().cognome}}</span><span
@@ -60,7 +60,7 @@
                             <div class="cliente-row">
                                 <div class="item immobili"><span class="badge">{{clienteLista.numero_proprieta}}</span>
                                 </div>
-                                <div class="item bv"><span class="bv_value">{{clienteLista.book_value}}K</span><span
+                                <div class="item bv"><span class="bv_value">{{clienteLista.book_value}}</span><span
                                         class="bv_label">Book Value (&euro;)</span></div>
                                 <div class="item anagrafica"><span class="nome">{{clienteLista.nome}}
                                         {{clienteLista.cognome}}</span><span
