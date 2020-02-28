@@ -74,13 +74,16 @@
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Affitti
-                                    <span>{{immobile.affitto_dettaglio ? immobile.affitto_dettaglio.importo_mensile + ' €' : '-'}}</span>
+                                <h3 class="item-title">Affitto
+                                    <span>{{immobile.affitto_dettaglio ? immobile.affitto_dettaglio.importo_mensile + ' €' : ''}}</span>
                                 </h3>
-                                <ul class="item-list half-height">
+                                <ul class="item-list half-height" *ngIf="immobile.affitto_dettaglio">
                                     <li><span>Affittuario</span><span>{{immobile.affitto_dettaglio ? immobile.affitto_dettaglio.descrizione_affittuario : '-'}}</span>
                                     </li>
                                 </ul>
+                                <div *ngIf="!immobile.affitto_dettaglio">
+                                    <span>Non affittato</span>
+                                </div>
                             </div>
                         </div>
                     </div>

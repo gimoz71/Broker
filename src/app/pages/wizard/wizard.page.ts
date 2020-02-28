@@ -54,6 +54,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   public dataInizioAffitto: Date = new Date();
 
   public isNewImmobile: boolean;
+  public isAbitazione: boolean;
 
   // queste sono le variabili relative ai campi input che devono contenere la virgola in
   // interfaccia ma che devono essere inviati come float e con il punto come separatore
@@ -130,6 +131,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.headP2 = "";
 
     this.isNewImmobile = true;
+    this.isAbitazione = true;
 
     this.ddlComuniOptions = new Array<DdlItem>();
     this.ddlComuneSelected = new DdlItem();
@@ -383,6 +385,15 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.wizardCatastali = false;
     this.wizardCointestatari = false;
     this.wizardTassazione = false;
+
+    this.isAbitazione=true;
+    let cat:DdlItem = this.categorieCatastali.find(i => i.codice === this.immobile.tipologie_catastali_id.toString());
+    if (cat != null){
+      if (!cat.descrizione.startsWith('A')){
+        this.isAbitazione=false;
+      }
+    }
+
   }
 
   public goToDatiDestinazione(): void {
@@ -627,6 +638,11 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public scegliDestinazione(primacasa: boolean, residente: boolean, affittata: boolean): void {
     this.gestisciStatiDestinazione(primacasa, residente, affittata);
+    this.goToDatiDestinazione();
+  }
+
+  public scegliAffitto(affittata: boolean): void {
+    this.gestisciStatiDestinazione(false, false, affittata);
     this.goToDatiDestinazione();
   }
 

@@ -127,7 +127,7 @@
 
                                 </div>
                             </div>
-                            <div class="scheda-table">
+                            <div class="scheda-table" *ngIf="isAbitazione">
                                 <div class="item">
                                     <div class="item-list form">
                                         <div class="form-item">
@@ -153,6 +153,24 @@
                                                 residente</a>
                                             <a [routerLink]="" (click)="scegliDestinazione(false, true, true)"
                                                 [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!primacasa && affittata && !isNewImmobile)}">Affittata</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="scheda-table" *ngIf="!isAbitazione">
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item">
+                                            <a [routerLink]="" (click)="scegliAffitto(true)"
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (affittata && !isNewImmobile)}">Affittato</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="item-list form">
+                                        <div class="form-item">
+                                            <a [routerLink]="" (click)="scegliAffitto(false)"
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!affittata && !isNewImmobile)}">Non Affittato</a>
                                         </div>
                                     </div>
                                 </div>
