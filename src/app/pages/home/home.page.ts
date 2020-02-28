@@ -63,33 +63,42 @@ export class HomePage extends BaseComponent implements OnInit {
             this.ngZone.run(() => this.router.navigate(['login'])).then();
         });
 
-        this.sessionService.userDataObservable.pipe(
-            takeUntil(this.unsubscribe$)
-        ).subscribe(present => {
-            if (present) {
-                this.wsToken = this.sessionService.getUserData();
-                if (this.caricaClienti) {
-                    this.caricaClienti = false;
-                    this.clientiService.getClienti().pipe(
-                        takeUntil(this.unsubscribe$)
-                    ).subscribe(t => {
-                        if (t.Success) {
-                            console.log('RICEVUTO: ' + t.Data);
-                            this.clienti = t.Data.elenco_clienti;
-                        } else {
-                            this.manageError(t);
-                        }
-                    }, (error) => {
-                        this.manageHttpError(error);
-                        this.logout();
-                    });
+        if (this.sessionService.existsSessionData()) {
+            this.wsToken = this.sessionService.getUserData();
+            this.loadPageData();
+        } else {
+            this.sessionService.userDataObservable.pipe(
+                takeUntil(this.unsubscribe$)
+            ).subscribe(present => {
+                if (present) {
+                    this.wsToken = this.sessionService.getUserData();
+                    this.loadPageData();
+                } else {
+                    this.logout();
                 }
-            } else {
-                this.logout();
-            }
-        });
-        this.sessionService.loadUserData();
+            });
+            this.sessionService.loadUserData();
+        }
 
+    }
+
+    private loadPageData(): void {
+        if (this.caricaClienti) {
+            this.caricaClienti = false;
+            this.clientiService.getClienti().pipe(
+                takeUntil(this.unsubscribe$)
+            ).subscribe(t => {
+                if (t.Success) {
+                    console.log('RICEVUTO: ' + t.Data);
+                    this.clienti = t.Data.elenco_clienti;
+                } else {
+                    this.manageError(t);
+                }
+            }, (error) => {
+                this.manageHttpError(error);
+                this.logout();
+            });
+        }
     }
 
     private logout(): void {

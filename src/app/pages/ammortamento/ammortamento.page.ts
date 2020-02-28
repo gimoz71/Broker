@@ -63,49 +63,63 @@ export class AmmortamentoPage extends BaseComponent implements OnInit {
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
     // ottengo il token
-    this.sessionService.userDataObservable.pipe(
+    if (this.sessionService.existsSessionData()) {
+      this.wsToken = this.sessionService.getUserData();
+      this.loadPageData();
+    } else {
+      this.sessionService.userDataObservable.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(present => {
+        if (present) {
+          this.wsToken = this.sessionService.getUserData();
+          this.loadPageData();
+        } else {
+          this.logout();
+        }
+      });
+      this.sessionService.loadUserData();
+    }
+  }
+
+  private loadPageData(): void {
+    this.route.queryParams.pipe(
       takeUntil(this.unsubscribe$)
-    ).subscribe(present => {
-      if (present) {
-        this.route.queryParams.pipe(
-          takeUntil(this.unsubscribe$)
-        ).subscribe(params => {
+    ).subscribe(params => {
 
-          this.immobile.indirizzo = params.immobile_indirizzo;
-          this.immobile.civico = params.immobile_civico;
-          this.immobile.citta = params.immobile_citta;
-          this.immobile.data_aggiornamento = params.immobile_data_aggiornamento;
-          this.immobile.proprieta_id = params.immobile_id;
-          this.immobile.codice_tipologia = params.immobile_codice_tipologia;
-          this.immobile.mutuo_dettaglio.proprieta_mutuo_id = params.immobile_mutuo_id;
+      this.immobile.indirizzo = params.immobile_indirizzo;
+      this.immobile.civico = params.immobile_civico;
+      this.immobile.citta = params.immobile_citta;
+      this.immobile.data_aggiornamento = params.immobile_data_aggiornamento;
+      this.immobile.proprieta_id = params.immobile_id;
+      this.immobile.codice_tipologia = params.immobile_codice_tipologia;
+      this.immobile.mutuo_dettaglio.proprieta_mutuo_id = params.immobile_mutuo_id;
 
-          this.immobiliService.getPianoAmmortamentoImmobile(params.immobile_mutuo_id).pipe(
-            takeUntil(this.unsubscribe$)
-          ).subscribe(r => {
-            if (r.Success) {
-              this.pianoAmmortamento = r.Data.piano_ammortamento;
-              this.organizzaPiano();
-            } else {
-              this.manageError(r);
-            }
-          },
-            (error) => {
-              this.manageHttpError(error);
-            });
-
-          const cliente_id = this.sessionService.getCliente().cliente_id;
-          if (cliente_id === 0 || cliente_id === undefined) {
-            // non ho clienti selezionati
-            this.presentAlert("E' necessario selezionare un cliente");
-            this.goToPage('home');
-          }
+      this.immobiliService.getPianoAmmortamentoImmobile(params.immobile_mutuo_id).pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(r => {
+        if (r.Success) {
+          this.pianoAmmortamento = r.Data.piano_ammortamento;
+          this.organizzaPiano();
+        } else {
+          this.manageError(r);
+        }
+      },
+        (error) => {
+          this.manageHttpError(error);
         });
 
-      } else {
-        this.goToPage('login');
+      const cliente_id = this.sessionService.getCliente().cliente_id;
+      if (cliente_id === 0 || cliente_id === undefined) {
+        // non ho clienti selezionati
+        this.presentAlert("E' necessario selezionare un cliente");
+        this.goToPage('home');
       }
     });
-    this.sessionService.loadUserData();
+  }
+
+  private logout(): void {
+    this.sessionService.clearUserData();
+    this.logoutComm.comunicateLogout();
   }
 
   private organizzaPiano(): void {

@@ -8,7 +8,7 @@
         <div class="tools">
             <!-- <div class="hints tasks"><span>10</span></div>
             <div class="hints alerts"><span>10</span></div> -->
-            <div class="user" (click)="goToProfiloUtente()">{{getUtenteEmail()}}</div>
+            <div class="user" (click)="goToProfiloUtente()">{{sessionService.getUserData().utente.email}}</div>
             <div class="hints logout" (click)="logout()"></div>
         </div>
     </div>

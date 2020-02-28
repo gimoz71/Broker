@@ -29,9 +29,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private sessionService: SessionService,
+    public sessionService: SessionService,
     private router: Router,
-    private alertService: AlertService,
     private alertController: AlertController,
     private logoutComm: LogoutCommunicationService
   ) {
@@ -48,16 +47,16 @@ export class AppComponent implements OnInit, OnDestroy {
       this.splashScreen.hide();
     });
 
-    this.sessionService.userDataObservable.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(present => {
-      if (present) {
-        this.wsToken = this.sessionService.getUserData();
-      } else {
-        this.router.navigate(['login']);
-      }
-    });
-    this.sessionService.loadUserData();
+    // this.sessionService.userDataObservable.pipe(
+    //   takeUntil(this.unsubscribe$)
+    // ).subscribe(present => {
+    //   if (present) {
+    //     this.wsToken = this.sessionService.getUserData();
+    //   } else {
+    //     this.router.navigate(['login']);
+    //   }
+    // });
+    // this.sessionService.loadUserData();
   }
 
   public logout() {

@@ -69,55 +69,67 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
 
-    // ottengo il token
-    this.sessionService.userDataObservable.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(present => {
-      if (present) {
-        this.wsToken = this.sessionService.getUserData();
-
-        const cliente_id = this.sessionService.getCliente().cliente_id;
-        if (cliente_id === 0 || cliente_id === undefined) {
-          // non ho clienti selezionati
-          this.presentAlert("E' necessario selezionare un cliente");
-          this.goToPage('home');
+    if (this.sessionService.existsSessionData()) {
+      this.wsToken = this.sessionService.getUserData();
+      this.loadPageData();
+    } else {
+      this.sessionService.userDataObservable.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(present => {
+        if (present) {
+          this.wsToken = this.sessionService.getUserData();
+          this.loadPageData();
+        } else {
+          this.logout();
         }
+      });
+      this.sessionService.loadUserData();
+    }
+  }
 
-        this.reportService.getGrafici(cliente_id).pipe(
-          takeUntil(this.unsubscribe$)
-        ).subscribe(r => {
-          if (r.Success) {
-            const datiGraficiAndamentoAnnuale = r.Data.andamento_annuale;
-            this.showAndamento = !(datiGraficiAndamentoAnnuale.length === 0);
-            this.createLinesChart(datiGraficiAndamentoAnnuale);
+  private loadPageData(): void {
+    const cliente_id = this.sessionService.getCliente().cliente_id;
+    if (cliente_id === 0 || cliente_id === undefined) {
+      // non ho clienti selezionati
+      this.presentAlert("E' necessario selezionare un cliente");
+      this.goToPage('home');
+    }
 
-            const datiGraficiIndicatori = r.Data.indicatori;
-            this.showIndicatori = !(datiGraficiIndicatori.length === 0);
-            this.createIndicatoriChart(datiGraficiIndicatori);
+    this.reportService.getGrafici(cliente_id).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        const datiGraficiAndamentoAnnuale = r.Data.andamento_annuale;
+        this.showAndamento = !(datiGraficiAndamentoAnnuale.length === 0);
+        this.createLinesChart(datiGraficiAndamentoAnnuale);
 
-            const datiGraficiConcentrazione = r.Data.concentrazione;
-            this.showConcentrazione = !(datiGraficiConcentrazione.length === 0);
-            this.createConcentrazioneChart(datiGraficiConcentrazione);
+        const datiGraficiIndicatori = r.Data.indicatori;
+        this.showIndicatori = !(datiGraficiIndicatori.length === 0);
+        this.createIndicatoriChart(datiGraficiIndicatori);
 
-            const datiGraficiTipologia = r.Data.tipologia;
-            this.showTipologia = !(datiGraficiTipologia.length === 0);
-            this.createTipologiaChart(datiGraficiTipologia);
+        const datiGraficiConcentrazione = r.Data.concentrazione;
+        this.showConcentrazione = !(datiGraficiConcentrazione.length === 0);
+        this.createConcentrazioneChart(datiGraficiConcentrazione);
 
-            const datiGraficiAffittuari = r.Data.affittuari;
-            this.showAffittuari = !(datiGraficiAffittuari.length === 0);
-            this.createAffittuariChart(datiGraficiAffittuari);
-          } else {
-            this.manageError(r);
-          }
-        },
-          (error) => {
-            this.manageHttpError(error);
-          });
+        const datiGraficiTipologia = r.Data.tipologia;
+        this.showTipologia = !(datiGraficiTipologia.length === 0);
+        this.createTipologiaChart(datiGraficiTipologia);
+
+        const datiGraficiAffittuari = r.Data.affittuari;
+        this.showAffittuari = !(datiGraficiAffittuari.length === 0);
+        this.createAffittuariChart(datiGraficiAffittuari);
       } else {
-        this.goToPage('login');
+        this.manageError(r);
       }
-    });
-    this.sessionService.loadUserData();
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
+  }
+
+  private logout(): void {
+    this.sessionService.clearUserData();
+    this.logoutComm.comunicateLogout();
   }
 
   /*

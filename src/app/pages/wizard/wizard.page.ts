@@ -169,25 +169,22 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     this.ddlComuniOptions = new Array<DdlItem>();
 
-    // RECUPERO IL CLIENTE DALLA SESSIONE
-    this.sessionService.userDataObservable.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(present => {
-      if (present) {
-        this.wsToken = this.sessionService.getUserData();
-
-        const cliente_id = this.sessionService.getCliente().cliente_id;
-        if (cliente_id === 0 || cliente_id === undefined) {
-          // non ho clienti selezionati
-          this.presentAlert("E' necessario selezionare un cliente");
-          this.goToPage('home');
+    if (this.sessionService.existsSessionData()) {
+      this.wsToken = this.sessionService.getUserData();
+      this.loadPageData();
+    } else {
+      this.sessionService.userDataObservable.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(present => {
+        if (present) {
+          this.wsToken = this.sessionService.getUserData();
+          this.loadPageData();
+        } else {
+          this.logout();
         }
-
-      } else {
-        this.goToPage('login');
-      }
-    });
-    this.sessionService.loadUserData();
+      });
+      this.sessionService.loadUserData();
+    }
 
     // RECUPERO IMMOBILE DALLA SESSIONE
     const immobileInSessione = this.sessionService.getImmobileDettaglio();
@@ -227,6 +224,20 @@ export class WizardPage extends BaseComponent implements OnInit {
     // this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     // this.cointestatarioSelezionato.quota = 100;
     // this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+  }
+
+  private loadPageData(): void {
+    const cliente_id = this.sessionService.getCliente().cliente_id;
+    if (cliente_id === 0 || cliente_id === undefined) {
+      // non ho clienti selezionati
+      this.presentAlert("E' necessario selezionare un cliente");
+      this.goToPage('home');
+    }
+  }
+
+  private logout(): void {
+    this.sessionService.clearUserData();
+    this.logoutComm.comunicateLogout();
   }
 
   private inizializzaCampiStringa() {
@@ -386,11 +397,11 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.wizardCointestatari = false;
     this.wizardTassazione = false;
 
-    this.isAbitazione=true;
-    let cat:DdlItem = this.categorieCatastali.find(i => i.codice === this.immobile.tipologie_catastali_id.toString());
-    if (cat != null){
-      if (!cat.descrizione.startsWith('A')){
-        this.isAbitazione=false;
+    this.isAbitazione = true;
+    let cat: DdlItem = this.categorieCatastali.find(i => i.codice === this.immobile.tipologie_catastali_id.toString());
+    if (cat != null) {
+      if (!cat.descrizione.startsWith('A')) {
+        this.isAbitazione = false;
       }
     }
 

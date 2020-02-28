@@ -63,37 +63,50 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
 
-    // ottengo il token
-    this.sessionService.userDataObservable.pipe(
-      takeUntil(this.unsubscribe$)
-    ).subscribe(present => {
-      if (present) {
-        this.wsToken = this.sessionService.getUserData();
-
-        const cliente_id = this.sessionService.getCliente().cliente_id;
-        if (cliente_id === 0 || cliente_id === undefined) {
-          // non ho clienti selezionati
-          this.presentAlert("E' necessario selezionare un cliente");
-          this.goToPage('home');
+    if (this.sessionService.existsSessionData()) {
+      this.wsToken = this.sessionService.getUserData();
+      this.loadPageData();
+    } else {
+      this.sessionService.userDataObservable.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(present => {
+        if (present) {
+          this.wsToken = this.sessionService.getUserData();
+          this.loadPageData();
+        } else {
+          this.logout();
         }
+      });
+      this.sessionService.loadUserData();
+    }
 
-        this.reportService.getSituazioneGenerale(cliente_id).pipe(
-          takeUntil(this.unsubscribe$)
-        ).subscribe(r => {
-          if (r.Success) {
-            this.situazioneImmobili = r.Data.elenco_immobili;
-          } else {
-            this.manageError(r);
-          }
-        },
-          (error) => {
-            this.manageHttpError(error);
-          });
+  }
+
+  private loadPageData(): void {
+    const cliente_id = this.sessionService.getCliente().cliente_id;
+    if (cliente_id === 0 || cliente_id === undefined) {
+      // non ho clienti selezionati
+      this.presentAlert("E' necessario selezionare un cliente");
+      this.goToPage('home');
+    }
+
+    this.reportService.getSituazioneGenerale(cliente_id).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
+      if (r.Success) {
+        this.situazioneImmobili = r.Data.elenco_immobili;
       } else {
-        this.goToPage('login');
+        this.manageError(r);
       }
-    });
-    this.sessionService.loadUserData();
+    },
+      (error) => {
+        this.manageHttpError(error);
+      });
+  }
+
+  private logout(): void {
+    this.sessionService.clearUserData();
+    this.logoutComm.comunicateLogout();
   }
 
   public goToReportAnalisi(): void {

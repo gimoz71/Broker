@@ -46,7 +46,6 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     ionViewDidEnter() {
         this.initializeApp();
-        super.ngOnInit();
     }
 
     private resetImmobile(): void {
@@ -61,8 +60,8 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
     }
 
     private initializeApp() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
+        // this.unsubscribe$.next();
+        // this.unsubscribe$.complete();
 
         this.logoutComm.logoutObservable.pipe(
             takeUntil(this.unsubscribe$)
@@ -72,40 +71,51 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
             this.ngZone.run(() => this.router.navigate(['login'])).then();
         });
 
-        // ottengo il token
-        this.sessionService.userDataObservable.pipe(
-            takeUntil(this.unsubscribe$)
-        ).subscribe(present => {
-            if (present) {
-                this.wsToken = this.sessionService.getUserData();
-
-                if (this.sessionService.getImmobileDettaglio() !== null
-                    && this.sessionService.getImmobileDettaglio().proprieta_id !== 0
-                    && this.sessionService.getImmobileDettaglio().proprieta_id !== null
-                    && this.sessionService.getImmobileDettaglio().proprieta_id !== undefined) {
-                    this.immobile = this.sessionService.getImmobileDettaglio();
-                    this.sessionService.setImmobileDettaglio(this.immobile);
+        if (this.sessionService.existsSessionData()) {
+            this.wsToken = this.sessionService.getUserData();
+            this.loadPageData();
+        } else {
+            this.sessionService.userDataObservable.pipe(
+                takeUntil(this.unsubscribe$)
+            ).subscribe(present => {
+                if (present) {
+                    this.wsToken = this.sessionService.getUserData();
+                    this.loadPageData();
                 } else {
-                    this.route.queryParams.pipe(
-                        takeUntil(this.unsubscribe$)
-                    ).subscribe(params => {
-
-                        this.immobile_id = params.immobile_id;
-                        this.loadImmobile(this.immobile_id);
-                    });
+                    this.logout();
                 }
-                const client_id = this.sessionService.getCliente().cliente_id;
-                if (client_id === 0 || client_id === undefined) {
-                    // non ho clienti selezionati
-                    this.presentAlert("E' necessario selezionare un cliente");
-                    this.goToPage('home');
-                }
+            });
+            this.sessionService.loadUserData();
+        }
+    }
 
-            } else {
-                this.goToPage('login');
-            }
-        });
-        this.sessionService.loadUserData();
+    private loadPageData(): void {
+        if (this.sessionService.getImmobileDettaglio() !== null
+            && this.sessionService.getImmobileDettaglio().proprieta_id !== 0
+            && this.sessionService.getImmobileDettaglio().proprieta_id !== null
+            && this.sessionService.getImmobileDettaglio().proprieta_id !== undefined) {
+            this.immobile = this.sessionService.getImmobileDettaglio();
+            this.sessionService.setImmobileDettaglio(this.immobile);
+        } else {
+            this.route.queryParams.pipe(
+                takeUntil(this.unsubscribe$)
+            ).subscribe(params => {
+
+                this.immobile_id = params.immobile_id;
+                this.loadImmobile(this.immobile_id);
+            });
+        }
+        const client_id = this.sessionService.getCliente().cliente_id;
+        if (client_id === 0 || client_id === undefined) {
+            // non ho clienti selezionati
+            this.presentAlert("E' necessario selezionare un cliente");
+            this.goToPage('home');
+        }
+    }
+
+    private logout(): void {
+        this.sessionService.clearUserData();
+        this.logoutComm.comunicateLogout();
     }
 
     private loadImmobile(id: string): void {
