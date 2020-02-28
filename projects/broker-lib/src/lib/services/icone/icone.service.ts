@@ -19,7 +19,8 @@ export class IconeService {
     ];
     private tipologiaAgricolo: Array<string> = [
         "A/6",
-        "D/10"
+        "D/10",
+        "T/1"
     ];
     private tipologiaUfficio: Array<string> = [
         "A/10",
