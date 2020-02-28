@@ -58,6 +58,8 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.logoutComm.logoutObservable.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
 
@@ -244,7 +246,9 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
   }
 
   public generatePdfReport(): void {
-    this.reportService.getPdfReport(this.sessionService.getCliente().cliente_id).subscribe(r => {
+    this.reportService.getPdfReport(this.sessionService.getCliente().cliente_id).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
       if (r.Success) {
         this.alertService.presentAlert('Riepilogo PDF inviato correttamente');
       } else {

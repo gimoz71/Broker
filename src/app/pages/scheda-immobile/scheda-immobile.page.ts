@@ -47,7 +47,6 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
     ionViewDidEnter() {
         this.initializeApp();
         super.ngOnInit();
-
     }
 
     private resetImmobile(): void {
@@ -62,10 +61,14 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
     }
 
     private initializeApp() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
 
         this.logoutComm.logoutObservable.pipe(
             takeUntil(this.unsubscribe$)
         ).subscribe(r => {
+            this.unsubscribe$.next();
+            this.unsubscribe$.complete();
             this.ngZone.run(() => this.router.navigate(['login'])).then();
         });
 

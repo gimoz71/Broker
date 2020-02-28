@@ -44,6 +44,8 @@ export class CatastaliPage extends BaseComponent implements OnInit {
     this.logoutComm.logoutObservable.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
   }
@@ -59,7 +61,9 @@ export class CatastaliPage extends BaseComponent implements OnInit {
   }
 
   public generatePdfCatasto(): void {
-    this.immobiliService.invioDatiCatastali(this.immobile.proprieta_id).subscribe(r => {
+    this.immobiliService.invioDatiCatastali(this.immobile.proprieta_id).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
       if (r.Success) {
         this.alertService.presentAlert('Riepilogo PDF inviato correttamente');
       } else {
@@ -71,4 +75,8 @@ export class CatastaliPage extends BaseComponent implements OnInit {
       });
   }
 
+  ionViewDidLeave() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }

@@ -58,10 +58,14 @@ export class HomePage extends BaseComponent implements OnInit {
         this.logoutComm.logoutObservable.pipe(
             takeUntil(this.unsubscribe$)
         ).subscribe(r => {
+            this.unsubscribe$.next();
+            this.unsubscribe$.complete();
             this.ngZone.run(() => this.router.navigate(['login'])).then();
         });
 
-        this.sessionService.userDataObservable.subscribe(present => {
+        this.sessionService.userDataObservable.pipe(
+            takeUntil(this.unsubscribe$)
+        ).subscribe(present => {
             if (present) {
                 this.wsToken = this.sessionService.getUserData();
                 if (this.caricaClienti) {

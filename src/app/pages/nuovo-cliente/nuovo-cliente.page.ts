@@ -53,6 +53,8 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
     this.logoutComm.logoutObservable.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
 
@@ -105,7 +107,9 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
     const abilitaAppRequest: AbilitaAppClienteRequest = new AbilitaAppClienteRequest();
     abilitaAppRequest.cliente_id = this.sessionService.getCliente().cliente_id;
     abilitaAppRequest.password = this.passwordAbilitazione;
-    this.clientiService.abilitaAppCliente(abilitaAppRequest).subscribe(r => {
+    this.clientiService.abilitaAppCliente(abilitaAppRequest).pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(r => {
       if (r.Success) {
         this.alertService.presentAlert("Richiesta di abilitazione correttamente trasmessa");
         this.goToHome();

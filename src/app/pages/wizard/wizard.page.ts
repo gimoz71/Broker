@@ -160,6 +160,8 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.logoutComm.logoutObservable.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
 
