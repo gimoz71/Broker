@@ -79,6 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
           text: 'Si',
           handler: () => {
             this.sessionService.clearUserData();
+            this.sessionService.clearCliente();
             this.logoutComm.comunicateLogout();
             // this.router.navigate(['login']);
           }
