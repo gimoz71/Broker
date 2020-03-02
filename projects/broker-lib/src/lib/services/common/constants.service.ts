@@ -60,6 +60,7 @@ export class ConstantsService {
     public readonly tipologiaImmobilePonte: string = 'ponte';
     public readonly tipologiaImmobileStazione: string = 'stazione';
     public readonly tipologiaImmobileCantiere: string = 'cantiere';
+    public readonly tipologiaImmobileTerreno: string = 'terreno';
 
     // dropdown
     public readonly getDdlEuribor: string = 'get_ddl_tipo_euribor';

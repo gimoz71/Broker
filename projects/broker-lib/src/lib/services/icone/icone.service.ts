@@ -19,7 +19,9 @@ export class IconeService {
     ];
     private tipologiaAgricolo: Array<string> = [
         "A/6",
-        "D/10",
+        "D/10"
+    ];
+    private tipologiaTerreno: Array<string> = [
         "T/1"
     ];
     private tipologiaUfficio: Array<string> = [
@@ -97,6 +99,9 @@ export class IconeService {
     constructor(private constants: ConstantsService) { }
 
     public getClasseIcona(tipologia: string): string {
+        if (this.tipologiaTerreno.includes(tipologia)) {
+            return this.constants.tipologiaImmobileTerreno;
+        }
         if (this.tipologiaAgricolo.includes(tipologia)) {
             return this.constants.tipologiaImmobileAgricolo;
         }

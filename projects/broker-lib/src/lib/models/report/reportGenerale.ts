@@ -1,5 +1,6 @@
 import { ReportGeneraleAttivo } from './reportGeneraleAttivo';
 import { ReportGeneralePassivo } from './reportGeneralePassivo';
+import { ReportGeneraleInteressi } from './reportGeneraleInteressi';
 
 export class ReportGenerale {
     public proprieta_id: number;
@@ -15,4 +16,5 @@ export class ReportGenerale {
     public prima_casa: string;
     public passivi: Array<ReportGeneralePassivo>;
     public attivo: ReportGeneraleAttivo;
+    public detrazione_interessi_attivo: ReportGeneraleInteressi;
 }

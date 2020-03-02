@@ -52,14 +52,12 @@
                                     </li>
                                     <li><span>Classe</span><span>{{immobile.dati_catastali.classe}}</span>
                                     </li>
-                                    <li><span>Consistenza</span><span>--</span></li>
+                                    <li><span>Sup catastale</span><span>{{immobile.dati_catastali.superficie_totale}} Mq</span></li>
                                     <li>
-                                        <span>Sup
-                                            catastale</span><span>{{immobile.dati_catastali.superficie_totale}}</span><br />
-                                        <span>escluse le aree
-                                            coperte</span><span>{{immobile.dati_catastali.superficie_interni}}</span>
+                                        <span>Escluse le aree
+                                            coperte</span><span>{{immobile.dati_catastali.superficie_interni}} Mq</span>
                                     </li>
-                                    <li><span>Rendita</span>Rendita<span>{{immobile.dati_catastali.rendita}}</span>
+                                    <li><span>Rendita</span>Rendita<span>{{immobile.dati_catastali.rendita}} €</span>
                                     </li>
                                     <li>
                                         <span>Indirizzo</span><br />
@@ -70,13 +68,13 @@
                             <div class="item">
                                 <h3 class="item-title">Dati OMI</h3>
                                 <ul class="item-list full-height" *ngIf="immobile.omi != undefined">
-                                    <li><span>Valore Omi</span><span>{{immobile.omi.valore_omi}}</span></li>
-                                    <li><span>Valore Pot,</span><span>{{immobile.omi.valore_pot}}</span></li>
-                                    <li><span>Affitto Pot.</span><span>{{immobile.omi.affitto_pot}}</span></li>
-                                    <li><span>Ammortamento
+                                    <li><span>Valore Omi</span><span>{{immobile.omi.valore_omi}} €</span></li>
+                                    <li><span>Valore Pot,</span><span>{{immobile.omi.valore_pot}} €</span></li>
+                                    <li><span>Affitto Pot.</span><span>{{immobile.omi.affitto_pot}} €</span></li>
+                                    <li hidden><span>Ammortamento
                                             decadenza</span><span>{{immobile.omi.ammortamento_decadenza}}</span></li>
                                 </ul>
-                                <ul class="item-list full-height" *ngIf="!immobile.omi != undefined">
+                                <ul class="item-list full-height" *ngIf="false">
                                     <li><span>Sezione OMI assente</span></li>
                                 </ul>
                             </div>

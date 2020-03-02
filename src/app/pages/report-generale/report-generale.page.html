@@ -40,17 +40,17 @@
                             <div class="table-cell">{{imm.quota + '%'}}</div>
                             <div class="table-cell">{{imm.codice_tipologia}}</div>
                             <div
-                                [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobile(imm) < 0, 'positive': getTotalePassiviImmobile(imm) > 0}">
-                                {{getTotalePassiviImmobile(imm)}} &euro; <img
-                                    src="/assets/img/icon-view-mini@2x.png" (click)="caricaPassiviImmobile(imm)"></div>
+                                [ngClass]="{'table-cell text-right': true, 'negative': getTotalePassiviImmobile(imm) < 0, 'positive': getTotalePassiviImmobile(imm) > 0}">
+                                {{getCurrency(getTotalePassiviImmobile(imm))}} &euro; <img
+                                    src="/assets/img/icon-view-mini@2x.png" (click)="caricaPassiviImmobile(imm)">&nbsp;</div>
                             <div
-                                [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobile(imm) < 0, 'positive': getTotaleAttiviImmobile(imm) > 0}">
-                                {{getTotaleAttiviImmobile(imm)}} &euro; <img
+                                [ngClass]="{'table-cell text-right text-padding': true, 'negative': getTotaleAttiviImmobile(imm) < 0, 'positive': getTotaleAttiviImmobile(imm) > 0}">
+                                {{getCurrency(getTotaleAttiviImmobile(imm))}} &euro; <img
                                     *ngIf="getTotaleAttiviImmobile(imm) > 0" src="/assets/img/icon-view-mini@2x.png"
-                                    (click)="caricaAttiviImmobile(imm)"></div>
+                                    (click)="caricaAttiviImmobile(imm)">&nbsp;</div>
                             <div
-                                [ngClass]="{'table-cell': true, 'negative': getTotaleImmobile(imm) < 0, 'positive': getTotaleImmobile(imm) > 0}">
-                                {{getTotaleImmobile(imm)}} &euro;</div>
+                                [ngClass]="{'table-cell text-right text-padding': true, 'negative': getTotaleImmobile(imm) < 0, 'positive': getTotaleImmobile(imm) > 0}">
+                                {{getCurrency(getTotaleImmobile(imm))}} &euro;</div>
                         </div>
                     </div>
                 </div>
@@ -61,16 +61,16 @@
                             <div class="table-cell">&nbsp;</div>
                             <div class="table-cell">&nbsp;</div>
                             <div
-                                [ngClass]="{'table-cell': true, 'negative': getTotalePassiviImmobili() < 0, 'positive': getTotalePassiviImmobili() > 0}">
-                                {{getTotalePassiviImmobili()}} &euro; <img
-                                    src="/assets/img/icon-view-mini@2x.png" (click)="caricaTotalePassivi()">
+                                [ngClass]="{'table-cell text-right': true, 'negative': getTotalePassiviImmobili() < 0, 'positive': getTotalePassiviImmobili() > 0}">
+                                {{getCurrency(getTotalePassiviImmobili())}} &euro; <img
+                                    src="/assets/img/icon-view-mini@2x.png" (click)="caricaTotalePassivi()">&nbsp;
                             </div>
                             <div
-                                [ngClass]="{'table-cell': true, 'negative': getTotaleAttiviImmobili() < 0, 'positive': getTotaleAttiviImmobili() > 0}">
-                                {{getTotaleAttiviImmobili()}} &euro;</div>
-                            <div [ngClass]="{'table-cell': true,
+                                [ngClass]="{'table-cell text-right': true, 'negative': getTotaleAttiviImmobili() < 0, 'positive': getTotaleAttiviImmobili() > 0}">
+                                {{getCurrency(getTotaleAttiviImmobili())}} &euro;&nbsp;</div>
+                            <div [ngClass]="{'table-cell text-right': true,
                                 'negative': getTotaleImmobili() < 0, 'positive': getTotaleImmobili() > 0}">
-                                {{getTotaleImmobili()}} &euro;</div>
+                                {{getCurrency(getTotaleImmobili())}} &euro;</div>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,7 @@
 
 import { SessionService, StoreService, LoginService, ReportService, IconeService } from 'broker-lib';
 import { NgModule } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
 
@@ -76,6 +77,7 @@ import { LogoutCommunicationService } from './services/logoutCommunication/logou
     StatusBar,
     ReportService,
     SplashScreen,
+    CurrencyPipe,
     LogoutCommunicationService,
     HTTP,
     {

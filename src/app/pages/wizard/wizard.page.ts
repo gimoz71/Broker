@@ -538,6 +538,8 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina');
     } else {
       this.immobile.mutuo_dettaglio.euribor_id = parseInt(val.selectedOptions[0].value, 10);
+      this.MutuoDettaglioEuriborId = this.immobile.mutuo_dettaglio.euribor_id.toString();
+      //console.log("euribor_id:" + this.immobile.mutuo_dettaglio.euribor_id);
     }
   }
 
@@ -660,6 +662,16 @@ export class WizardPage extends BaseComponent implements OnInit {
   public gestisciStatiDestinazione(primacasa: boolean, residente: boolean, affittata: boolean) {
     this.immobile.prima_casa = primacasa;
     this.immobile.affitto = affittata;
+    if (residente){
+      this.immobile.destinazione_uso_id = 1;
+    }
+    else
+    {
+      this.immobile.destinazione_uso_id = 2;
+      if (affittata){
+        this.immobile.destinazione_uso_id = 3;
+      }
+    }
     this.primacasa = primacasa;
     this.residente = residente;
     this.affittata = affittata;
