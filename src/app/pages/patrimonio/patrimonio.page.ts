@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-patrimonio',
@@ -18,10 +21,12 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
   public patrimoniA: Array<BookValue>;
   public patrimoniC: Array<BookValue>;
   public patrimoniT: Array<BookValue>;
+  public patrimoniX: Array<BookValue>;
 
   public totalePatrimoniA: number;
   public totalePatrimoniC: number;
   public totalePatrimoniT: number;
+  public totalePatrimoniX: number;
 
   constructor(
     public sessionService: SessionService,
@@ -33,15 +38,23 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
     public loginService: LoginService,
     public iconeService: IconeService,
     public ngZone: NgZone,
-    public logoutComm: LogoutCommunicationService
+    public logoutComm: LogoutCommunicationService,
+    public currencyPipe: CurrencyPipe
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
     this.patrimoniA = new Array<BookValue>();
     this.patrimoniC = new Array<BookValue>();
     this.patrimoniT = new Array<BookValue>();
+    this.patrimoniX = new Array<BookValue>();
     this.totalePatrimoniA = 0;
     this.totalePatrimoniC = 0;
     this.totalePatrimoniT = 0;
+    this.totalePatrimoniX = 0;
+    registerLocaleData(localeIt, 'it');
+  }
+
+  public getCurrency(amount: number) {
+      return this.currencyPipe.transform(amount, 'EUR', '', '1.2-2', 'it');
   }
 
   ngOnInit() {
@@ -115,6 +128,10 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
           this.patrimoniA = r.Data.elencoTipologieCatastaliT;
           this.calcolaTotalePatrimoniT();
         }
+        if (r.Data.elencoTipologieCatastaliX) {
+          this.patrimoniX = r.Data.elencoTipologieCatastaliX;
+          this.calcolaTotalePatrimoniX();
+        }
       } else {
         this.manageError(r);
       }
@@ -141,13 +158,19 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
 
   public calcolaTotalePatrimoniC(): void {
     for (const pat of this.patrimoniC) {
-      this.totalePatrimoniA += +pat.book_value;
+      this.totalePatrimoniC += +pat.book_value;
     }
   }
 
   public calcolaTotalePatrimoniT(): void {
     for (const pat of this.patrimoniT) {
-      this.totalePatrimoniA += +pat.book_value;
+      this.totalePatrimoniT += +pat.book_value;
+    }
+  }
+
+  public calcolaTotalePatrimoniX(): void {
+    for (const pat of this.patrimoniX) {
+      this.totalePatrimoniX += +pat.book_value;
     }
   }
 

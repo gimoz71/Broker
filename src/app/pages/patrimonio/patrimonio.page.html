@@ -20,7 +20,7 @@
                             <div class="item immobili"><span
                                     class="badge">{{sessionService.getCliente().numero_proprieta}}</span></div>
                             <div class="item bv"><span class="bv_label">Book Value (&euro;)</span><span
-                                    class="bv_value">{{sessionService.getCliente().book_value}}</span></div>
+                                    class="bv_value">{{getCurrency(sessionService.getCliente().book_value)}}</span></div>
                             <div class="item anagrafica"><span
                                     class="nome">{{sessionService.getCliente().nome + ' ' + sessionService.getCliente().cognome}}</span><span
                                     class="cf">{{sessionService.getCliente().codice_fiscale}}</span><span
@@ -34,22 +34,22 @@
                         <div class="scheda-row">
                             <div class="item">
                                 <h3 class="item-title">Abitazioni
-                                    <span>{{(totalePatrimoniA == 0 ? '--' : totalePatrimoniA + '')}}</span></h3>
+                                    <span>{{(totalePatrimoniA == 0 ? '--' : getCurrency(totalePatrimoniA) + '')}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniA">
                                         <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
-                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value + ''}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{getCurrency(patrimonio.book_value) + ''}}</span>
                                     </li>
                                     <li *ngIf="patrimoniA.length == 0">--</li>
                                 </ul>
                             </div>
                             <div class="item">
                                 <h3 class="item-title">Commerciali
-                                    <span>{{(totalePatrimoniC == 0 ? '--' : totalePatrimoniC+ 'K')}}</span></h3>
+                                    <span>{{(totalePatrimoniC == 0 ? '--' : getCurrency(totalePatrimoniC) + '')}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniC">
                                         <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
-                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value + 'K'}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{getCurrency(patrimonio.book_value) + ''}}</span>
                                     </li>
                                     <li *ngIf="patrimoniC.length == 0">--</li>
                                 </ul>
@@ -58,19 +58,24 @@
                         <div class="scheda-row">
                             <div class="item">
                                 <h3 class="item-title">Terreni
-                                    <span>{{(totalePatrimoniT == 0 ? '--' : totalePatrimoniT+ 'K')}}</span></h3>
+                                    <span>{{(totalePatrimoniT == 0 ? '--' : getCurrency(totalePatrimoniT) + '')}}</span></h3>
                                 <ul class="item-list">
                                     <li *ngFor="let patrimonio of patrimoniT">
                                         <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
-                                        <span>{{patrimonio.codice_catastale}}</span><span>{{patrimonio.book_value + 'K'}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{getCurrency(patrimonio.book_value) + ''}}</span>
                                     </li>
                                     <li *ngIf="patrimoniT.length == 0">--</li>
                                 </ul>
                             </div>
                             <div class="item">
-                                <h3 class="item-title">Altro <span>--</span></h3>
+                                <h3 class="item-title">Altro
+                                    <span>{{(totalePatrimoniX == 0 ? '--' : getCurrency(totalePatrimoniX) + '')}}</span></h3>
                                 <ul class="item-list">
-                                    <li>--</li>
+                                    <li *ngFor="let patrimonio of patrimoniX">
+                                        <span class="badge patrimonio">{{patrimonio.numero_proprieta}}</span>
+                                        <span>{{patrimonio.codice_catastale}}</span><span>{{getCurrency(patrimonio.book_value) + ''}}</span>
+                                    </li>
+                                    <li *ngIf="patrimoniX.length == 0">--</li>
                                 </ul>
                             </div>
                         </div>

@@ -57,7 +57,7 @@
                                         <span>Escluse le aree
                                             coperte</span><span>{{immobile.dati_catastali.superficie_interni}} Mq</span>
                                     </li>
-                                    <li><span>Rendita</span>Rendita<span>{{immobile.dati_catastali.rendita}} €</span>
+                                    <li><span>Rendita</span>Rendita<span>{{getCurrency(immobile.dati_catastali.rendita)}} €</span>
                                     </li>
                                     <li>
                                         <span>Indirizzo</span><br />
@@ -68,9 +68,9 @@
                             <div class="item">
                                 <h3 class="item-title">Dati OMI</h3>
                                 <ul class="item-list full-height" *ngIf="immobile.omi != undefined">
-                                    <li><span>Valore Omi</span><span>{{immobile.omi.valore_omi}} €</span></li>
-                                    <li><span>Valore Pot,</span><span>{{immobile.omi.valore_pot}} €</span></li>
-                                    <li><span>Affitto Pot.</span><span>{{immobile.omi.affitto_pot}} €</span></li>
+                                    <li><span>Valore Omi</span><span>{{getCurrency(immobile.omi.valore_omi)}} €</span></li>
+                                    <li><span>Valore Pot,</span><span>{{getCurrency(immobile.omi.valore_pot)}} €</span></li>
+                                    <li><span>Affitto Pot.</span><span>{{getCurrency(immobile.omi.affitto_pot)}} €</span></li>
                                     <li hidden><span>Ammortamento
                                             decadenza</span><span>{{immobile.omi.ammortamento_decadenza}}</span></li>
                                 </ul>

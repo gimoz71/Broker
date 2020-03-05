@@ -6,6 +6,8 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
 
 @Component({
   selector: 'app-report-generale',
@@ -44,6 +46,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.oggettiColonnaDestra = new Array<ReportGeneraleOggettoColonna>();
     this.etichettaColonna = '';
     this.attiviSelezionato = false;
+    registerLocaleData(localeIt, 'it');
   }
 
   ngOnInit() {
@@ -205,7 +208,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
   }
 
   public getCurrency(amount: number) {
-    return this.currencyPipe.transform(amount, 'EUR', '', '1.2-2');
+    return this.currencyPipe.transform(amount, 'EUR', '', '1.2-2', 'it');
   }
 
   public caricaAttiviImmobile(immobile: ReportGenerale): void {

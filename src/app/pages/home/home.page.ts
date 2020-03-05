@@ -8,6 +8,9 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'app-home',
@@ -35,14 +38,20 @@ export class HomePage extends BaseComponent implements OnInit {
         public alertService: AlertService,
         public iconeService: IconeService,
         public ngZone: NgZone,
-        public logoutComm: LogoutCommunicationService
+        public logoutComm: LogoutCommunicationService,
+        public currencyPipe: CurrencyPipe
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
         this.clienti = new Array<Cliente>();
         this.searchName = '';
         this.searchCF = '';
+        registerLocaleData(localeIt, 'it');
     }
 
+    public getCurrency(amount: number) {
+        return this.currencyPipe.transform(amount, 'EUR', '', '1.2-2', 'it');
+    }
+    
     ngOnInit(): void {
         super.ngOnInit();
 

@@ -606,12 +606,12 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public aggiungiCointestatario(): void {
 
-    const pattern = /^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
+    //const pattern = /^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
 
     if (this.cointestatarioSelezionato.codice_fiscale === '') {
       this.alertService.presentAlert('il codice fiscale è obbligatorio');
-    } else if (this.cointestatarioSelezionato.codice_fiscale.search(pattern) === -1) {
-      this.alertService.presentAlert('il codice fiscale inserito non è valido');
+    // } else if (this.cointestatarioSelezionato.codice_fiscale.search(pattern) === -1) {
+    //   this.alertService.presentAlert('il codice fiscale inserito non è valido');
     } else {
       const cointestatarioDaAggiungere = new CointestatarioDettaglio();
       cointestatarioDaAggiungere.nominativo = this.cointestatarioSelezionato.nominativo;
@@ -629,6 +629,9 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.cointestatarioSelezionato.codice_fiscale = '';
         this.cointestatarioSelezionato.nominativo = '';
         this.cointestatarioSelezionato.quota = 0;
+
+        console.log(JSON.stringify(this.immobile.cointestatari));
+
       }
     }
   }

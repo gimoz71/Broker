@@ -6,6 +6,9 @@ import { BaseComponent } from 'src/app/component/base.component';
 import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-catastali',
@@ -30,13 +33,19 @@ export class CatastaliPage extends BaseComponent implements OnInit {
     public iconeService: IconeService,
     public immobiliService: ImmobiliService,
     public ngZone: NgZone,
-    public logoutComm: LogoutCommunicationService
+    public logoutComm: LogoutCommunicationService,
+    public currencyPipe: CurrencyPipe
   ) {
     super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
+    registerLocaleData(localeIt, 'it');
     this.immobile = this.sessionService.getImmobileDettaglio();
   }
 
   ngOnInit() {
+  }
+
+  public getCurrency(amount: number) {
+      return this.currencyPipe.transform(amount, 'EUR', '', '1.2-2', 'it');
   }
 
   private initializeApp() {

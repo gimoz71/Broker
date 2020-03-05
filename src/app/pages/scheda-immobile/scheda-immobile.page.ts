@@ -9,6 +9,9 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AlertController } from '@ionic/angular';
 import { LogoutCommunicationService } from 'src/app/services/logoutCommunication/logoutcommunication.service';
+import { registerLocaleData } from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'app-scheda-immobile',
@@ -34,9 +37,11 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
         public iconeService: IconeService,
         public ngZone: NgZone,
         public alertController: AlertController,
-        public logoutComm: LogoutCommunicationService
+        public logoutComm: LogoutCommunicationService,
+        public currencyPipe: CurrencyPipe
     ) {
         super(sessionService, storeService, router, logErroriService, alertService, iconeService, ngZone);
+        registerLocaleData(localeIt, 'it');
         this.resetImmobile();
     }
 
@@ -46,6 +51,10 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
 
     ionViewDidEnter() {
         this.initializeApp();
+    }
+
+    public getCurrency(amount: number) {
+        return this.currencyPipe.transform(amount, 'EUR', '', '1.2-2', 'it');
     }
 
     private resetImmobile(): void {
