@@ -121,15 +121,15 @@ export class PatrimonioPage extends BaseComponent implements OnInit {
           this.calcolaTotalePatrimoniA();
         }
         if (r.Data.elencoTipologieCatastaliC) {
-          this.patrimoniA = r.Data.elencoTipologieCatastaliC;
+          this.patrimoniC = r.Data.elencoTipologieCatastaliC;
           this.calcolaTotalePatrimoniC();
         }
         if (r.Data.elencoTipologieCatastaliT) {
-          this.patrimoniA = r.Data.elencoTipologieCatastaliT;
+          this.patrimoniT = r.Data.elencoTipologieCatastaliT;
           this.calcolaTotalePatrimoniT();
         }
-        if (r.Data.elencoTipologieCatastaliX) {
-          this.patrimoniX = r.Data.elencoTipologieCatastaliX;
+        if (r.Data.elencoTipologieCatastaliAltro) {
+          this.patrimoniX = r.Data.elencoTipologieCatastaliAltro;
           this.calcolaTotalePatrimoniX();
         }
       } else {
