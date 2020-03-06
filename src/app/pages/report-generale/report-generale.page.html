@@ -89,7 +89,7 @@
             <ul>
                 <li class="report-item" *ngFor="let oggetto of oggettiColonnaDestra">
                     <span class="item">{{oggetto.descrizione}}</span>
-                    <span class="item-value" *ngIf="!attiviSelezionato">{{oggetto.valore}} &euro;</span>
+                    <span class="item-value nowrap" *ngIf="!attiviSelezionato">{{oggetto.valore}} &euro;</span>
                     <span class="item-value" *ngIf="attiviSelezionato">{{oggetto.valore}}</span>
                 </li>
             </ul>

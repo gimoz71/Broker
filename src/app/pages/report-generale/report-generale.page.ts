@@ -173,16 +173,25 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   private addOggettoAColonnaDestra(array: Array<ReportGeneraleOggettoColonna>, oggetto: ReportGeneralePassivo): void {
 
+    var valore:number = 0;
+    if (oggetto.importo_annuale != null && oggetto.importo_annuale != ""){
+      valore = parseFloat(oggetto.importo_annuale.toString().replace(",","."));
+    }
+
     if (this.colonnaDestraContieneOggetto(oggetto)) {
       for (const immobile of this.oggettiColonnaDestra) {
         if (immobile.descrizione === oggetto.descrizione_passivo) {
-          immobile.valore = (+immobile.valore + +oggetto.importo_annuale) + '';
+          immobile.valore = (parseFloat(immobile.valore) + valore).toString();
         }
       }
     } else {
+
+
+      console.log("Valore:" + this.getCurrency(valore));
+
       const oggettoColonna = new ReportGeneraleOggettoColonna();
       oggettoColonna.descrizione = oggetto.descrizione_passivo;
-      oggettoColonna.valore = ((oggetto.importo_annuale === "" || oggetto.importo_annuale === "null") ? "0" : oggetto.importo_annuale);
+      oggettoColonna.valore = this.getCurrency(valore);
       this.oggettiColonnaDestra.push(oggettoColonna);
     }
   }
