@@ -123,11 +123,11 @@ export class SessionService {
     }
 
     public existsSessionData(): boolean {
-        return (this.userData !== null && this.userData !== undefined && this.userData.token_value !== '');
+        return (this.userData !== null && this.userData !== undefined && JSON.stringify(this.userData) !== '{}' && this.userData.token_value !== '');
     }
 
     public loadUserData(): void {
-        if (this.userData !== null && this.userData !== undefined && this.userData.token_value !== '') {
+        if (this.userData !== null && this.userData !== undefined && JSON.stringify(this.userData) !== '{}' && this.userData.token_value !== '') {
             this.userDataSubject.next(true);
         } else {
             this.storeService.getUserDataPromise().then((val: WsToken) => {

@@ -118,7 +118,7 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.goToPage('report-analisi');
   }
 
-  private getTotalePassiviImmobile(immobile: ReportGenerale): number {
+  public getTotalePassiviImmobile(immobile: ReportGenerale): number {
     let toReturn = 0;
 
     if (immobile.passivi) {
@@ -138,17 +138,16 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     return toReturn;
   }
 
-  private getTotaleAttiviImmobile(immobile: ReportGenerale): number {
+  public getTotaleAttiviImmobile(immobile: ReportGenerale): number {
     let toReturn = 0;
 
     if (immobile.attivo) {
-      var totale:number = immobile.attivo.importo_mensile * 12;
-      var aliquota:number = totale/100*immobile.attivo.aliquota_cedolare;
-      toReturn = (totale-aliquota);
-      //console.log(immobile.attivo.aliquota_cedolare);
+      const totale: number = immobile.attivo.importo_mensile * 12;
+      const aliquota: number = totale / 100 * immobile.attivo.aliquota_cedolare;
+      toReturn = (totale - aliquota);
     }
-    if (immobile.detrazione_interessi_attivo != null){
-      toReturn+= parseFloat(immobile.detrazione_interessi_attivo.importo_annuale.toFixed(2));
+    if (immobile.detrazione_interessi_attivo != null) {
+      toReturn += parseFloat(immobile.detrazione_interessi_attivo.importo_annuale.toFixed(2));
     }
 
     return toReturn;
@@ -173,9 +172,9 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
   private addOggettoAColonnaDestra(array: Array<ReportGeneraleOggettoColonna>, oggetto: ReportGeneralePassivo): void {
 
-    var valore:number = 0;
-    if (oggetto.importo_annuale != null && oggetto.importo_annuale != ""){
-      valore = parseFloat(oggetto.importo_annuale.toString().replace(",","."));
+    var valore: number = 0;
+    if (oggetto.importo_annuale != null && oggetto.importo_annuale != "") {
+      valore = parseFloat(oggetto.importo_annuale.toString().replace(",", "."));
     }
 
     if (this.colonnaDestraContieneOggetto(oggetto)) {
@@ -225,13 +224,13 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
     this.etichettaColonna = 'Attivi';
     if (immobile.attivo) {
 
-      if (immobile.attivo.descrizione_affittuario != ""){
+      if (immobile.attivo.descrizione_affittuario != "") {
 
         const oggettoColonnaDescrizioneAffittuario = new ReportGeneraleOggettoColonna();
         oggettoColonnaDescrizioneAffittuario.descrizione = 'Descrizione Affittuario';
         oggettoColonnaDescrizioneAffittuario.valore = immobile.attivo.descrizione_affittuario;
         this.oggettiColonnaDestra.push(oggettoColonnaDescrizioneAffittuario);
-  
+
         const oggettoColonnaCedolareSecca = new ReportGeneraleOggettoColonna();
         oggettoColonnaCedolareSecca.descrizione = 'Cedolare Secca';
         oggettoColonnaCedolareSecca.valore = ((immobile.attivo.cedolare_secca === "" || immobile.attivo.cedolare_secca === "null") ? "NO" : (immobile.attivo.cedolare_secca.toUpperCase() === 'TRUE' ? 'SI' : 'NO'));
@@ -243,23 +242,23 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
           oggettoColonnaAliquotaCedolare.valore = ((immobile.attivo.aliquota_cedolare === null || immobile.attivo.aliquota_cedolare === undefined) ? '0' : immobile.attivo.aliquota_cedolare + '');
           this.oggettiColonnaDestra.push(oggettoColonnaAliquotaCedolare);
         }
-  
+
         const oggettoColonnaPrimaScadenzaAnni = new ReportGeneraleOggettoColonna();
         oggettoColonnaPrimaScadenzaAnni.descrizione = 'Prima Scadenza Anni';
         oggettoColonnaPrimaScadenzaAnni.valore = immobile.attivo.prima_scadenza_anni + '';
         this.oggettiColonnaDestra.push(oggettoColonnaPrimaScadenzaAnni);
-  
+
         const oggettoColonnaDataInizio = new ReportGeneraleOggettoColonna();
         oggettoColonnaDataInizio.descrizione = 'Data Inizio';
         oggettoColonnaDataInizio.valore = immobile.attivo.data_inizio + ''; // formattare la data!!!
         this.oggettiColonnaDestra.push(oggettoColonnaDataInizio);
-  
-        if (immobile.attivo.importo_mensile === null || immobile.attivo.importo_mensile === undefined){
+
+        if (immobile.attivo.importo_mensile === null || immobile.attivo.importo_mensile === undefined) {
           immobile.attivo.importo_mensile = 0;
         }
-        var totale:number = immobile.attivo.importo_mensile * 12;
-        var aliquota:number = totale/100*immobile.attivo.aliquota_cedolare;
-  
+        var totale: number = immobile.attivo.importo_mensile * 12;
+        var aliquota: number = totale / 100 * immobile.attivo.aliquota_cedolare;
+
         const oggettoColonnaImportoMensile = new ReportGeneraleOggettoColonna();
         oggettoColonnaImportoMensile.descrizione = 'Importo Mensile';
         oggettoColonnaImportoMensile.valore = (this.getCurrency(immobile.attivo.importo_mensile) + '') + ' €';
@@ -272,14 +271,14 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
 
         const oggettoColonnaImportoNetto = new ReportGeneraleOggettoColonna();
         oggettoColonnaImportoNetto.descrizione = 'Importo Netto';
-        oggettoColonnaImportoNetto.valore = (this.getCurrency(totale-aliquota) + '') + ' €';
+        oggettoColonnaImportoNetto.valore = (this.getCurrency(totale - aliquota) + '') + ' €';
         this.oggettiColonnaDestra.push(oggettoColonnaImportoNetto);
 
-  
+
       }
 
 
-      if (immobile.detrazione_interessi_attivo != null){
+      if (immobile.detrazione_interessi_attivo != null) {
         const oggettoColonnaInteressi = new ReportGeneraleOggettoColonna();
         oggettoColonnaInteressi.descrizione = immobile.detrazione_interessi_attivo.descrizione;
         oggettoColonnaInteressi.valore = this.getCurrency(immobile.detrazione_interessi_attivo.importo_annuale) + ' €';

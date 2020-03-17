@@ -170,7 +170,8 @@
                                     <div class="item-list form">
                                         <div class="form-item">
                                             <a [routerLink]="" (click)="scegliAffitto(false)"
-                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!affittata && !isNewImmobile)}">Non Affittato</a>
+                                                [ngClass]="{'button': true, 'choice': true, 'full-width': true, 'chosen': (!affittata && !isNewImmobile)}">Non
+                                                Affittato</a>
                                         </div>
                                     </div>
                                 </div>
@@ -359,11 +360,6 @@
                                                     [attr.selected]="(immobile.affitto_dettaglio ? (tipo.codice+'' === immobile.affitto_dettaglio.tipo_affittuario_id + '' ? 'selected' : null) : '')">
                                                     {{tipo.descrizione}}</option>
                                             </select>
-                                            <!-- <select class="select-css"
-                                                (change)="selezionaTipoAffittuario($event.target)">
-                                                <option *ngFor="let tipo of tipiAffittuario" value="{{tipo.codice}}">
-                                                    {{tipo.descrizione}}</option>
-                                            </select> -->
                                         </div>
                                         <div class="form-item single">
                                             <label>Durata Contratto</label>
