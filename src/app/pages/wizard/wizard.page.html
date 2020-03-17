@@ -296,7 +296,7 @@
                                             </div>
                                             <div class="form-item single">
                                                 <label>Data inizio</label>
-                                                <ra-date-picker [inputDate]="dataInizioMutuo"
+                                                <ra-date-picker [inputDate]="dataInizioMutuo" ngDefaultControl
                                                     [(ngModel)]="dataInizioMutuo" (sendDate)="associaData($event)">
                                                 </ra-date-picker>
                                             </div>
@@ -362,9 +362,16 @@
                                             </select>
                                         </div>
                                         <div class="form-item single">
+                                            <label>Data inizio</label>
+                                            <ra-date-picker [inputDate]="dataInizioAffitto" ngDefaultControl
+                                                [(ngModel)]="dataInizioAffitto" (sendDate)="associaDataAffitto($event)">
+                                            </ra-date-picker>
+                                        </div>
+                                        <div class="form-item single">
                                             <label>Durata Contratto</label>
                                             <div class="type">
-                                                <input type="text" placeholder="" digitsonly numericType="number"
+                                                <input type="text" name="prima_scadenza_anni" ngDefaultControl 
+                                                    placeholder="" digitsonly numericType="number"
                                                     [(ngModel)]="AffittoDettaglioPrimaScadenzaAnniString"><span>anni</span>
                                             </div>
                                         </div>
@@ -373,12 +380,6 @@
                                             <input type="text" placeholder=""
                                                 [(ngModel)]="immobile.affitto_dettaglio.data_inizio">
                                         </div> -->
-                                        <div class="form-item single">
-                                            <label>Data inizio</label>
-                                            <ra-date-picker [inputDate]="dataInizioAffitto"
-                                                [(ngModel)]="dataInizioAffitto" (sendDate)="associaDataAffitto($event)">
-                                            </ra-date-picker>
-                                        </div>
                                         <div class="form-item single">
                                             <label>Importo lordo mensile</label>
                                             <div class="type">

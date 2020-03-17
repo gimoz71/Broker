@@ -243,6 +243,8 @@ export class WizardPage extends BaseComponent implements OnInit {
   private inizializzaCampiStringa() {
     this.ValoreAcquistoString = (this.immobile.valore_acquisto + '').replace('.', ',');
 
+    console.log("Immobile:" + JSON.stringify(this.immobile));
+
     if (this.immobile.mutuo_dettaglio !== undefined) {
       this.dataInizioMutuo = new Date(+this.immobile.mutuo_dettaglio.data_inizio);
       this.MutuoDettaglioTassoFissoString = (this.immobile.mutuo_dettaglio.tasso_fisso + '').replace('.', ',');
@@ -252,6 +254,11 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.MutuoDettaglioImportoIniziale = (this.immobile.mutuo_dettaglio.importo_iniziale + '').replace('.', ',');
     } else {
       this.dataInizioMutuo = new Date();
+      this.MutuoDettaglioSpreadString = '0';
+      this.MutuoDettaglioTassoFissoString = '0';
+      this.MutuoDettaglioEuriborId = '0';
+      this.MutuoDettaglioDurata = '0';
+      this.MutuoDettaglioImportoIniziale = '0';
     }
 
     if (this.immobile.affitto_dettaglio !== undefined) {
@@ -263,18 +270,34 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.AffittoDettaglioPrimaScadenzaAnniString = (this.immobile.affitto_dettaglio.prima_scadenza_anni + '').replace('.', ',');
     } else {
       this.dataInizioAffitto = new Date();
+      this.AffittoDettaglioSpeseCondominialiString = '0';
+      this.AffittoDettaglioMensileString = '0';
+      this.AffittoDettaglioAliquotaCedolareString = '0';
+      this.AffittoDettaglioTipoAffittuarioIdString = '0';
+      this.AffittoDettaglioPrimaScadenzaAnniString = '0';
+      this.AffittoDettaglioImportoMensileString = '0';
     }
+
+    console.log("Immobile:" + JSON.stringify(this.dataInizioAffitto));
 
     if (this.immobile.dati_catastali !== undefined) {
       this.DatiCatastaliRenditaString = (this.immobile.dati_catastali.rendita + '').replace('.', ',');
       this.DatiCatastaliSuperficieInterniString = (this.immobile.dati_catastali.superficie_interni + '').replace('.', ',');
       this.DatiCatastaliSuperficieTotaleString = (this.immobile.dati_catastali.superficie_totale + '').replace('.', ',');
+    } else {
+      this.DatiCatastaliRenditaString = '0';
+      this.DatiCatastaliSuperficieInterniString = '0';
+      this.DatiCatastaliSuperficieTotaleString = '0';
     }
   }
 
   private normalizzaCampiStringa() {
     this.immobile.valore_acquisto = parseFloat(this.ValoreAcquistoString.replace(',', '.'));
 
+    if (this.immobile.mutuo_dettaglio === undefined && this.immobile.mutuo) {
+      const mutuo: MutuoDettaglio = new MutuoDettaglio();
+      this.immobile.mutuo_dettaglio = mutuo;
+    }
     if (this.immobile.mutuo_dettaglio !== undefined) {
       this.immobile.mutuo_dettaglio.tasso_fisso = parseFloat(this.MutuoDettaglioTassoFissoString.replace(',', '.'));
       this.immobile.mutuo_dettaglio.spread = parseFloat(this.MutuoDettaglioSpreadString.replace(',', '.'));
@@ -282,12 +305,22 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.immobile.mutuo_dettaglio.durata = parseFloat(this.MutuoDettaglioDurata.replace(',', '.'));
       this.immobile.mutuo_dettaglio.importo_iniziale = parseFloat(this.MutuoDettaglioImportoIniziale.replace(',', '.'));
     }
+
+    if (this.immobile.affitto_dettaglio === undefined && this.immobile.affitto) {
+      const affitto: AffittoDettaglio = new AffittoDettaglio();
+      this.immobile.affitto_dettaglio = affitto;
+    }
     if (this.immobile.affitto_dettaglio !== undefined) {
       this.immobile.affitto_dettaglio.importo_spese_condominiali = parseFloat(this.AffittoDettaglioSpeseCondominialiString.replace(',', '.'));
       this.immobile.affitto_dettaglio.importo_mensile = parseFloat(this.AffittoDettaglioMensileString.replace(',', '.'));
       this.immobile.affitto_dettaglio.aliquota_cedolare = parseFloat(this.AffittoDettaglioAliquotaCedolareString.replace(',', '.'));
       this.immobile.affitto_dettaglio.tipo_affittuario_id = parseFloat(this.AffittoDettaglioTipoAffittuarioIdString.replace(',', '.'));
       this.immobile.affitto_dettaglio.prima_scadenza_anni = parseFloat(this.AffittoDettaglioPrimaScadenzaAnniString.replace(',', '.'));
+    }
+
+    if (this.immobile.dati_catastali === undefined) {
+      const catastali: DatiCatastaliDettaglio = new DatiCatastaliDettaglio();
+      this.immobile.dati_catastali = catastali;
     }
     if (this.immobile.dati_catastali !== undefined) {
       this.immobile.dati_catastali.rendita = parseFloat(this.DatiCatastaliRenditaString.replace(',', '.'));
@@ -547,7 +580,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     if (val.selectedOptions[0].value === 0) {
       this.alertService.presentAlert('Scegliere un valore dal menu a tendina dei tipi affittuario');
     } else {
-      this.immobile.affitto_dettaglio.tipo_affittuario_id = parseInt(val.selectedOptions[0].value, 10);
+      this.AffittoDettaglioTipoAffittuarioIdString = val.selectedOptions[0].value;
     }
   }
 
@@ -630,7 +663,7 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.cointestatarioSelezionato.nominativo = '';
         this.cointestatarioSelezionato.quota = 0;
 
-        console.log(JSON.stringify(this.immobile.cointestatari));
+        //console.log(JSON.stringify(this.immobile.cointestatari));
 
       }
     }
@@ -800,6 +833,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public associaDataAffitto($event) {
     this.dataInizioAffitto = $event;
+    //console.log(this.dataInizioAffitto)
   }
 
   ionViewDidLeave() {
