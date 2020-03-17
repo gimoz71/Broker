@@ -186,7 +186,6 @@ export class ReportGeneralePage extends BaseComponent implements OnInit {
       }
     } else {
 
-
       console.log("Valore:" + this.getCurrency(valore));
 
       const oggettoColonna = new ReportGeneraleOggettoColonna();
