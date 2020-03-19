@@ -89,7 +89,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     limitTo: 10
   };
   public ddlComuniOptions: Array<DdlItem>;
-  public ddlComuneSelected: DdlItem;
+  // public ddlComuneSelected: DdlItem;
 
   public selectedCategoriaCatastale: DdlItem;
 
@@ -134,7 +134,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.isAbitazione = true;
 
     this.ddlComuniOptions = new Array<DdlItem>();
-    this.ddlComuneSelected = new DdlItem();
+    // this.ddlComuneSelected = new DdlItem();
 
     this.categorieCatastali = new Array<DdlItem>();
     this.tipologieTasse = new Array<DdlItem>();
@@ -194,14 +194,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
       this.inizializzaCampiStringa();
 
-      if (this.immobile.citta !== '') {
-        const ddlItem = new DdlItem();
-        ddlItem.codice = this.immobile.catastale_cod;
-        ddlItem.descrizione = this.immobile.citta;
-        this.ddlComuniOptions.push(ddlItem);
-        this.select.setValue(this.ddlComuniOptions[0].codice);
-        console.log("SELECTED: " + this.select.value);
-      }
+      this.loadCitta();
       this.gestisciStatiDestinazione(this.immobile.prima_casa, this.immobile.destinazione_uso_id === 1, this.immobile.affitto); // sulla residenza non ho il dato nell'immobile
 
       this.loadDdlTipologieCatastali();
@@ -224,6 +217,21 @@ export class WizardPage extends BaseComponent implements OnInit {
     // this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     // this.cointestatarioSelezionato.quota = 100;
     // this.cointestatarioSelezionato.codice_fiscale = this.sessionService.getCliente().codice_fiscale;
+  }
+
+  private loadCitta(): void {
+    this.form = this.fb.group({
+      select: new FormControl(null),
+    });
+    if (this.immobile.citta !== '') {
+      this.ddlComuniOptions = [];
+      const ddlItem = new DdlItem();
+      ddlItem.codice = this.immobile.catastale_cod;
+      ddlItem.descrizione = this.immobile.citta;
+      this.ddlComuniOptions.push(ddlItem);
+      this.select.setValue(this.ddlComuniOptions[0].codice);
+      console.log("SELECTED: " + this.select.value);
+    }
   }
 
   private loadPageData(): void {
@@ -516,6 +524,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.wizardCatastali = false;
     this.wizardCointestatari = false;
     this.wizardTassazione = false;
+    this.loadCitta();
   }
 
   public salvaImmobile(): void {
@@ -643,8 +652,8 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     if (this.cointestatarioSelezionato.codice_fiscale === '') {
       this.alertService.presentAlert('il codice fiscale è obbligatorio');
-    // } else if (this.cointestatarioSelezionato.codice_fiscale.search(pattern) === -1) {
-    //   this.alertService.presentAlert('il codice fiscale inserito non è valido');
+      // } else if (this.cointestatarioSelezionato.codice_fiscale.search(pattern) === -1) {
+      //   this.alertService.presentAlert('il codice fiscale inserito non è valido');
     } else {
       const cointestatarioDaAggiungere = new CointestatarioDettaglio();
       cointestatarioDaAggiungere.nominativo = this.cointestatarioSelezionato.nominativo;
@@ -698,13 +707,12 @@ export class WizardPage extends BaseComponent implements OnInit {
   public gestisciStatiDestinazione(primacasa: boolean, residente: boolean, affittata: boolean) {
     this.immobile.prima_casa = primacasa;
     this.immobile.affitto = affittata;
-    if (residente){
+    if (residente) {
       this.immobile.destinazione_uso_id = 1;
     }
-    else
-    {
+    else {
       this.immobile.destinazione_uso_id = 2;
-      if (affittata){
+      if (affittata) {
         this.immobile.destinazione_uso_id = 3;
       }
     }

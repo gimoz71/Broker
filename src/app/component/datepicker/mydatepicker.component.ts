@@ -22,6 +22,7 @@ export class MyDatePicker implements OnInit {
 
     public ngOnInit() {
         // setting to yesterday
+        this.date1 = this.inputDate;
         this.date1.setDate(this.date1.getDate());
     }
 
