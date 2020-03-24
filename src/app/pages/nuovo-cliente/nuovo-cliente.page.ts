@@ -17,6 +17,8 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
 
   public nuovoCliente: InserimentoClienteRequest;
   public passwordAbilitazione: string;
+  public titolo_pagina: string;
+  public sotto_titolo_pagina: string;
 
   public nuovo: boolean;
   public abilitato: boolean;
@@ -37,6 +39,8 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
     this.nuovo = true;
     this.abilitato = false;
     this.passwordAbilitazione = '';
+    this.titolo_pagina = 'Nuovo cliente';
+    this.sotto_titolo_pagina = 'Invia la richiesta per ricevere i dati catastali';
   }
 
   ngOnInit() {
@@ -86,6 +90,12 @@ export class NuovoClientePage extends BaseComponent implements OnInit {
       this.nuovoCliente.cliente_id = this.sessionService.getCliente().cliente_id;
       this.abilitato = (this.sessionService.getCliente().stato_cliente === 'A' || this.sessionService.getCliente().stato_cliente === 'P');
       this.nuovo = false;
+      this.titolo_pagina = 'Modifica cliente';
+      this.sotto_titolo_pagina = 'Aggiorna i dati del cliente';
+      if (!this.abilitato){
+        this.titolo_pagina = 'Abilita app cliente';
+        this.sotto_titolo_pagina = 'Invia mail con credenziali al cliente';
+      }
     }
   }
 
