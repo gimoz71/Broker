@@ -13,6 +13,7 @@ import { ClientiService } from './services/clienti/clienti.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DropdownService } from './services/dropdown/dropdown.service';
 import { IconeService } from './services/icone/icone.service';
+import { DocumentiService } from './services/documenti/documenti.service';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { IconeService } from './services/icone/icone.service';
     ConstantsService,
     BrokerHttpService,
     ImmobiliService,
+    DocumentiService,
     ClientiService,
     DropdownService,
     LogErroriService,
