@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="content">
-            <div id="wizard-start" *ngIf="wizardStart">
+            <div id="wizard-start" [hidden]="!wizardStart">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">
@@ -107,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div id="wizard-destinazione" *ngIf="wizardDestinazione">
+            <div id="wizard-destinazione" [hidden]="!wizardDestinazione">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">
@@ -189,7 +189,7 @@
                     </div>
                 </div>
             </div>
-            <div id="wizard-dati-destinazione" *ngIf="wizardDatiDestinazione">
+            <div id="wizard-dati-destinazione" [hidden]="!wizardDatiDestinazione">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">
@@ -326,7 +326,7 @@
                     </div>
                 </div>
             </div>
-            <div id="wizard-dati" *ngIf="wizardDati">
+            <div id="wizard-dati" [hidden]="!wizardDati">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">
@@ -439,7 +439,7 @@
                     </div>
                 </div>
             </div>
-            <div id="wizard-catastali" *ngIf="wizardCatastali">
+            <div id="wizard-catastali" [hidden]="!wizardCatastali">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">
@@ -550,7 +550,7 @@
                     </div>
                 </div>
             </div>
-            <div id="wizard-cointestatari" *ngIf="wizardCointestatari">
+            <div id="wizard-cointestatari" [hidden]="!wizardCointestatari">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">
@@ -628,7 +628,7 @@
                     </div>
                 </div>
             </div>
-            <div id="wizard-tassazione" *ngIf="wizardTassazione">
+            <div id="wizard-tassazione" [hidden]="!wizardTassazione">
                 <div class="scheda">
                     <div class="scheda-header">
                         <div class="scheda-table">

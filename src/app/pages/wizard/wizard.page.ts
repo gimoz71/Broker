@@ -150,6 +150,7 @@ export class WizardPage extends BaseComponent implements OnInit {
       select: new FormControl(null),
     });
     this.immobile = new ImmobileDettaglio();
+    this.ddlComuniOptions = new Array<DdlItem>();
     this.normalizzaImmobile();
   }
 
@@ -159,6 +160,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   private initializeApp() {
 
+    console.log('INIZIALIZZAZIONE WIZARD');
     this.logoutComm.logoutObservable.pipe(
       takeUntil(this.unsubscribe$)
     ).subscribe(r => {
@@ -166,8 +168,6 @@ export class WizardPage extends BaseComponent implements OnInit {
       this.unsubscribe$.complete();
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
-
-    this.ddlComuniOptions = new Array<DdlItem>();
 
     if (this.sessionService.existsSessionData()) {
       this.wsToken = this.sessionService.getUserData();
@@ -220,9 +220,7 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   private loadCitta(): void {
-    this.form = this.fb.group({
-      select: new FormControl(null),
-    });
+
     if (this.immobile.citta !== '') {
       this.ddlComuniOptions = [];
       const ddlItem = new DdlItem();
@@ -439,7 +437,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.wizardTassazione = false;
 
     this.isAbitazione = true;
-    let cat: DdlItem = this.categorieCatastali.find(i => i.codice === this.immobile.tipologie_catastali_id.toString());
+    const cat: DdlItem = this.categorieCatastali.find(i => i.codice === this.immobile.tipologie_catastali_id.toString());
     if (cat != null) {
       if (!cat.descrizione.startsWith('A')) {
         this.isAbitazione = false;
@@ -581,7 +579,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     } else {
       this.immobile.mutuo_dettaglio.euribor_id = parseInt(val.selectedOptions[0].value, 10);
       this.MutuoDettaglioEuriborId = this.immobile.mutuo_dettaglio.euribor_id.toString();
-      //console.log("euribor_id:" + this.immobile.mutuo_dettaglio.euribor_id);
+      // console.log("euribor_id:" + this.immobile.mutuo_dettaglio.euribor_id);
     }
   }
 
@@ -648,8 +646,8 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public aggiungiCointestatario(): void {
 
-    //const pattern = /^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
-    var q_tot:number = 0;
+    // const pattern = /^[a-zA-Z]{6}[0-9]{2}[a-zA-Z][0-9]{2}[a-zA-Z][0-9]{3}[a-zA-Z]$/;
+    let q_tot = 0;
     for (const coint of this.immobile.cointestatari) {
         q_tot += coint.quota;
     }
@@ -669,7 +667,7 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
       } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
         this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
-      } else if ((cointestatarioDaAggiungere.quota+q_tot) > 100) {
+      } else if ((cointestatarioDaAggiungere.quota + q_tot) > 100) {
         this.alertService.presentAlert('Quote eccedenti 100%');
       } else {
         this.immobile.cointestatari.push(cointestatarioDaAggiungere);
@@ -678,7 +676,7 @@ export class WizardPage extends BaseComponent implements OnInit {
         this.cointestatarioSelezionato.nominativo = '';
         this.cointestatarioSelezionato.quota = 0;
 
-        //console.log(JSON.stringify(this.immobile.cointestatari));
+        // console.log(JSON.stringify(this.immobile.cointestatari));
 
       }
     }
@@ -715,8 +713,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.immobile.affitto = affittata;
     if (residente) {
       this.immobile.destinazione_uso_id = 1;
-    }
-    else {
+    } else {
       this.immobile.destinazione_uso_id = 2;
       if (affittata) {
         this.immobile.destinazione_uso_id = 3;
@@ -831,12 +828,22 @@ export class WizardPage extends BaseComponent implements OnInit {
   }
 
   public comuneSelected($event: any) {
+
     console.log('comune selezionato ' + JSON.stringify($event));
     if ($event[0] !== undefined) {
       const codiceComuneSelezionato = $event[0].value;
       console.log('codice comune selezionato ' + codiceComuneSelezionato);
       this.immobile.citta = $event[0].text;
       this.immobile.catastale_cod = codiceComuneSelezionato;
+
+      const ddlItem = new DdlItem();
+      ddlItem.codice = this.immobile.catastale_cod;
+      ddlItem.descrizione = this.immobile.citta;
+
+      // this.form = this.fb.group({
+      //   select: new FormControl(ddlItem),
+      // });
+
       this.caricaOmi();
     }
   }
@@ -847,7 +854,7 @@ export class WizardPage extends BaseComponent implements OnInit {
 
   public associaDataAffitto($event) {
     this.dataInizioAffitto = $event;
-    //console.log(this.dataInizioAffitto)
+    // console.log(this.dataInizioAffitto)
   }
 
   ionViewDidLeave() {
