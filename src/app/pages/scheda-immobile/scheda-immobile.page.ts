@@ -132,6 +132,7 @@ export class SchedaImmobilePage extends BaseComponent implements OnInit {
             takeUntil(this.unsubscribe$)
         ).subscribe(s => {
             if (s.Success) {
+                console.log(s.Data);
                 this.immobile = s.Data;
                 this.sessionService.setImmobileDettaglio(this.immobile);
             }

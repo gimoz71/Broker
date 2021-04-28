@@ -22,7 +22,6 @@ export class HomePage extends BaseComponent implements OnInit {
     private unsubscribe$ = new Subject<void>();
 
     public clienti: Array<Cliente>;
-    public pippo: Immobile;
 
     public searchName: string;
     public searchCF: string;

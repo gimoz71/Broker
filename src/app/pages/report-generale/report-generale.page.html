@@ -28,6 +28,7 @@
                         <div class="table-cell">%</div>
                         <div class="table-cell">Categoria</div>
                         <div class="table-cell">Passivi</div>
+                        <div class="table-cell">C.R.R.</div>
                         <div class="table-cell">Attivi</div>
                         <div class="table-cell">Totale</div>
                     </div>
@@ -43,6 +44,9 @@
                                 [ngClass]="{'table-cell text-right': true, 'negative': getTotalePassiviImmobile(imm) < 0, 'positive': getTotalePassiviImmobile(imm) > 0}">
                                 {{getCurrency(getTotalePassiviImmobile(imm))}} &euro; <img
                                     src="/assets/img/icon-view-mini@2x.png" (click)="caricaPassiviImmobile(imm)">&nbsp;</div>
+                            <div class="table-cell text-right">
+                                {{getCurrency(getCRRImmobile(imm))}} &euro; 
+                            </div>
                             <div
                                 [ngClass]="{'table-cell text-right text-padding': true, 'negative': getTotaleAttiviImmobile(imm) < 0, 'positive': getTotaleAttiviImmobile(imm) > 0}">
                                 {{getCurrency(getTotaleAttiviImmobile(imm))}} &euro; <img
@@ -64,6 +68,9 @@
                                 [ngClass]="{'table-cell text-right': true, 'negative': getTotalePassiviImmobili() < 0, 'positive': getTotalePassiviImmobili() > 0}">
                                 {{getCurrency(getTotalePassiviImmobili())}} &euro; <img
                                     src="/assets/img/icon-view-mini@2x.png" (click)="caricaTotalePassivi()">&nbsp;
+                            </div>
+                            <div class="table-cell text-right positive">
+                                {{getCurrency(getCRRImmobili())}} &euro; 
                             </div>
                             <div
                                 [ngClass]="{'table-cell text-right': true, 'negative': getTotaleAttiviImmobili() < 0, 'positive': getTotaleAttiviImmobili() > 0}">
@@ -89,8 +96,8 @@
             <ul>
                 <li class="report-item" *ngFor="let oggetto of oggettiColonnaDestra">
                     <span class="item">{{oggetto.descrizione}}</span>
-                    <span class="item-value nowrap" *ngIf="!attiviSelezionato">{{oggetto.valore}} &euro;</span>
-                    <span class="item-value" *ngIf="attiviSelezionato">{{oggetto.valore}}</span>
+                    <span class="item-value nowrap" *ngIf="!attiviSelezionato">{{getCurrency(oggetto.valore)}} &euro;</span>
+                    <span class="item-value" *ngIf="attiviSelezionato">{{getCurrencyExt(oggetto.valore, oggetto.descrizione)}}</span>
                 </li>
             </ul>
         </div>

@@ -4,3 +4,7 @@ export class TassaDettaglio {
     public descrizione_tassa: string = '';
     public importo_annuale: number = 0;
 }
+
+export class Imu {
+    public importo_tassa: number = 0;
+}

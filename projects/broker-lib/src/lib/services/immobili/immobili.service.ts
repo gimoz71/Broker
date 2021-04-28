@@ -88,4 +88,32 @@ export class ImmobiliService {
     public getPianoAmmortamentoImmobile(immobile_id: number): Observable<Http.HttpResponse> {
         return this.httpService.get(this.constants.getPianoAmmortamentoServiceName + this.constants.pathSeparator + immobile_id);
     }
+
+    /**
+     * Chiamata per ottenere la tassazione imu dell'immobile
+     *
+     * @param  primacasa 
+     * @param  affittata 
+     * @param  anno anno per il quale viene richiesta l'IMU 
+     * @param  immobile_id
+     * @returns response contenente l'esito in Success e ErrorMessages. Contenente l'oggetto 
+     * Data dentro al quale si trova l'oggetto Imu
+     */
+    public getImu(primacasa: boolean, affittata: boolean, anno: string, immobile_id: string): Observable<Http.HttpResponse> {
+        // return this.httpService.get(this.constants.getImmobileServiceName + this.constants.pathSeparator + immobile_id, tokenValue);
+        return this.httpService.get(this.constants.getImuServiceName
+            + this.constants.pathSeparator
+            + this.getBooleanAsString(primacasa)
+            + this.constants.pathSeparator
+            + this.getBooleanAsString(affittata)
+            + this.constants.pathSeparator
+            + anno
+            + this.constants.pathSeparator
+            + immobile_id);
+    }
+
+    private getBooleanAsString(input: boolean): string {
+        return (input ? 'true' : 'false');
+    }
+
 }

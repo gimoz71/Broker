@@ -145,7 +145,15 @@
                         <h3 class="item-title">Quote proprietà</h3>
                         <ul class="item-list">
                             <li *ngFor="let coint of getCointestatari()">
-                                <span>{{coint.nominativo}}</span><span>{{coint.quota}}%</span></li>
+                                <span>
+                                    <small>
+                                        {{coint.descrizione}}
+                                    </small>
+                                    <br />
+                                    {{coint.nominativo}}
+                                </span>
+                                <span>{{coint.quota}}%</span>
+                            </li>
                         </ul>
                         <div class="item-footer">
                             <button (click)="closeModal('custom-modal-1');" class="button no-icon">Chiudi</button>

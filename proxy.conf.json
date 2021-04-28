@@ -1,6 +1,5 @@
 {
     "*": {
-        "target": "http://89.31.75.45:443/Spring-JPA-Security",
         "changeOrigin": true,
         "secure": false,
         "logLevel": "debug"

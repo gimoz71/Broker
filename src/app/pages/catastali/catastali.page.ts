@@ -57,8 +57,41 @@ export class CatastaliPage extends BaseComponent implements OnInit {
       this.unsubscribe$.complete();
       this.ngZone.run(() => this.router.navigate(['login'])).then();
     });
+
+
+
+    if (this.sessionService.existsSessionData()) {
+      this.wsToken = this.sessionService.getUserData();
+      this.loadPageData();
+    } else {
+      this.sessionService.userDataObservable.pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(present => {
+        if (present) {
+          this.wsToken = this.sessionService.getUserData();
+          this.loadPageData();
+        } else {
+          this.logout();
+        }
+      });
+      this.sessionService.loadUserData();
+    }
   }
 
+  private loadPageData(): void {
+    const cliente_id = this.sessionService.getCliente().cliente_id;
+    if (cliente_id === 0 || cliente_id === undefined) {
+      // non ho clienti selezionati
+      this.presentAlert("E' necessario selezionare un cliente");
+      this.goToPage('home');
+    }
+  }
+
+  private logout(): void {
+    this.sessionService.clearUserData();
+    this.logoutComm.comunicateLogout();
+  }
+  
   ionViewDidEnter() {
     super.ngOnInit();
     this.immobile = this.sessionService.getImmobileDettaglio();

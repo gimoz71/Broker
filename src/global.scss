@@ -1581,7 +1581,7 @@ input:checked + .slider:before {
     font-size: .85em;
     
     .table-cell {
-        padding: 10px 0;
+        padding: 5px;
         margin: 0 20px;
         display: table-cell;
         &:nth-child(1) {
@@ -1595,12 +1595,19 @@ input:checked + .slider:before {
         }
         &:nth-child(4) {
             width: 10%;
+            white-space: nowrap;
         }
         &:nth-child(5) {
             width: 10%;
+            white-space: nowrap;
         }
         &:nth-child(6) {
             width: 10%;
+            white-space: nowrap;
+        }
+        &:nth-child(7) {
+            width: 10%;
+            white-space: nowrap;
         }
     }
     .negative {

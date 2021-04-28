@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class ConstantsService {
+    // ng build broker-lib
+    // ionic cordova run browser
+    // public readonly baseAppUrl: string = 'https://app.readvice.it:444/services';
+    // IMPORTANTE Non c'è il doppio certificato su RA produzione e quindi si usa SOLO cli.
+    // anche per la app. promotore.
+    // public readonly baseAppUrl: string = 'https://cli.readvice.it:444/services';
     public readonly baseAppUrl: string = 'http://89.31.75.45:443/Spring-JPA-Security';
-    // public readonly baseAppUrl: string = 'http://test.readvice.it:443/Spring-JPA-Security';
     public readonly tokenHeaderKey: string = 'Authorization';
     public readonly pathSeparator: string = '/';
 
     public readonly loginServiceName: string = 'login';
-    public readonly cambioPasswordServiceName: string = 'putPassword';
+    public readonly cambioPasswordServiceName: string = 'putpassword';
 
     // immobili
     public readonly getImmobiliServiceName: string = 'getimmobili';
@@ -17,6 +22,7 @@ export class ConstantsService {
     public readonly delImmobileServiceName: string = 'delimmobile';
     public readonly getCatastoServiceName: string = 'getcatasto';
     public readonly getPianoAmmortamentoServiceName: string = 'getpiano';
+    public readonly getImuServiceName: string = 'get_imu';
 
     // clienti
     public readonly getClientiServiceName: string = 'getclienti';
@@ -71,6 +77,6 @@ export class ConstantsService {
     public readonly getDdlComuni: string = 'get_ddl_comuni';
 
     // vari
-    public readonly httpTimeout: number = 5000; // per il momento il timeout è impostato a 5 secondi per le chiamate get e post
+    public readonly httpTimeout: number = 20000; // per il momento il timeout è impostato a 20 secondi per le chiamate get e post
 
 }

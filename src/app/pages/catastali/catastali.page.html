@@ -42,10 +42,10 @@
                                     </li>
                                     <li><span>Sub</span><span>{{immobile.dati_catastali.subalterno}}</span>
                                     </li>
-                                    <li><span>Zona
+                                    <li ><span>Zona
                                             cens.</span><span>{{immobile.dati_catastali.zona}}</span>
                                     </li>
-                                    <li><span>Micro
+                                    <li class="hidden"><span>Micro
                                             zona</span><span>{{immobile.dati_catastali.micro_zona}}</span>
                                     </li>
                                     <li><span>Categoria</span><span>{{immobile.dati_catastali.categoria}}</span>
@@ -57,25 +57,30 @@
                                         <span>Escluse le aree
                                             coperte</span><span>{{immobile.dati_catastali.superficie_interni}} Mq</span>
                                     </li>
-                                    <li><span>Rendita</span>Rendita<span>{{getCurrency(immobile.dati_catastali.rendita)}} €</span>
+                                    <li><span>Rendita</span><span>{{getCurrency(immobile.dati_catastali.rendita)}} €</span>
                                     </li>
                                     <li>
-                                        <span>Indirizzo</span><br />
+                                        <span>Indirizzo</span>
                                         <span>{{immobile.indirizzo + ' ' + immobile.civico + ', ' + immobile.citta + ' (' + immobile.provincia + ')' }}</span>
                                     </li>
                                 </ul>
                             </div>
                             <div class="item">
                                 <h3 class="item-title">Dati OMI</h3>
-                                <ul class="item-list full-height" *ngIf="immobile.omi != undefined">
+                                <ul class="item-list half-height" *ngIf="immobile.omi != undefined">
                                     <li><span>Valore Omi</span><span>{{getCurrency(immobile.omi.valore_omi)}} €</span></li>
                                     <li><span>Valore Pot,</span><span>{{getCurrency(immobile.omi.valore_pot)}} €</span></li>
                                     <li><span>Affitto Pot.</span><span>{{getCurrency(immobile.omi.affitto_pot)}} €</span></li>
                                     <li hidden><span>Ammortamento
                                             decadenza</span><span>{{immobile.omi.ammortamento_decadenza}}</span></li>
                                 </ul>
-                                <ul class="item-list full-height" *ngIf="false">
+                                <ul class="item-list half-height" *ngIf="false">
                                     <li><span>Sezione OMI assente</span></li>
+                                </ul>
+                                <h3 class="item-title">Asse ereditario</h3>
+                                <ul class="item-list half-height" *ngIf="immobile.successione != undefined">
+                                    <li><span>Valore catastale</span><span>{{getCurrency(immobile.successione.valore_catastale)}} €</span></li>
+                                    <li><span>Imposta</span><span>{{getCurrency(immobile.successione.imposta_successione)}} €</span></li>
                                 </ul>
                             </div>
                         </div>

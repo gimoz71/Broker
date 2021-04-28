@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService, DdlItemSearch } from 'broker-lib';
+import { StoreService, ImmobileDettaglio, ImmobiliService, AlertService, LogErroriService, WsLogErrore, CointestatarioDettaglio, TassaDettaglio, SpesaDettaglio, AffittoDettaglio, MutuoDettaglio, DatiCatastaliDettaglio, OmiDettaglio, DdlItem, SessionService, DropdownService, IconeService, DdlItemSearch, Imu } from 'broker-lib';
 import { Router } from '@angular/router';
 import { BaseComponent } from 'src/app/component/base.component';
 import { Subject } from 'rxjs';
@@ -142,6 +142,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.tipiAffittuario = new Array<DdlItem>();
 
     this.selectedCategoriaCatastale = new DdlItem();
+
   }
 
   ngOnInit() {
@@ -213,6 +214,7 @@ export class WizardPage extends BaseComponent implements OnInit {
     this.loadDdlEuribor();
     this.loadDdlTipiAffittuari();
     this.loadDdlTipologieTasse();
+    this.loadImu();
 
     // this.cointestatarioSelezionato.nominativo = this.sessionService.getCliente().cognome + ' ' + this.sessionService.getCliente().nome;
     // this.cointestatarioSelezionato.quota = 100;
@@ -350,11 +352,13 @@ export class WizardPage extends BaseComponent implements OnInit {
     ).subscribe(r => {
       if (r.Success) {
 
+        console.log(r.Data);
         const emptyItem = new DdlItem();
         emptyItem.codice = '';
         emptyItem.descrizione = '';
         this.tipologieTasse.push(emptyItem);
         this.tipologieTasse = this.tipologieTasse.concat(r.Data.elenco_filtrato);
+
       } else {
         this.manageError(r);
       }
@@ -425,6 +429,49 @@ export class WizardPage extends BaseComponent implements OnInit {
       (error) => {
         this.manageHttpError(error);
       });
+  }
+
+  private loadImu() {
+
+    if (this.immobile.tasse && this.immobile.tasse.length == 0) {
+      
+      var data_oggi = new Date();
+
+      this.immobiliService.getImu(this.immobile.prima_casa, this.immobile.affitto, data_oggi.getFullYear().toString(), this.immobile.proprieta_id.toString()).pipe(
+        takeUntil(this.unsubscribe$)
+      ).subscribe(r => {
+        if (r.Success) {
+  
+          var dati:Imu = r.Data;
+          if (dati.importo_tassa > 0){
+
+            for (const tassa of this.tipologieTasse) {
+              if (tassa.descrizione.toLowerCase().search("imu") >= 0){
+  
+                const tassaDaAggiungere: TassaDettaglio = new TassaDettaglio();
+                tassaDaAggiungere.descrizione_tassa = tassa.descrizione;
+                tassaDaAggiungere.importo_annuale = dati.importo_tassa + 10;
+                tassaDaAggiungere.proprieta_tasse_id = 0;
+                tassaDaAggiungere.tassa_id = parseInt(tassa.codice);
+          
+                this.immobile.tasse.push(tassaDaAggiungere);
+                break;
+          
+              }
+            }
+
+          }
+
+        } else {
+          this.manageError(r);
+        }
+      },
+        (error) => {
+          this.manageHttpError(error);
+        });      
+      
+    }
+
   }
 
   public goToDestinazione(): void {
@@ -654,32 +701,40 @@ export class WizardPage extends BaseComponent implements OnInit {
 
     if (this.cointestatarioSelezionato.codice_fiscale === '') {
       this.alertService.presentAlert('il codice fiscale è obbligatorio');
-      // } else if (this.cointestatarioSelezionato.codice_fiscale.search(pattern) === -1) {
-      //   this.alertService.presentAlert('il codice fiscale inserito non è valido');
-    } else {
-      const cointestatarioDaAggiungere = new CointestatarioDettaglio();
-      cointestatarioDaAggiungere.nominativo = this.cointestatarioSelezionato.nominativo;
-      cointestatarioDaAggiungere.codice_fiscale = this.cointestatarioSelezionato.codice_fiscale;
-      cointestatarioDaAggiungere.quota = parseFloat(this.importoQuotaCointestatarioSelezionataString.replace(',', '.'));
-
-
-      if (this.cointestatarioSelezionato.quota > 100 || this.cointestatarioSelezionato.quota < 0) {
-        this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
-      } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
-        this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
-      } else if ((cointestatarioDaAggiungere.quota + q_tot) > 100) {
-        this.alertService.presentAlert('Quote eccedenti 100%');
-      } else {
-        this.immobile.cointestatari.push(cointestatarioDaAggiungere);
-
-        this.cointestatarioSelezionato.codice_fiscale = '';
-        this.cointestatarioSelezionato.nominativo = '';
-        this.cointestatarioSelezionato.quota = 0;
-
-        // console.log(JSON.stringify(this.immobile.cointestatari));
-
-      }
+      return;
     }
+
+    if (this.cointestatarioSelezionato.descrizione === '') {
+      this.alertService.presentAlert('tipologia cointestatario obbligatoria');
+      return;
+    }
+
+    const cointestatarioDaAggiungere = new CointestatarioDettaglio();
+    cointestatarioDaAggiungere.nominativo = this.cointestatarioSelezionato.nominativo;
+    cointestatarioDaAggiungere.codice_fiscale = this.cointestatarioSelezionato.codice_fiscale;
+    cointestatarioDaAggiungere.descrizione = this.cointestatarioSelezionato.descrizione;
+    cointestatarioDaAggiungere.quota = parseFloat(this.importoQuotaCointestatarioSelezionataString.replace(',', '.'));
+
+
+    if (this.cointestatarioSelezionato.quota > 100 || this.cointestatarioSelezionato.quota < 0) {
+      this.alertService.presentAlert('La quota deve essere un numero compreso tra 0 e 100');
+    } else if (this.codiceFiscaleCointestatarioPresente(this.cointestatarioSelezionato.codice_fiscale)) {
+      this.alertService.presentAlert('Il codice fiscale inserito è già presente in elenco');
+    } else if ((cointestatarioDaAggiungere.quota + q_tot) > 100) {
+      this.alertService.presentAlert('Quote eccedenti 100%');
+    } else {
+
+      this.immobile.cointestatari.push(cointestatarioDaAggiungere);
+
+      this.cointestatarioSelezionato.codice_fiscale = '';
+      this.cointestatarioSelezionato.nominativo = '';
+      this.cointestatarioSelezionato.descrizione = '';
+      this.cointestatarioSelezionato.quota = null;
+
+      // console.log(JSON.stringify(this.immobile.cointestatari));
+
+    } 
+    
   }
 
   private codiceFiscaleCointestatarioPresente(cf: string): boolean {

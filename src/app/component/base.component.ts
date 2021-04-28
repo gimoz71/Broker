@@ -129,9 +129,15 @@ export class BaseComponent implements OnInit {
         let statusColor = 'red';
         switch (stato) {
             case 'R':
+                statusColor = 'gray';
+                break;
+            case 'S':
                 statusColor = 'red';
                 break;
-            case 'P':
+            case 'E':
+                statusColor = 'gray';
+                break;
+            case 'M':
                 statusColor = 'blue';
                 break;
             case 'A':

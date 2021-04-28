@@ -34,6 +34,9 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
   public showTipologia = true;
   public showAffittuari = true;
 
+  public visualizza_coefficente = true;
+  //DA PARAMETRIZZARE DEL PROFILO PROMOTORE 
+
   constructor(
     public sessionService: SessionService,
     public storeService: StoreService,
@@ -378,37 +381,82 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
 
     const analisiLabels = this.getAndamentoAnnualeLabels(data);
     const attivi = this.getAndamentoAnnualeAttivo(data);
-    const passivi = this.getAndamentoAnnualePassivo(data);
+    const passivi = this.getAndamentoAnnualePassivo(data, false);
+    const passivi_con_ra = this.getAndamentoAnnualePassivo(data, true);
 
-    this.linesChart = new Chart(this.linesCanvas.nativeElement, {
-      type: 'line',
-      data: {
-        labels: analisiLabels,
-        datasets: [
-          {
-            data: attivi,
-            label: 'attivi',
-            borderColor: "#0073bf",
-            fill: false,
-            lineTension: 0
-          },
-          {
-            data: passivi,
-            label: 'passivi',
-            borderColor: "#f70046",
-            fill: false,
-            lineTension: 0
-          },
-        ]
-      },
-      options: {
-        aspectRatio: 3,
-        title: {
-          display: true,
-          text: 'Analisi'
+    if (this.visualizza_coefficente){
+      this.linesChart = new Chart(this.linesCanvas.nativeElement, {
+        type: 'line',
+        data: {
+          labels: analisiLabels,
+          datasets: [
+            {
+              data: attivi,
+              label: 'attivi',
+              borderColor: "#0073bf",
+              fill: false,
+              lineTension: 0
+            },
+            {
+              data: passivi,
+              label: 'passivi',
+              borderColor: "#f70000",
+              fill: false,
+              lineTension: 0
+            },
+            {
+              data: passivi_con_ra,
+              label: 'passivi con coeff. ristrutturazione readvice',
+              borderColor: "#00b7ff",
+              fill: false,
+              lineTension: 0
+            },
+          ]
+        },
+        options: {
+          aspectRatio: 3,
+          title: {
+            display: true,
+            text: 'Analisi'
+          }
         }
-      }
-    });
+      });
+  
+    }
+    else
+    {
+      this.linesChart = new Chart(this.linesCanvas.nativeElement, {
+        type: 'line',
+        data: {
+          labels: analisiLabels,
+          datasets: [
+            {
+              data: attivi,
+              label: 'attivi',
+              borderColor: "#0073bf",
+              fill: false,
+              lineTension: 0
+            },
+            {
+              data: passivi,
+              label: 'passivi',
+              borderColor: "#f70046",
+              fill: false,
+              lineTension: 0
+            },
+          ]
+        },
+        options: {
+          aspectRatio: 3,
+          title: {
+            display: true,
+            text: 'Analisi'
+          }
+        }
+      });
+  
+    }
+
   }
 
   private getAndamentoAnnualeLabels(data: any): Array<string> {
@@ -433,12 +481,18 @@ export class ReportAnalisiPage extends BaseComponent implements OnInit {
     return toReturn;
   }
 
-  private getAndamentoAnnualePassivo(data: any): Array<number> {
+  private getAndamentoAnnualePassivo(data: any, coefficente: boolean): Array<number> {
     const toReturn = new Array<number>();
 
     for (const dato of data) {
-      const label = +dato.passivo;
-      toReturn.push(label);
+      if (coefficente){
+        const label = +dato.passivoConCoeffRA;
+        toReturn.push(label);
+      }
+      else{
+        const label = +dato.passivo;
+        toReturn.push(label);
+      }
     }
 
     return toReturn;

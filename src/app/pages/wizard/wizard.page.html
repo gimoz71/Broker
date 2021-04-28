@@ -88,7 +88,7 @@
                                             </select>
                                         </div>
                                         <div class="form-item left " style="width: 40%;">
-                                            <label>Valore Immobile</label>
+                                            <label>Valore Acquisto Immobile</label>
                                             <input type="text" placeholder="" value=""
                                                 [(ngModel)]="ValoreAcquistoString">
                                         </div>
@@ -416,7 +416,7 @@
                                                 <span class="slider round"></span>
                                             </label>
                                         </div>
-                                        <div class="form-item single" *ngIf="immobile.affitto_dettaglio.cedolare_secca">
+                                        <div class="form-item single" *ngIf="!immobile.affitto_dettaglio.cedolare_secca">
                                             <label>Aliquota</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
@@ -590,11 +590,18 @@
                                                     required="required">
                                             </div>
                                         </div>
-                                        <div class="form-item single">
+                                        <div class="form-item left">
                                             <label>Quota</label>
                                             <div class="type">
                                                 <input type="text" placeholder="" digitsonly numericType="number"
                                                     [(ngModel)]="importoQuotaCointestatarioSelezionataString"><span>%</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-item right">
+                                            <label>Tipologia</label>
+                                            <div class="type">
+                                                <input type="text" placeholder="" 
+                                                    [(ngModel)]="cointestatarioSelezionato.descrizione">
                                             </div>
                                         </div>
                                         <div class="form-item single">
@@ -607,7 +614,11 @@
                                     <ul class="item-list form">
                                         <li><span>Nominativo</span><span>Quota</span></li>
                                         <li *ngFor="let cointestatario of immobile.cointestatari">
-                                            <span>{{cointestatario.nominativo}}</span><span>{{(cointestatario.quota+'').replace('.',',')}}
+                                            <span>
+                                                {{cointestatario.nominativo}}
+                                                <br><small>{{cointestatario.descrizione}}</small>
+                                            </span>
+                                            <span>{{(cointestatario.quota+'').replace('.',',')}}
                                                 %
                                                 <button class="button small"
                                                     (click)="rimuoviCointestatario(cointestatario)">x</button></span>
@@ -646,14 +657,14 @@
                                 <div class="item">
                                     <div class="item-title"><span class="step">4</span>{{headP1}}<img
                                             src="/assets/img/icon-right-arrow@2x.png">{{headP2}}<img
-                                            src="/assets/img/icon-right-arrow@2x.png"> Tassazione</div>
+                                            src="/assets/img/icon-right-arrow@2x.png"> Tasse e spese</div>
                                 </div>
                             </div>
                             <div class="scheda-table">
                                 <div class="item">
                                     <div class="item-list form">
                                         <div class="form-item single">
-                                            <label>Tipologia tassa</label>
+                                            <label>Tipologia costo</label>
                                             <select class="select-css" (change)="selezionaTassa($event.target)">
                                                 <option *ngFor="let tipologia of tipologieTasse"
                                                     value="{{tipologia.codice}}"
@@ -677,7 +688,7 @@
                                 </div>
                                 <div class="item">
                                     <ul class="item-list form">
-                                        <li><span>Tipologia tassa</span><span>Importo annuale</span></li>
+                                        <li><span>Tipologia</span><span>Importo annuale</span></li>
                                         <li *ngFor="let tassa of immobile.tasse">
                                             <span>{{tassa.descrizione_tassa}}</span><span>{{(tassa.importo_annuale+'').replace('.',',')}}
                                                 &euro;
